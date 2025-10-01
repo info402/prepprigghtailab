@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import Navigation from "@/components/Navigation";
+import { Sparkles, Zap, Brain, Rocket } from "lucide-react";
 
 type AIModel = "chatgpt" | "gemini" | "claude" | "huggingface";
 
@@ -70,23 +72,81 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-bg flex flex-col items-center justify-center p-6">
-      {/* Header */}
-      <div className="text-center mb-10">
-        <h1 className="text-5xl font-extrabold tracking-wide bg-gradient-to-r from-purple-400 via-pink-500 to-yellow-400 bg-clip-text text-transparent animate-pulse">
-          🚀 Preppright AI Lab
-        </h1>
-        <p className="text-lg text-gray-300 mt-3">
-          Explore the future of learning with{" "}
-          <span className="font-bold">ChatGPT</span>,{" "}
-          <span className="font-bold">Gemini</span>,{" "}
-          <span className="font-bold">Claude</span> &{" "}
-          <span className="font-bold">HuggingFace</span> – all in one place!
-        </p>
+    <div className="min-h-screen bg-gradient-bg">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <div className="relative overflow-hidden pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="text-center">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+              <div className="absolute top-40 right-20 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+            </div>
+
+            {/* Main Hero Content */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6 backdrop-blur-sm">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-primary">India's First 4D AI Lab for Careers</span>
+              </div>
+              
+              <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
+                <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent animate-pulse">
+                  Future of Learning
+                </span>
+                <br />
+                <span className="text-foreground">& Hiring</span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
+                Explore cutting-edge AI models including{" "}
+                <span className="text-chatgpt font-bold">ChatGPT</span>,{" "}
+                <span className="text-gemini font-bold">Gemini</span>,{" "}
+                <span className="text-claude font-bold">Claude</span> &{" "}
+                <span className="text-huggingface font-bold">HuggingFace</span>
+                {" "}– all in one futuristic platform
+              </p>
+
+              {/* Feature Pills */}
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                {[
+                  { icon: Brain, text: "AI Resume Analyzer", color: "from-chatgpt to-chatgpt-glow" },
+                  { icon: Zap, text: "Smart Interview Prep", color: "from-gemini to-gemini-glow" },
+                  { icon: Rocket, text: "Career Roadmap", color: "from-claude to-claude-glow" },
+                ].map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={i}
+                      className={`px-6 py-3 rounded-full bg-gradient-to-r ${item.color} backdrop-blur-sm flex items-center gap-2 shadow-lg hover:scale-105 transition-transform`}
+                    >
+                      <Icon className="h-5 w-5 text-white" />
+                      <span className="font-medium text-white">{item.text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Input Section */}
-      <div className="bg-card/70 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-3xl">
+      {/* AI Chat Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            Try Our AI Models
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Experience the power of multiple AI models in real-time
+          </p>
+        </div>
+
+        {/* Input Section */}
+        <div className="bg-card/70 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-4xl mx-auto">
         <Textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -115,11 +175,12 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="mt-10 text-sm text-muted-foreground">
-        Built with ❤️ by{" "}
-        <span className="text-primary font-semibold">Preppright</span> | The
-        Future of Learning
+        {/* Footer */}
+        <div className="mt-16 text-center text-sm text-muted-foreground">
+          Built with ❤️ by{" "}
+          <span className="text-primary font-semibold">Preppright</span> | The
+          Future of Learning
+        </div>
       </div>
     </div>
   );
