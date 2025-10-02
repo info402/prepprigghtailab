@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -13,6 +14,17 @@ const Index = () => {
   const [response, setResponse] = useState("💡 AI responses will appear here...");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/dashboard");
+      }
+    };
+    checkUser();
+  }, [navigate]);
 
   const modelConfig = {
     chatgpt: {
@@ -109,6 +121,27 @@ const Index = () => {
                 <span className="text-huggingface font-bold">HuggingFace</span>
                 {" "}– all in one futuristic platform
               </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8 py-6"
+                  onClick={() => navigate("/auth")}
+                >
+                  Get Started Free
+                  <Rocket className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-lg px-8 py-6"
+                  onClick={() => navigate("/features")}
+                >
+                  Explore Features
+                  <Brain className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
 
               {/* Feature Pills */}
               <div className="flex flex-wrap justify-center gap-4 mb-12">

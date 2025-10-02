@@ -2,3 +2,15 @@ project_id = "vegqkwsxmdzrobdychqp"
 
 [functions.ai-chat]
 verify_jwt = false
+
+[functions.improve-resume]
+verify_jwt = true
+
+[functions.generate-interview-question]
+verify_jwt = true
+
+[functions.evaluate-interview-answer]
+verify_jwt = true
+
+[functions.generate-career-roadmap]
+verify_jwt = true
