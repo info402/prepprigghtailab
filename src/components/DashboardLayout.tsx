@@ -20,6 +20,9 @@ import {
   X,
   Sparkles,
   LayoutDashboard,
+  Code,
+  Trophy,
+  BarChart3,
 } from "lucide-react";
 
 interface DashboardLayoutProps {
@@ -68,6 +71,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
     { icon: Award, label: "Certificates", path: "/dashboard/certificates" },
+    { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
+    { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
+    { icon: BarChart3, label: "Leaderboard", path: "/dashboard/leaderboard" },
   ];
 
   if (isLoading) {

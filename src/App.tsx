@@ -16,6 +16,10 @@ import Projects from "./pages/Projects";
 import Certificates from "./pages/Certificates";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import CodingChallenges from "./pages/CodingChallenges";
+import ChallengeDetail from "./pages/ChallengeDetail";
+import Competitions from "./pages/Competitions";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +42,10 @@ const App = () => (
           <Route path="/dashboard/jobs" element={<Jobs />} />
           <Route path="/dashboard/projects" element={<Projects />} />
           <Route path="/dashboard/certificates" element={<Certificates />} />
+          <Route path="/dashboard/challenges" element={<CodingChallenges />} />
+          <Route path="/dashboard/challenges/:id" element={<ChallengeDetail />} />
+          <Route path="/dashboard/competitions" element={<Competitions />} />
+          <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
