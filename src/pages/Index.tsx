@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
-import { Sparkles, Zap, Brain, Rocket, ExternalLink } from "lucide-react";
+import { Sparkles, Zap, Brain, Rocket, ExternalLink, Upload, FileText, Image as ImageIcon, File } from "lucide-react";
 
 type AIModel = "chatgpt" | "gemini" | "claude" | "huggingface";
 
@@ -13,6 +13,7 @@ const Index = () => {
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState("💡 AI responses will appear here...");
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<Array<{name: string, url: string, type: string}>>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -49,6 +50,78 @@ const Index = () => {
     },
   };
 
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to upload files",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
+    setIsLoading(true);
+    const uploadedFilesList: Array<{name: string, url: string, type: string}> = [];
+
+    try {
+      for (const file of Array.from(files)) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${session.user.id}/${Math.random()}.${fileExt}`;
+        
+        const { data, error } = await supabase.storage
+          .from('user-uploads')
+          .upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('user-uploads')
+          .getPublicUrl(fileName);
+
+        await supabase.from('uploaded_files').insert({
+          user_id: session.user.id,
+          file_name: file.name,
+          file_path: fileName,
+          file_type: file.type,
+          file_size: file.size,
+        });
+
+        uploadedFilesList.push({
+          name: file.name,
+          url: publicUrl,
+          type: file.type,
+        });
+      }
+
+      setUploadedFiles(prev => [...prev, ...uploadedFilesList]);
+      toast({
+        title: "Success",
+        description: `${uploadedFilesList.length} file(s) uploaded successfully`,
+      });
+    } catch (error: any) {
+      console.error("Upload error:", error);
+      toast({
+        title: "Upload failed",
+        description: error.message || "Failed to upload files",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getFileIcon = (type: string) => {
+    if (type.startsWith('image/')) return <ImageIcon className="h-4 w-4" />;
+    if (type.includes('pdf')) return <FileText className="h-4 w-4" />;
+    return <File className="h-4 w-4" />;
+  };
+
   const askAI = async (model: AIModel) => {
     if (!message.trim()) {
       toast({
@@ -64,7 +137,7 @@ const Index = () => {
 
     try {
       const { data, error } = await supabase.functions.invoke("ai-chat", {
-        body: { message, model },
+        body: { message, model, files: uploadedFiles },
       });
 
       if (error) throw error;
@@ -229,10 +302,42 @@ const Index = () => {
 
         {/* Input Section */}
         <div className="bg-card/70 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-4xl mx-auto">
+        
+        {/* File Upload Button */}
+        <div className="mb-4">
+          <label htmlFor="file-upload" className="cursor-pointer">
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg border border-primary/40 transition-colors w-fit">
+              <Upload className="h-4 w-4" />
+              <span className="text-sm font-medium">Upload Files (PDF, Images, Docs)</span>
+            </div>
+            <input
+              id="file-upload"
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.gif,.webp"
+              onChange={handleFileUpload}
+              className="hidden"
+              disabled={isLoading}
+            />
+          </label>
+        </div>
+
+        {/* Uploaded Files Display */}
+        {uploadedFiles.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            {uploadedFiles.map((file, idx) => (
+              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-lg border border-primary/30">
+                {getFileIcon(file.type)}
+                <span className="text-xs text-foreground truncate max-w-[150px]">{file.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         <Textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your question here..."
+          placeholder="Type your question here or upload files to search..."
           className="min-h-28 p-4 rounded-xl bg-black/50 border-muted text-foreground focus:ring-2 focus:ring-primary resize-none"
           disabled={isLoading}
         />

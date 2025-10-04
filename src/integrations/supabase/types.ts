@@ -438,6 +438,36 @@ export type Database = {
         }
         Relationships: []
       }
+      uploaded_files: {
+        Row: {
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          uploaded_at: string
+          user_id: string | null
+        }
+        Insert: {
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          uploaded_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          uploaded_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_badges: {
         Row: {
           badge_id: string
