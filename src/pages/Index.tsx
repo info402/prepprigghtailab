@@ -163,6 +163,15 @@ const Index = () => {
                   🌐 Connect to Gemini
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="text-base px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white border-0"
+                  onClick={() => window.open("https://huggingface.co", "_blank")}
+                >
+                  📚 Connect to HuggingFace
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
               </div>
 
               {/* Feature Pills */}
