@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
-import { Sparkles, Zap, Brain, Rocket } from "lucide-react";
+import { Sparkles, Zap, Brain, Rocket, ExternalLink } from "lucide-react";
 
 type AIModel = "chatgpt" | "gemini" | "claude" | "huggingface";
 
@@ -123,7 +123,7 @@ const Index = () => {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Button 
                   size="lg" 
                   className="text-lg px-8 py-6"
@@ -140,6 +140,28 @@ const Index = () => {
                 >
                   Explore Features
                   <Brain className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+
+              {/* Connect to AI Services */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="text-base px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white border-0"
+                  onClick={() => window.open("https://chatgpt.com", "_blank")}
+                >
+                  🤖 Connect to ChatGPT
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="text-base px-6 py-4 bg-gradient-to-r from-green-500 to-lime-400 hover:from-green-600 hover:to-lime-500 text-white border-0"
+                  onClick={() => window.open("https://gemini.google.com/app", "_blank")}
+                >
+                  🌐 Connect to Gemini
+                  <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </div>
 
