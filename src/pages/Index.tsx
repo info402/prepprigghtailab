@@ -144,14 +144,14 @@ const Index = () => {
               </div>
 
               {/* Connect to AI Services */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 justify-center mb-12 max-w-5xl mx-auto">
                 <Button 
                   size="lg" 
                   variant="secondary"
                   className="text-base px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white border-0"
                   onClick={() => window.open("https://chatgpt.com", "_blank")}
                 >
-                  🤖 Connect to ChatGPT
+                  🤖 ChatGPT
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
                 <Button 
@@ -160,7 +160,7 @@ const Index = () => {
                   className="text-base px-6 py-4 bg-gradient-to-r from-green-500 to-lime-400 hover:from-green-600 hover:to-lime-500 text-white border-0"
                   onClick={() => window.open("https://gemini.google.com/app", "_blank")}
                 >
-                  🌐 Connect to Gemini
+                  🌐 Gemini
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
                 <Button 
@@ -169,7 +169,25 @@ const Index = () => {
                   className="text-base px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white border-0"
                   onClick={() => window.open("https://huggingface.co", "_blank")}
                 >
-                  📚 Connect to HuggingFace
+                  📚 HuggingFace
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="text-base px-6 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-0"
+                  onClick={() => window.open("https://huggingface.co/spaces", "_blank")}
+                >
+                  🚀 HF Spaces
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="text-base px-6 py-4 bg-gradient-to-r from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 text-white border-0"
+                  onClick={() => window.open("https://claude.ai", "_blank")}
+                >
+                  🧠 Claude
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </div>
