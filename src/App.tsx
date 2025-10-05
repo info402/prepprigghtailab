@@ -20,6 +20,8 @@ import CodingChallenges from "./pages/CodingChallenges";
 import ChallengeDetail from "./pages/ChallengeDetail";
 import Competitions from "./pages/Competitions";
 import Leaderboard from "./pages/Leaderboard";
+import VirtualLab from "./pages/VirtualLab";
+import DepartmentLab from "./pages/DepartmentLab";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +48,8 @@ const App = () => (
           <Route path="/dashboard/challenges/:id" element={<ChallengeDetail />} />
           <Route path="/dashboard/competitions" element={<Competitions />} />
           <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
+          <Route path="/dashboard/lab" element={<VirtualLab />} />
+          <Route path="/dashboard/lab/:departmentId" element={<DepartmentLab />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

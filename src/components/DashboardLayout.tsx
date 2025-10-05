@@ -23,6 +23,7 @@ import {
   Code,
   Trophy,
   BarChart3,
+  Microscope,
 } from "lucide-react";
 
 interface DashboardLayoutProps {
@@ -65,6 +66,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: MessageSquare, label: "AI Chat", path: "/dashboard/chat" },
+    { icon: Microscope, label: "Virtual Lab", path: "/dashboard/lab" },
     { icon: FileText, label: "Resume Builder", path: "/dashboard/resume" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
     { icon: Map, label: "Career Path", path: "/dashboard/career" },
