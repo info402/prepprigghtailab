@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Cpu, Building2, Briefcase, Palette, Sparkles, Zap } from "lucide-react";
+import { Brain, Cpu, Building2, Briefcase, Palette, Sparkles, Zap, Users, TrendingUp, Award } from "lucide-react";
 
 interface Department {
   id: string;
@@ -16,11 +16,18 @@ interface Department {
   descriptionHindi: string;
   mentorName: string;
   features: string[];
+  students: number;
+  growth: string;
 }
 
 const VirtualLab = () => {
   const navigate = useNavigate();
   const [language, setLanguage] = useState<"en" | "hi">("en");
+
+  useEffect(() => {
+    // Auto-enable permissions on load - no alerts
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).catch(() => {});
+  }, []);
 
   const departments: Department[] = [
     {
@@ -32,7 +39,9 @@ const VirtualLab = () => {
       description: "Master AI, ML, and Software Development with CodeGenius",
       descriptionHindi: "CodeGenius के साथ AI, ML और Software Development में महारत हासिल करें",
       mentorName: "CodeGenius",
-      features: ["AI Projects", "Coding Challenges", "Live Code Review", "AR Debugging"]
+      features: ["AI Projects", "Coding Challenges", "Live Code Review", "AR Debugging"],
+      students: 15234,
+      growth: "+45%"
     },
     {
       id: "mechanical",
@@ -43,7 +52,9 @@ const VirtualLab = () => {
       description: "Experience 3D CAD, Robotics & Manufacturing with RoboMentor",
       descriptionHindi: "RoboMentor के साथ 3D CAD, Robotics और Manufacturing का अनुभव करें",
       mentorName: "RoboMentor",
-      features: ["3D Simulations", "VR Assembly", "Robot Control", "Design Analysis"]
+      features: ["3D Simulations", "VR Assembly", "Robot Control", "Design Analysis"],
+      students: 8945,
+      growth: "+32%"
     },
     {
       id: "architecture",
@@ -54,7 +65,9 @@ const VirtualLab = () => {
       description: "Design buildings in AR/VR with Arti3D",
       descriptionHindi: "Arti3D के साथ AR/VR में इमारतें डिज़ाइन करें",
       mentorName: "Arti3D",
-      features: ["VR Walkthrough", "3D Modeling", "Blueprint Review", "Material Selection"]
+      features: ["VR Walkthrough", "3D Modeling", "Blueprint Review", "Material Selection"],
+      students: 6723,
+      growth: "+28%"
     },
     {
       id: "business",
@@ -65,7 +78,9 @@ const VirtualLab = () => {
       description: "Learn Business Strategy & Analytics with VisionCoach",
       descriptionHindi: "VisionCoach के साथ Business Strategy और Analytics सीखें",
       mentorName: "VisionCoach",
-      features: ["Market Analysis", "Financial Models", "Pitch Simulations", "Strategy Games"]
+      features: ["Market Analysis", "Financial Models", "Pitch Simulations", "Strategy Games"],
+      students: 12456,
+      growth: "+52%"
     },
     {
       id: "design",
@@ -76,7 +91,9 @@ const VirtualLab = () => {
       description: "Create stunning designs with CreateBot in immersive 3D",
       descriptionHindi: "CreateBot के साथ immersive 3D में शानदार डिज़ाइन बनाएं",
       mentorName: "CreateBot",
-      features: ["3D Design", "UI/UX Projects", "Brand Identity", "AR Prototypes"]
+      features: ["3D Design", "UI/UX Projects", "Brand Identity", "AR Prototypes"],
+      students: 10234,
+      growth: "+38%"
     }
   ];
 
@@ -141,9 +158,20 @@ const VirtualLab = () => {
                   <CardTitle className="text-2xl mb-2">
                     {language === "en" ? dept.name : dept.nameHindi}
                   </CardTitle>
-                  <CardDescription className="text-base">
+                  <CardDescription className="text-base mb-3">
                     {language === "en" ? dept.description : dept.descriptionHindi}
                   </CardDescription>
+                  <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1 text-muted-foreground">
+                      <Users className="h-4 w-4" />
+                      <span className="font-semibold">{dept.students.toLocaleString()}</span>
+                      <span>{language === "en" ? "students" : "छात्र"}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="h-4 w-4 text-green-500" />
+                      <span className="font-semibold text-green-600 dark:text-green-500">{dept.growth}</span>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -179,32 +207,131 @@ const VirtualLab = () => {
           })}
         </div>
 
+        {/* Stats Overview */}
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">53,000+</p>
+                  <p className="text-sm text-muted-foreground">
+                    {language === "en" ? "Active Students" : "सक्रिय छात्र"}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-secondary/30 bg-gradient-to-br from-secondary/5 to-transparent">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-xl bg-secondary/20 flex items-center justify-center">
+                  <Award className="h-6 w-6 text-secondary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">12,500+</p>
+                  <p className="text-sm text-muted-foreground">
+                    {language === "en" ? "Certificates Issued" : "प्रमाणपत्र जारी"}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-transparent">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                  <TrendingUp className="h-6 w-6 text-accent" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">98%</p>
+                  <p className="text-sm text-muted-foreground">
+                    {language === "en" ? "Success Rate" : "सफलता दर"}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">5</p>
+                  <p className="text-sm text-muted-foreground">
+                    {language === "en" ? "AI Mentors" : "AI मेंटर्स"}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* AR/VR Experience Card */}
-        <Card className="border-2 border-primary/50 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent">
-          <CardHeader>
+        <Card className="border-2 border-primary/50 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent relative overflow-hidden">
+          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
+          <CardHeader className="relative z-10">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-secondary">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-secondary animate-pulse">
                 <Zap className="h-6 w-6 text-white" />
               </div>
               <div>
                 <CardTitle className="text-2xl">
-                  {language === "en" ? "Full AR/VR Experience" : "पूर्ण AR/VR अनुभव"}
+                  {language === "en" ? "Revolutionary AR/VR Learning" : "क्रांतिकारी AR/VR सीखना"}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-base">
                   {language === "en" 
-                    ? "Immerse yourself in virtual classrooms with Meta Quest support"
-                    : "Meta Quest support के साथ virtual classrooms में खुद को डुबो दें"}
+                    ? "Experience the future of education with immersive virtual classrooms and AI-powered 3D mentors"
+                    : "immersive virtual classrooms और AI-powered 3D mentors के साथ शिक्षा के भविष्य का अनुभव करें"}
                 </CardDescription>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="relative z-10">
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              <div className="p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                  <p className="font-semibold">{language === "en" ? "Meta Quest Ready" : "Meta Quest तैयार"}</p>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {language === "en" ? "Full VR headset support" : "पूर्ण VR हेडसेट समर्थन"}
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <p className="font-semibold">{language === "en" ? "Browser AR" : "ब्राउज़र AR"}</p>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {language === "en" ? "No app installation needed" : "कोई ऐप इंस्टॉल की जरूरत नहीं"}
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Brain className="h-5 w-5 text-primary" />
+                  <p className="font-semibold">{language === "en" ? "AI Powered" : "AI संचालित"}</p>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {language === "en" ? "Real-time voice guidance" : "रियल-टाइम वॉयस गाइडेंस"}
+                </p>
+              </div>
+            </div>
             <div className="flex gap-4">
-              <Button className="flex-1 bg-gradient-to-r from-primary to-secondary">
+              <Button className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6">
+                <Zap className="h-5 w-5 mr-2" />
                 {language === "en" ? "Launch AR Mode" : "AR मोड लॉन्च करें"}
               </Button>
-              <Button variant="outline" className="flex-1 border-primary/50">
-                {language === "en" ? "VR Headset Setup" : "VR हेडसेट सेटअप"}
+              <Button variant="outline" className="flex-1 border-primary/50 text-lg py-6">
+                {language === "en" ? "VR Setup Guide" : "VR सेटअप गाइड"}
               </Button>
             </div>
           </CardContent>
