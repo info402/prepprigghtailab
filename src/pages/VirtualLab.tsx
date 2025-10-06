@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Cpu, Building2, Briefcase, Palette, Sparkles, Zap, Users, TrendingUp, Award } from "lucide-react";
+import ARMentorExperience from "@/components/ARMentorExperience";
+import { useToast } from "@/hooks/use-toast";
 
 interface Department {
   id: string;
@@ -22,12 +24,9 @@ interface Department {
 
 const VirtualLab = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [language, setLanguage] = useState<"en" | "hi">("en");
-
-  useEffect(() => {
-    // Auto-enable permissions on load - no alerts
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).catch(() => {});
-  }, []);
+  const [showARDemo, setShowARDemo] = useState(false);
 
   const departments: Department[] = [
     {
@@ -98,7 +97,16 @@ const VirtualLab = () => {
   ];
 
   return (
-    <DashboardLayout>
+    <>
+      {showARDemo && (
+        <ARMentorExperience
+          mentorName="AI Assistant"
+          mentorColor="hsl(270 85% 55%)"
+          departmentName={language === "en" ? "Virtual Lab Experience" : "वर्चुअल लैब अनुभव"}
+          onClose={() => setShowARDemo(false)}
+        />
+      )}
+      <DashboardLayout>
       <div className="space-y-8">
         {/* Header */}
         <div className="relative overflow-hidden rounded-2xl p-8 bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/20 border border-primary/30">
@@ -326,11 +334,33 @@ const VirtualLab = () => {
               </div>
             </div>
             <div className="flex gap-4">
-              <Button className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6">
+              <Button 
+                className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6"
+                onClick={() => {
+                  setShowARDemo(true);
+                  toast({
+                    title: language === "en" ? "🚀 AR Experience Launching" : "🚀 AR अनुभव शुरू हो रहा है",
+                    description: language === "en" 
+                      ? "Interact with the 3D AI mentor using your mouse!"
+                      : "माउस का उपयोग करके 3D AI मेंटर के साथ इंटरैक्ट करें!",
+                  });
+                }}
+              >
                 <Zap className="h-5 w-5 mr-2" />
                 {language === "en" ? "Launch AR Mode" : "AR मोड लॉन्च करें"}
               </Button>
-              <Button variant="outline" className="flex-1 border-primary/50 text-lg py-6">
+              <Button 
+                variant="outline" 
+                className="flex-1 border-primary/50 text-lg py-6"
+                onClick={() => {
+                  toast({
+                    title: language === "en" ? "📱 VR Setup" : "📱 VR सेटअप",
+                    description: language === "en" 
+                      ? "For full VR experience, use Meta Quest or compatible headset"
+                      : "पूर्ण VR अनुभव के लिए, Meta Quest या संगत हेडसेट का उपयोग करें",
+                  });
+                }}
+              >
                 {language === "en" ? "VR Setup Guide" : "VR सेटअप गाइड"}
               </Button>
             </div>
@@ -338,6 +368,7 @@ const VirtualLab = () => {
         </Card>
       </div>
     </DashboardLayout>
+    </>
   );
 };
 

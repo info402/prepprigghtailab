@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Brain, Cpu, Building2, Briefcase, Palette, Sparkles, Video, Code, Trophy, Target, Play, ArrowLeft, Zap, Star, Users, Clock, Award, Layers, Rocket } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ARMentorExperience from "@/components/ARMentorExperience";
 
 const DepartmentLab = () => {
   const { departmentId } = useParams();
@@ -16,6 +17,7 @@ const DepartmentLab = () => {
   const { toast } = useToast();
   const [language, setLanguage] = useState<"en" | "hi">("en");
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [showARExperience, setShowARExperience] = useState(false);
 
   const departmentData: any = {
     "ai-it": {
@@ -150,21 +152,14 @@ const DepartmentLab = () => {
     }
   ];
 
-  const launchARMentor = async () => {
-    // Auto-enable camera and media without permission dialogs
-    try {
-      await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      toast({
-        title: language === "en" ? "🚀 AR Mentor Activated" : "🚀 AR मेंटर सक्रिय",
-        description: language === "en" 
-          ? `${dept.mentorName} is now in your space. Start learning!`
-          : `${dept.mentorName} अब आपकी जगह में हैं। सीखना शुरू करें!`,
-      });
-      // AR/VR integration logic will go here
-    } catch (error) {
-      // Silently handle - no alerts
-      console.log("Media access:", error);
-    }
+  const launchARMentor = () => {
+    setShowARExperience(true);
+    toast({
+      title: language === "en" ? "🚀 AR Mentor Activated" : "🚀 AR मेंटर सक्रिय",
+      description: language === "en" 
+        ? `${dept.mentorName} is now ready. Interact with the 3D avatar!`
+        : `${dept.mentorName} तैयार हैं। 3D अवतार के साथ इंटरैक्ट करें!`,
+    });
   };
 
   useEffect(() => {
@@ -173,7 +168,16 @@ const DepartmentLab = () => {
   }, []);
 
   return (
-    <DashboardLayout>
+    <>
+      {showARExperience && (
+        <ARMentorExperience
+          mentorName={dept.mentorName}
+          mentorColor={dept.color}
+          departmentName={language === "en" ? dept.name : dept.nameHindi}
+          onClose={() => setShowARExperience(false)}
+        />
+      )}
+      <DashboardLayout>
       <div className="space-y-6">
         {/* Header with Stats */}
         <div className="flex items-center justify-between">
@@ -719,6 +723,7 @@ const DepartmentLab = () => {
         </Tabs>
       </div>
     </DashboardLayout>
+    </>
   );
 };
 
