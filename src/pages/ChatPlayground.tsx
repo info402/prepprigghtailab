@@ -43,6 +43,16 @@ const ChatPlayground = () => {
       return;
     }
 
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to use AI chat",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     setResponse("⏳ Thinking...");
 

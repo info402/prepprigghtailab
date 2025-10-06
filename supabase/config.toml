@@ -1,7 +1,7 @@
 project_id = "vegqkwsxmdzrobdychqp"
 
 [functions.ai-chat]
-verify_jwt = false
+verify_jwt = true
 
 [functions.improve-resume]
 verify_jwt = true
