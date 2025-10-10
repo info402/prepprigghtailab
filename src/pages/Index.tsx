@@ -189,7 +189,7 @@ const Index = () => {
               </div>
               
               <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-                <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent animate-pulse">
+                <span className="text-[hsl(210,100%,25%)] animate-pulse">
                   Future of Learning
                 </span>
                 <br />
