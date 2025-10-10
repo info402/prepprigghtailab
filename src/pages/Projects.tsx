@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { FolderGit2, Github, ExternalLink, Search, Sparkles, BookOpen, Wrench } from "lucide-react";
+import { FolderGit2, Github, ExternalLink, Search, Sparkles, BookOpen, Wrench, Bot } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AIMentorDialog } from "@/components/AIMentorDialog";
 
 interface Project {
   id: string;
@@ -236,6 +237,7 @@ const Projects = () => {
                                 </Button>
                               )}
                             </div>
+                            <AIMentorDialog />
                           </CardContent>
                         </Card>
                       ))}
@@ -280,6 +282,7 @@ const Projects = () => {
                               </Button>
                             )}
                           </div>
+                          <AIMentorDialog />
                         </CardContent>
                       </Card>
                     ))}
@@ -323,6 +326,7 @@ const Projects = () => {
                         </Button>
                       )}
                     </div>
+                    <AIMentorDialog />
                   </CardContent>
                 </Card>
               ))}
