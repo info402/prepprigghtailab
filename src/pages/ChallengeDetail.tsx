@@ -5,10 +5,10 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Play, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { CodeEditor } from "@/components/CodeEditor";
 
 interface Challenge {
   id: string;
@@ -28,6 +28,7 @@ const ChallengeDetail = () => {
   const { toast } = useToast();
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [code, setCode] = useState("");
+  const [language, setLanguage] = useState("javascript");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<any>(null);
 
@@ -81,7 +82,7 @@ const ChallengeDetail = () => {
         user_id: user.id,
         challenge_id: challenge.id,
         code: code,
-        language: "javascript",
+        language: language,
         status: testResults.passed ? "passed" : "failed",
         test_results: testResults,
       });
@@ -225,31 +226,23 @@ const ChallengeDetail = () => {
             )}
           </div>
 
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Code Editor</CardTitle>
-                <CardDescription>
-                  Write your solution in JavaScript
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Textarea
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="font-mono min-h-[400px] resize-none"
-                  placeholder="Write your code here..."
-                />
-                <Button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="w-full"
-                >
-                  <Play className="mr-2 h-4 w-4" />
-                  {isSubmitting ? "Running..." : "Submit Solution"}
-                </Button>
-              </CardContent>
-            </Card>
+          <div className="space-y-4">
+            <CodeEditor
+              value={code}
+              onChange={setCode}
+              language={language}
+              onLanguageChange={setLanguage}
+              starterCode={challenge.starter_code}
+            />
+            <Button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="w-full"
+              size="lg"
+            >
+              <Play className="mr-2 h-5 w-5" />
+              {isSubmitting ? "Running Tests..." : "Submit Solution"}
+            </Button>
           </div>
         </div>
       </div>
