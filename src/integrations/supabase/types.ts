@@ -360,6 +360,60 @@ export type Database = {
         }
         Relationships: []
       }
+      project_categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      project_tools: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          documentation_url: string | null
+          icon_url: string | null
+          id: string
+          name: string
+          tool_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          name: string
+          tool_type: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          name?: string
+          tool_type?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           created_at: string
@@ -373,7 +427,7 @@ export type Database = {
           tech_stack: string[] | null
           title: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -387,7 +441,7 @@ export type Database = {
           tech_stack?: string[] | null
           title: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -401,7 +455,7 @@ export type Database = {
           tech_stack?: string[] | null
           title?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
