@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { Briefcase, ExternalLink, MapPin, RefreshCw, Search, Filter } from "lucide-react";
+import { Briefcase, ExternalLink, MapPin, RefreshCw, Search, Filter, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PostJobDialog } from "@/components/PostJobDialog";
 
 interface Job {
   id: string;
@@ -28,6 +29,7 @@ const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -85,6 +87,16 @@ const Jobs = () => {
     }
   };
 
+  const handleJobPosted = async () => {
+    const { data: updatedJobs } = await supabase
+      .from("jobs")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (updatedJobs) setJobs(updatedJobs);
+  };
+
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -106,14 +118,23 @@ const Jobs = () => {
               Auto-fetched opportunities from India & worldwide
             </p>
           </div>
-          <Button 
-            onClick={handleFetchJobs} 
-            disabled={isFetching}
-            className="bg-gradient-to-r from-primary to-accent"
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
-            {isFetching ? 'Fetching Jobs...' : 'Fetch Latest Jobs'}
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setIsPostDialogOpen(true)}
+              variant="outline"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Post a Job
+            </Button>
+            <Button 
+              onClick={handleFetchJobs} 
+              disabled={isFetching}
+              className="bg-gradient-to-r from-primary to-accent"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
+              {isFetching ? 'Fetching Jobs...' : 'Fetch Latest Jobs'}
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">
@@ -221,6 +242,12 @@ const Jobs = () => {
           </div>
         )}
       </div>
+      
+      <PostJobDialog 
+        open={isPostDialogOpen}
+        onOpenChange={setIsPostDialogOpen}
+        onJobPosted={handleJobPosted}
+      />
     </DashboardLayout>
   );
 };
