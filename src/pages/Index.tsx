@@ -338,7 +338,7 @@ const Index = () => {
         </div>
 
         {/* Input Section */}
-        <div className="bg-card/70 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-4xl mx-auto">
+        <div className="bg-white backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-4xl mx-auto">
         
         {/* File Upload Button */}
         <div className="mb-4">
@@ -375,7 +375,7 @@ const Index = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your question here or upload files to search..."
-          className="min-h-28 p-4 rounded-xl bg-black/50 border-muted text-foreground focus:ring-2 focus:ring-primary resize-none"
+          className="min-h-28 p-4 rounded-xl bg-white border-muted text-foreground focus:ring-2 focus:ring-primary resize-none"
           disabled={isLoading}
         />
 
@@ -394,7 +394,7 @@ const Index = () => {
         </div>
 
         {/* Response Box */}
-        <div className="mt-6 p-6 rounded-xl bg-black/60 border border-muted shadow-inner text-lg text-foreground min-h-[100px] whitespace-pre-wrap">
+        <div className="mt-6 p-6 rounded-xl bg-white border border-muted shadow-inner text-lg text-foreground min-h-[100px] whitespace-pre-wrap">
           {response}
         </div>
       </div>
