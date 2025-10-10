@@ -14,6 +14,7 @@ import CareerPath from "./pages/CareerPath";
 import Jobs from "./pages/Jobs";
 import Projects from "./pages/Projects";
 import Certificates from "./pages/Certificates";
+import Pricing from "./pages/Pricing";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import CodingChallenges from "./pages/CodingChallenges";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/dashboard/jobs" element={<Jobs />} />
           <Route path="/dashboard/projects" element={<Projects />} />
           <Route path="/dashboard/certificates" element={<Certificates />} />
+          <Route path="/dashboard/pricing" element={<Pricing />} />
           <Route path="/dashboard/challenges" element={<CodingChallenges />} />
           <Route path="/dashboard/challenges/:id" element={<ChallengeDetail />} />
           <Route path="/dashboard/competitions" element={<Competitions />} />

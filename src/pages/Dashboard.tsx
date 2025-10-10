@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, FileText, Video, Briefcase, Award, TrendingUp } from "lucide-react";
+import { Brain, FileText, Video, Briefcase, Award, TrendingUp, Coins } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -11,17 +13,26 @@ const Dashboard = () => {
     projects: 0,
     certificates: 0,
   });
+  
+  const [tokenData, setTokenData] = useState({
+    remaining: 0,
+    total: 0,
+    planType: 'free',
+    isUnlimited: false,
+  });
 
   useEffect(() => {
     const fetchStats = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const [resumes, interviews, projects, certificates] = await Promise.all([
+      const [resumes, interviews, projects, certificates, tokens, subscription] = await Promise.all([
         supabase.from("resumes").select("id", { count: "exact" }).eq("user_id", user.id),
         supabase.from("interview_attempts").select("id", { count: "exact" }).eq("user_id", user.id),
         supabase.from("projects").select("id", { count: "exact" }).eq("user_id", user.id),
         supabase.from("certificates").select("id", { count: "exact" }).eq("user_id", user.id),
+        supabase.from("user_tokens").select("*").eq("user_id", user.id).single(),
+        supabase.from("subscriptions").select("*").eq("user_id", user.id).single(),
       ]);
 
       setStats({
@@ -30,6 +41,16 @@ const Dashboard = () => {
         projects: projects.count || 0,
         certificates: certificates.count || 0,
       });
+
+      if (tokens.data) {
+        const isUnlimited = subscription.data?.plan_type === 'unlimited' && subscription.data?.is_active;
+        setTokenData({
+          remaining: tokens.data.remaining_tokens || 0,
+          total: tokens.data.total_tokens || 0,
+          planType: subscription.data?.plan_type || 'free',
+          isUnlimited: isUnlimited,
+        });
+      }
     };
 
     fetchStats();
@@ -45,13 +66,52 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Welcome to Your AI Lab
-          </h1>
-          <p className="text-muted-foreground">
-            Your personalized dashboard for career growth and AI-powered learning
-          </p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Welcome to Your AI Lab
+            </h1>
+            <p className="text-muted-foreground">
+              Your personalized dashboard for career growth and AI-powered learning
+            </p>
+          </div>
+          
+          <Card className="border-primary/30 bg-white">
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <Coins className="h-5 w-5 text-primary" />
+                <CardTitle className="text-lg">Your Tokens</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {tokenData.isUnlimited ? (
+                <div className="space-y-2">
+                  <Badge className="bg-gradient-to-r from-primary to-accent text-white">
+                    Unlimited Access
+                  </Badge>
+                  <p className="text-xs text-muted-foreground">Active subscription</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="text-3xl font-bold text-primary">
+                    {tokenData.remaining}
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    of {tokenData.total} free tokens remaining
+                  </p>
+                  {tokenData.remaining < 20 && (
+                    <Button 
+                      size="sm" 
+                      className="w-full"
+                      onClick={() => window.location.href = '/dashboard/pricing'}
+                    >
+                      Upgrade Now
+                    </Button>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

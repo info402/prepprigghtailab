@@ -492,6 +492,42 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          id: string
+          is_active: boolean
+          plan_type: string
+          price: number
+          start_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          plan_type?: string
+          price?: number
+          start_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          plan_type?: string
+          price?: number
+          start_date?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       uploaded_files: {
         Row: {
           file_name: string
@@ -565,6 +601,36 @@ export type Database = {
         Update: {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_tokens: {
+        Row: {
+          created_at: string
+          id: string
+          remaining_tokens: number | null
+          total_tokens: number
+          updated_at: string
+          used_tokens: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          remaining_tokens?: number | null
+          total_tokens?: number
+          updated_at?: string
+          used_tokens?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          remaining_tokens?: number | null
+          total_tokens?: number
+          updated_at?: string
+          used_tokens?: number
           user_id?: string
         }
         Relationships: []
