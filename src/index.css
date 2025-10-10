@@ -2,76 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Professional Design System - Dark Navy Blue AI Aesthetic
+   Crafted for world-class user experience
+   All colors MUST be HSL format
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 100% 15%;
+    /* Core Background & Foreground - Navy Blue Theme */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 100% 15%;
+    /* Card System - Elevated Surfaces */
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 100% 15%;
+    /* Popover System */
+    --popover: 222 47% 15%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 50%;
+    /* Primary Brand - Electric Blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 91% 60% / 0.4;
 
-    --secondary: 210 100% 95%;
-    --secondary-foreground: 210 100% 20%;
+    /* Secondary - Cyan Accent */
+    --secondary: 189 94% 43%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 189 94% 43% / 0.3;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 210 20% 40%;
+    /* Muted Elements */
+    --muted: 222 47% 18%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 210 100% 60%;
+    /* Accent - Vibrant Purple */
+    --accent: 250 85% 65%;
     --accent-foreground: 0 0% 100%;
+    --accent-glow: 250 85% 65% / 0.35;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Destructive States */
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 100% 90%;
-    --input: 210 40% 96%;
-    --ring: 210 100% 50%;
+    /* Border & Input Elements */
+    --border: 222 47% 20%;
+    --input: 222 47% 18%;
+    --ring: 217 91% 60%;
 
-    --radius: 1.2rem;
+    /* Border Radius - Modern & Smooth */
+    --radius: 0.75rem;
 
-    /* Preppright Brand Colors - Blue Theme */
-    --preppright-blue: 210 100% 50%;
-    --preppright-light-blue: 210 100% 95%;
-    --preppright-dark-blue: 210 100% 30%;
-    
-    /* Department Colors */
-    --dept-ai: 200 100% 50%;
-    --dept-mech: 25 95% 50%;
-    --dept-arch: 150 80% 45%;
-    --dept-business: 45 100% 50%;
-    --dept-design: 330 85% 50%;
+    /* Brand Colors - Navy Blue Palette */
+    --navy-darkest: 222 47% 8%;
+    --navy-darker: 222 47% 11%;
+    --navy-dark: 222 47% 14%;
+    --navy-base: 222 47% 18%;
+    --navy-light: 222 47% 22%;
+    --navy-lighter: 222 47% 28%;
 
-    /* AI Model Colors */
-    --chatgpt: 200 100% 50%;
-    --chatgpt-glow: 200 100% 50% / 0.4;
+    /* AI Model Signature Colors */
+    --chatgpt: 175 80% 55%;
+    --chatgpt-glow: 175 80% 55% / 0.4;
     
-    --gemini: 120 100% 45%;
-    --gemini-glow: 120 100% 45% / 0.4;
+    --gemini: 220 90% 65%;
+    --gemini-glow: 220 90% 65% / 0.4;
     
-    --claude: 340 90% 55%;
-    --claude-glow: 340 90% 55% / 0.4;
+    --claude: 30 90% 60%;
+    --claude-glow: 30 90% 60% / 0.4;
     
-    --huggingface: 45 100% 50%;
-    --huggingface-glow: 45 100% 50% / 0.4;
+    --huggingface: 45 100% 55%;
+    --huggingface-glow: 45 100% 55% / 0.4;
 
-    /* Advanced Gradients - Blue Theme */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%), hsl(220 100% 60%));
-    --gradient-bg: linear-gradient(to bottom right, hsl(0 0% 100%), hsl(210 100% 98%), hsl(220 100% 95%));
-    --gradient-glass: linear-gradient(135deg, hsl(210 100% 50% / 0.1), hsl(220 100% 60% / 0.1));
-    --gradient-ar: linear-gradient(135deg, hsl(200 100% 50%), hsl(220 100% 60%));
-    
-    /* Glass Effect */
-    --glass-bg: hsl(0 0% 100% / 0.7);
-    --glass-border: hsl(210 100% 50% / 0.2);
+    /* Department Colors - Vibrant & Distinct */
+    --dept-ai: 217 91% 60%;
+    --dept-mech: 25 95% 60%;
+    --dept-arch: 150 80% 55%;
+    --dept-business: 45 100% 60%;
+    --dept-design: 330 85% 60%;
+
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(250 85% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(189 94% 43%), hsl(217 91% 60%));
+    --gradient-bg: linear-gradient(180deg, hsl(222 47% 11%), hsl(222 47% 8%));
+    --gradient-card: linear-gradient(135deg, hsl(222 47% 14% / 0.8), hsl(222 47% 16% / 0.6));
+    --gradient-glass: linear-gradient(135deg, hsl(217 91% 60% / 0.05), hsl(250 85% 65% / 0.05));
+    --gradient-ar: linear-gradient(135deg, hsl(189 94% 43%), hsl(217 91% 60%), hsl(250 85% 65%));
+    --gradient-hero: radial-gradient(ellipse at top, hsl(217 91% 60% / 0.15), transparent 50%),
+                     radial-gradient(ellipse at bottom, hsl(250 85% 65% / 0.1), transparent 50%);
+
+    /* Glass Morphism */
+    --glass-bg: hsl(222 47% 14% / 0.6);
+    --glass-border: hsl(217 91% 60% / 0.15);
+    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.37);
+
+    /* Professional Shadows */
+    --shadow-sm: 0 2px 4px 0 hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.3);
+    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.4);
+    --shadow-xl: 0 16px 48px 0 hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 20px hsl(217 91% 60% / 0.3);
+    --shadow-glow-lg: 0 0 40px hsl(217 91% 60% / 0.4);
   }
 }
 
@@ -81,6 +111,108 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer components {
+  /* Glass Morphism Card */
+  .glass-card {
+    @apply bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] shadow-[var(--glass-shadow)];
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  /* Glow Effect */
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-effect-lg {
+    box-shadow: var(--shadow-glow-lg);
+  }
+
+  /* Smooth Hover Transitions */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+
+  /* Professional Button Variants */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200;
+  }
+
+  .btn-glass {
+    @apply glass-card hover:bg-[var(--glass-bg)]/80 transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  /* Scrollbar Styling */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.5);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.7);
+  }
+
+  /* Text Glow */
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.5);
+  }
+
+  /* Animated Gradient Background */
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 6s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Professional Focus States */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
   }
 }
