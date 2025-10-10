@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Sparkles, Zap, Rocket, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import preppLogo from "@/assets/preppright-logo.png";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", path: "/", icon: Sparkles },
@@ -21,13 +23,17 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <Brain className="h-8 w-8 text-primary animate-pulse" />
+              <img 
+                src={preppLogo} 
+                alt="Preppright Logo" 
+                className="h-10 w-auto transition-transform group-hover:scale-110" 
+              />
               <div className="absolute inset-0 bg-primary/20 blur-xl group-hover:bg-primary/40 transition-all" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              Preppright AI Lab
+              Preppright
             </span>
           </Link>
 
@@ -54,7 +60,10 @@ const Navigation = () => {
                 </Link>
               );
             })}
-            <Button className="ml-4 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/40">
+            <Button 
+              onClick={() => navigate("/auth")}
+              className="ml-4 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/40"
+            >
               Join Now
             </Button>
           </div>
@@ -91,7 +100,10 @@ const Navigation = () => {
                 </Link>
               );
             })}
-            <Button className="w-full mt-4 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/40">
+            <Button 
+              onClick={() => navigate("/auth")}
+              className="w-full mt-4 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/40"
+            >
               Join Now
             </Button>
           </div>

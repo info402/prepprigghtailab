@@ -196,14 +196,42 @@ const Index = () => {
                 <span className="text-foreground">& Hiring</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-                Explore cutting-edge AI models including{" "}
-                <span className="text-chatgpt font-bold">ChatGPT</span>,{" "}
-                <span className="text-gemini font-bold">Gemini</span>,{" "}
-                <span className="text-claude font-bold">Claude</span> &{" "}
-                <span className="text-huggingface font-bold">HuggingFace</span>
-                {" "}– all in one futuristic platform
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
+                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-bold">Virtual Reality Labs</span>, <span className="text-accent font-bold">AR Mentorship</span>, <span className="text-secondary font-bold">AI-Powered Assessments</span>, and <span className="text-chatgpt font-bold">Live Industry Projects</span> in one immersive platform.
               </p>
+              
+              {/* Benefits Section */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-12">
+                <div className="bg-card/60 backdrop-blur-sm border border-primary/30 rounded-xl p-6 hover:scale-105 transition-transform">
+                  <div className="bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <Brain className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">AI-Powered Learning</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Get personalized learning paths with ChatGPT, Gemini, Claude & HuggingFace integrated AI assistance
+                  </p>
+                </div>
+                
+                <div className="bg-card/60 backdrop-blur-sm border border-accent/30 rounded-xl p-6 hover:scale-105 transition-transform">
+                  <div className="bg-accent/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <Zap className="h-6 w-6 text-accent" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">Live Coding Environments</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Practice in department-specific virtual labs with real-time code execution and AR mentor guidance
+                  </p>
+                </div>
+                
+                <div className="bg-card/60 backdrop-blur-sm border border-secondary/30 rounded-xl p-6 hover:scale-105 transition-transform">
+                  <div className="bg-secondary/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <Rocket className="h-6 w-6 text-secondary" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">Career Fast-Track</h3>
+                  <p className="text-sm text-muted-foreground">
+                    AI resume optimization, mock interviews, coding challenges & direct connections to top companies
+                  </p>
+                </div>
+              </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -275,24 +303,23 @@ const Index = () => {
                 </Button>
               </div>
 
-              {/* Feature Pills */}
-              <div className="flex flex-wrap justify-center gap-4 mb-12">
+              {/* Stats Section */}
+              <div className="flex flex-wrap justify-center gap-8 mb-12">
                 {[
-                  { icon: Brain, text: "AI Resume Analyzer", color: "from-chatgpt to-chatgpt-glow" },
-                  { icon: Zap, text: "Smart Interview Prep", color: "from-gemini to-gemini-glow" },
-                  { icon: Rocket, text: "Career Roadmap", color: "from-claude to-claude-glow" },
-                ].map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <div
-                      key={i}
-                      className={`px-6 py-3 rounded-full bg-gradient-to-r ${item.color} backdrop-blur-sm flex items-center gap-2 shadow-lg hover:scale-105 transition-transform`}
-                    >
-                      <Icon className="h-5 w-5 text-white" />
-                      <span className="font-medium text-white">{item.text}</span>
+                  { value: "10,000+", label: "Students Trained", color: "text-chatgpt" },
+                  { value: "500+", label: "Companies Hiring", color: "text-gemini" },
+                  { value: "95%", label: "Placement Rate", color: "text-claude" },
+                  { value: "4D", label: "AI Lab Experience", color: "text-huggingface" },
+                ].map((stat, i) => (
+                  <div key={i} className="text-center">
+                    <div className={`text-3xl font-extrabold ${stat.color} mb-1`}>
+                      {stat.value}
                     </div>
-                  );
-                })}
+                    <div className="text-sm text-muted-foreground font-medium">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -372,11 +399,66 @@ const Index = () => {
         </div>
       </div>
 
+        {/* What Makes Preppright Unique */}
+        <div className="mt-24 max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            Why Choose Preppright's 4D AI Lab?
+          </h2>
+          <p className="text-center text-muted-foreground text-lg mb-12">
+            India's most advanced career preparation platform with immersive learning technology
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                title: "🎯 Department-Specific Virtual Labs",
+                desc: "AI, Mechanical, Architecture, Business & Design labs with real industry tools and simulations"
+              },
+              {
+                title: "🥽 AR Mentor Experience", 
+                desc: "Learn from virtual industry experts through augmented reality guidance and live demonstrations"
+              },
+              {
+                title: "💼 Live Industry Projects",
+                desc: "Work on real projects from top companies, build your portfolio while learning"
+              },
+              {
+                title: "🤖 Multi-AI Integration",
+                desc: "Access ChatGPT, Gemini, Claude & HuggingFace - all in one platform for comprehensive assistance"
+              },
+              {
+                title: "📊 Smart Assessment System",
+                desc: "AI-driven coding challenges, technical interviews, and skill assessments with instant feedback"
+              },
+              {
+                title: "🚀 Direct Job Placements",
+                desc: "Connect directly with 500+ hiring partners, get interview calls based on your lab performance"
+              }
+            ].map((feature, i) => (
+              <div 
+                key={i}
+                className="bg-card/50 backdrop-blur-sm border border-primary/20 rounded-xl p-6 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 transition-all"
+              >
+                <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Footer */}
-        <div className="mt-16 text-center text-sm text-muted-foreground">
-          Built with ❤️ by{" "}
-          <span className="text-primary font-semibold">Preppright</span> | The
-          Future of Learning
+        <div className="mt-20 text-center">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary" />
+            <Sparkles className="h-5 w-5 text-primary" />
+            <div className="h-px w-20 bg-gradient-to-l from-transparent to-primary" />
+          </div>
+          <p className="text-sm text-muted-foreground mb-2">
+            Built with ❤️ by <span className="text-primary font-semibold">Preppright</span>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            India's First 4D AI Lab | Transforming Careers Through Immersive Technology
+          </p>
         </div>
       </div>
     </div>
