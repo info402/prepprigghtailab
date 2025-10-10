@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { query = "software developer intern", location = "India", numPages = 1 } = await req.json();
+    const { query = "software developer intern", location = "India" } = await req.json();
     
     const RAPIDAPI_KEY = Deno.env.get('RAPIDAPI_KEY');
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
@@ -24,23 +24,31 @@ serve(async (req) => {
 
     console.log(`Fetching jobs for: ${query} in ${location}`);
 
-    // Fetch jobs from JSearch API (RapidAPI)
+    // Fetch jobs from LinkedIn Data API (RapidAPI)
     const response = await fetch(
-      `https://jsearch.p.rapidapi.com/search?query=${encodeURIComponent(query)}&page=1&num_pages=${numPages}&date_posted=month&country=in`,
+      `https://linkedin-data-api.p.rapidapi.com/search-jobs?keywords=${encodeURIComponent(query)}&location=${encodeURIComponent(location)}&datePosted=anyTime&sort=mostRelevant`,
       {
         method: 'GET',
         headers: {
-          'X-RapidAPI-Key': RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
+          'x-rapidapi-key': RAPIDAPI_KEY,
+          'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
         }
       }
     );
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Response Error:', errorText);
       throw new Error(`Failed to fetch jobs: ${response.statusText}`);
     }
 
     const data = await response.json();
+    
+    if (!data.success) {
+      console.error('API returned success=false:', data.message);
+      throw new Error(data.message || 'Failed to fetch jobs from LinkedIn API');
+    }
+    
     console.log(`Fetched ${data.data?.length || 0} jobs`);
 
     // Initialize Supabase client
@@ -48,14 +56,14 @@ serve(async (req) => {
 
     // Transform and insert jobs into database
     const jobsToInsert = data.data?.map((job: any) => ({
-      title: job.job_title || 'Untitled Position',
-      company: job.employer_name || 'Company',
-      description: job.job_description?.substring(0, 500) || 'No description available',
-      location: job.job_city && job.job_country ? `${job.job_city}, ${job.job_country}` : location,
-      type: job.job_employment_type || 'Full-time',
-      category: determineCategory(job.job_title || ''),
-      salary_range: job.job_salary_range || 'Not specified',
-      apply_url: job.job_apply_link || job.job_google_link || '#',
+      title: job.title || 'Untitled Position',
+      company: job.company?.name || 'Company',
+      description: job.description?.substring(0, 500) || 'No description available',
+      location: job.location || location,
+      type: job.type || 'Full-time',
+      category: determineCategory(job.title || ''),
+      salary_range: 'Not specified',
+      apply_url: job.url || '#',
       is_active: true
     })) || [];
 
