@@ -1,5 +1,8 @@
 project_id = "vegqkwsxmdzrobdychqp"
 
+[functions.fetch-jobs]
+verify_jwt = false
+
 [functions.ai-chat]
 verify_jwt = true
 
