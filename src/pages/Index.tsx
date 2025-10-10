@@ -167,7 +167,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-bg">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       {/* Hero Section */}
@@ -176,20 +176,20 @@ const Index = () => {
           <div className="text-center">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-              <div className="absolute top-40 right-20 w-64 h-64 bg-secondary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+              <div className="absolute top-40 right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
             </div>
 
             {/* Main Hero Content */}
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
                 <Sparkles className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium text-primary">India's First 4D AI Lab for Careers</span>
               </div>
               
               <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-                <span className="text-[hsl(210,100%,25%)] animate-pulse">
+                <span className="text-[hsl(210,100%,25%)]">
                   Future of Learning
                 </span>
                 <br />
@@ -197,14 +197,14 @@ const Index = () => {
               </h1>
               
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
-                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-bold">Virtual Reality Labs</span>, <span className="text-accent font-bold">AR Mentorship</span>, <span className="text-secondary font-bold">AI-Powered Assessments</span>, and <span className="text-chatgpt font-bold">Live Industry Projects</span> in one immersive platform.
+                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-semibold">Virtual Reality Labs</span>, <span className="text-accent font-semibold">AR Mentorship</span>, <span className="text-primary font-semibold">AI-Powered Assessments</span>, and <span className="text-accent font-semibold">Live Industry Projects</span> in one immersive platform.
               </p>
               
               {/* Benefits Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-12">
-                <div className="bg-card/60 backdrop-blur-sm border border-primary/30 rounded-xl p-6 hover:scale-105 transition-transform">
-                  <div className="bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <Brain className="h-6 w-6 text-primary" />
+                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
+                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
+                    <Brain className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-2">AI-Powered Learning</h3>
                   <p className="text-sm text-muted-foreground">
@@ -212,9 +212,9 @@ const Index = () => {
                   </p>
                 </div>
                 
-                <div className="bg-card/60 backdrop-blur-sm border border-accent/30 rounded-xl p-6 hover:scale-105 transition-transform">
-                  <div className="bg-accent/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <Zap className="h-6 w-6 text-accent" />
+                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
+                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
+                    <Zap className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-2">Live Coding Environments</h3>
                   <p className="text-sm text-muted-foreground">
@@ -222,9 +222,9 @@ const Index = () => {
                   </p>
                 </div>
                 
-                <div className="bg-card/60 backdrop-blur-sm border border-secondary/30 rounded-xl p-6 hover:scale-105 transition-transform">
-                  <div className="bg-secondary/20 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <Rocket className="h-6 w-6 text-secondary" />
+                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
+                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
+                    <Rocket className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-2">Career Fast-Track</h3>
                   <p className="text-sm text-muted-foreground">
@@ -237,7 +237,7 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Button 
                   size="lg" 
-                  className="text-lg px-8 py-6"
+                  className="text-lg px-8 py-6 shadow-xl"
                   onClick={() => navigate("/auth")}
                 >
                   Get Started Free
@@ -246,7 +246,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="text-lg px-8 py-6"
+                  className="text-lg px-8 py-6 border-2 border-primary/30 hover:border-primary/60"
                   onClick={() => navigate("/features")}
                 >
                   Explore Features
@@ -329,7 +329,7 @@ const Index = () => {
       {/* AI Chat Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 text-primary">
             Try Our AI Models
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -400,8 +400,8 @@ const Index = () => {
       </div>
 
         {/* What Makes Preppright Unique */}
-        <div className="mt-24 max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+        <div className="mt-24 max-w-6xl mx-auto bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-12">
+          <h2 className="text-4xl font-bold text-center mb-4 text-primary">
             Why Choose Preppright's 4D AI Lab?
           </h2>
           <p className="text-center text-muted-foreground text-lg mb-12">
@@ -437,7 +437,7 @@ const Index = () => {
             ].map((feature, i) => (
               <div 
                 key={i}
-                className="bg-card/50 backdrop-blur-sm border border-primary/20 rounded-xl p-6 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/20 transition-all"
+                className="bg-white border border-primary/20 rounded-2xl p-6 hover:border-primary/40 hover:shadow-lg transition-all"
               >
                 <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
@@ -447,7 +447,7 @@ const Index = () => {
         </div>
 
         {/* Footer */}
-        <div className="mt-20 text-center">
+        <div className="mt-20 text-center pb-12">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary" />
             <Sparkles className="h-5 w-5 text-primary" />
