@@ -167,77 +167,77 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-bg">
       <Navigation />
       
       {/* Hero Section */}
       <div className="relative overflow-hidden pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-              <div className="absolute top-40 right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-            </div>
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-[600px] h-[600px] bg-accent/15 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-40 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
 
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+          <div className="text-center">
             {/* Main Hero Content */}
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-primary">India's First 4D AI Lab for Careers</span>
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-8 animate-fade-in">
+                <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                <span className="text-sm font-semibold text-primary">India's First 4D AI Lab for Careers</span>
               </div>
               
-              <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-                <span className="text-[hsl(210,100%,25%)]">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tight mb-8 animate-fade-in-up">
+                <span className="gradient-text">
                   Future of Learning
                 </span>
                 <br />
-                <span className="text-foreground">& Hiring</span>
+                <span className="text-foreground text-glow">& Hiring</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
-                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-semibold">Virtual Reality Labs</span>, <span className="text-accent font-semibold">AR Mentorship</span>, <span className="text-primary font-semibold">AI-Powered Assessments</span>, and <span className="text-accent font-semibold">Live Industry Projects</span> in one immersive platform.
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up font-body" style={{ animationDelay: '0.2s' }}>
+                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-bold">Virtual Reality Labs</span>, <span className="text-accent font-bold">AR Mentorship</span>, <span className="text-secondary font-bold">AI-Powered Assessments</span>, and <span className="text-accent font-bold">Live Industry Projects</span> in one immersive platform.
               </p>
               
               {/* Benefits Section */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-12">
-                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
-                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
-                    <Brain className="h-6 w-6 text-white" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <div className="glass-card p-8 hover-lift hover:glow-effect group">
+                  <div className="bg-gradient-primary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
+                    <Brain className="h-7 w-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">AI-Powered Learning</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="text-xl font-display font-bold text-foreground mb-3">AI-Powered Learning</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     Get personalized learning paths with ChatGPT, Gemini, Claude & HuggingFace integrated AI assistance
                   </p>
                 </div>
                 
-                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
-                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
-                    <Zap className="h-6 w-6 text-white" />
+                <div className="glass-card p-8 hover-lift hover:glow-effect group">
+                  <div className="bg-gradient-secondary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
+                    <Zap className="h-7 w-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">Live Coding Environments</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="text-xl font-display font-bold text-foreground mb-3">Live Coding Environments</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     Practice in department-specific virtual labs with real-time code execution and AR mentor guidance
                   </p>
                 </div>
                 
-                <div className="bg-white border border-primary/20 rounded-2xl p-6 hover:shadow-xl hover:border-primary/40 transition-all">
-                  <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto shadow-lg">
-                    <Rocket className="h-6 w-6 text-white" />
+                <div className="glass-card p-8 hover-lift hover:glow-effect group">
+                  <div className="bg-gradient-primary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
+                    <Rocket className="h-7 w-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">Career Fast-Track</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="text-xl font-display font-bold text-foreground mb-3">Career Fast-Track</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     AI resume optimization, mock interviews, coding challenges & direct connections to top companies
                   </p>
                 </div>
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <div className="flex flex-col sm:flex-row gap-5 justify-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                 <Button 
                   size="lg" 
-                  className="text-lg px-8 py-6 shadow-xl"
+                  className="text-lg px-10 py-7 bg-gradient-primary hover:opacity-90 shadow-glow-lg hover:shadow-glow font-semibold transition-all hover:scale-105"
                   onClick={() => navigate("/auth")}
                 >
                   Get Started Free
@@ -245,8 +245,7 @@ const Index = () => {
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="outline" 
-                  className="text-lg px-8 py-6 border-2 border-primary/30 hover:border-primary/60"
+                  className="text-lg px-10 py-7 glass-card hover:bg-[var(--glass-bg)]/80 font-semibold transition-all hover:scale-105"
                   onClick={() => navigate("/features")}
                 >
                   Explore Features
@@ -255,67 +254,62 @@ const Index = () => {
               </div>
 
               {/* Connect to AI Services */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 justify-center mb-12 max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 justify-center mb-16 max-w-5xl mx-auto animate-fade-in" style={{ animationDelay: '0.8s' }}>
                 <Button 
                   size="lg" 
-                  variant="secondary"
-                  className="text-base px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white border-0"
+                  className="text-sm px-5 py-6 bg-chatgpt hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
                   onClick={() => window.open("https://chatgpt.com", "_blank")}
                 >
                   🤖 ChatGPT
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="secondary"
-                  className="text-base px-6 py-4 bg-gradient-to-r from-green-500 to-lime-400 hover:from-green-600 hover:to-lime-500 text-white border-0"
+                  className="text-sm px-5 py-6 bg-gemini hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
                   onClick={() => window.open("https://gemini.google.com/app", "_blank")}
                 >
                   🌐 Gemini
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="secondary"
-                  className="text-base px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white border-0"
+                  className="text-sm px-5 py-6 bg-huggingface hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
                   onClick={() => window.open("https://huggingface.co", "_blank")}
                 >
                   📚 HuggingFace
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="secondary"
-                  className="text-base px-6 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-0"
+                  className="text-sm px-5 py-6 bg-accent hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
                   onClick={() => window.open("https://huggingface.co/spaces", "_blank")}
                 >
                   🚀 HF Spaces
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
                 </Button>
                 <Button 
                   size="lg" 
-                  variant="secondary"
-                  className="text-base px-6 py-4 bg-gradient-to-r from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 text-white border-0"
+                  className="text-sm px-5 py-6 bg-claude hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold col-span-2 sm:col-span-1"
                   onClick={() => window.open("https://claude.ai", "_blank")}
                 >
                   🧠 Claude
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
                 </Button>
               </div>
 
               {/* Stats Section */}
-              <div className="flex flex-wrap justify-center gap-8 mb-12">
+              <div className="flex flex-wrap justify-center gap-12 animate-fade-in" style={{ animationDelay: '1s' }}>
                 {[
                   { value: "10,000+", label: "Students Trained", color: "text-chatgpt" },
                   { value: "500+", label: "Companies Hiring", color: "text-gemini" },
                   { value: "95%", label: "Placement Rate", color: "text-claude" },
                   { value: "4D", label: "AI Lab Experience", color: "text-huggingface" },
                 ].map((stat, i) => (
-                  <div key={i} className="text-center">
-                    <div className={`text-3xl font-extrabold ${stat.color} mb-1`}>
+                  <div key={i} className="text-center hover:scale-110 transition-transform">
+                    <div className={`text-4xl md:text-5xl font-display font-extrabold ${stat.color} mb-2 text-glow`}>
                       {stat.value}
                     </div>
-                    <div className="text-sm text-muted-foreground font-medium">
+                    <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">
                       {stat.label}
                     </div>
                   </div>
@@ -327,25 +321,25 @@ const Index = () => {
       </div>
 
       {/* AI Chat Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold mb-4 text-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 relative z-10">
+        <div className="text-center mb-12 animate-fade-in-up">
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 gradient-text">
             Try Our AI Models
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-lg font-body">
             Experience the power of multiple AI models in real-time
           </p>
         </div>
 
         {/* Input Section */}
-        <div className="bg-white backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 w-full max-w-4xl mx-auto">
+        <div className="glass-card p-8 w-full max-w-4xl mx-auto shadow-glass hover:shadow-glow-lg transition-all animate-scale-in">
         
         {/* File Upload Button */}
-        <div className="mb-4">
+        <div className="mb-6">
           <label htmlFor="file-upload" className="cursor-pointer">
-            <div className="flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 rounded-lg border border-primary/40 transition-colors w-fit">
-              <Upload className="h-4 w-4" />
-              <span className="text-sm font-medium">Upload Files (PDF, Images, Docs)</span>
+            <div className="flex items-center gap-3 px-5 py-3 glass-card hover:bg-[var(--glass-bg)]/80 rounded-xl border-primary/40 transition-all w-fit hover:scale-105">
+              <Upload className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-foreground">Upload Files (PDF, Images, Docs)</span>
             </div>
             <input
               id="file-upload"
@@ -361,11 +355,11 @@ const Index = () => {
 
         {/* Uploaded Files Display */}
         {uploadedFiles.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-6 flex flex-wrap gap-2">
             {uploadedFiles.map((file, idx) => (
-              <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-lg border border-primary/30">
+              <div key={idx} className="flex items-center gap-2 px-4 py-2 glass-card rounded-xl border-primary/40">
                 {getFileIcon(file.type)}
-                <span className="text-xs text-foreground truncate max-w-[150px]">{file.name}</span>
+                <span className="text-xs text-foreground truncate max-w-[150px] font-medium">{file.name}</span>
               </div>
             ))}
           </div>
@@ -375,18 +369,18 @@ const Index = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your question here or upload files to search..."
-          className="min-h-28 p-4 rounded-xl bg-white border-muted text-foreground focus:ring-2 focus:ring-primary resize-none"
+          className="min-h-32 p-5 rounded-xl bg-muted/30 border-border text-foreground focus:ring-2 focus:ring-primary focus:border-primary resize-none font-body backdrop-blur-sm"
           disabled={isLoading}
         />
 
         {/* AI Model Buttons */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
           {(Object.keys(modelConfig) as AIModel[]).map((model) => (
             <Button
               key={model}
               onClick={() => askAI(model)}
               disabled={isLoading}
-              className={`px-5 py-3 rounded-xl font-semibold bg-gradient-to-r ${modelConfig[model].gradient} shadow-lg ${modelConfig[model].shadow} hover:scale-105 transition-transform duration-200`}
+              className={`px-6 py-4 rounded-xl font-bold bg-gradient-to-r ${modelConfig[model].gradient} shadow-lg ${modelConfig[model].shadow} hover:scale-105 hover:shadow-glow transition-all duration-300 text-white`}
             >
               {modelConfig[model].label}
             </Button>
@@ -394,21 +388,21 @@ const Index = () => {
         </div>
 
         {/* Response Box */}
-        <div className="mt-6 p-6 rounded-xl bg-white border border-muted shadow-inner text-lg text-foreground min-h-[100px] whitespace-pre-wrap">
+        <div className="mt-8 p-6 rounded-xl glass-card text-lg text-foreground min-h-[120px] whitespace-pre-wrap font-body leading-relaxed shadow-inner">
           {response}
         </div>
       </div>
 
         {/* What Makes Preppright Unique */}
-        <div className="mt-24 max-w-6xl mx-auto bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-12">
-          <h2 className="text-4xl font-bold text-center mb-4 text-primary">
+        <div className="mt-32 max-w-6xl mx-auto glass-card p-12 md:p-16 shadow-glass animate-fade-in-up">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-center mb-6 gradient-text">
             Why Choose Preppright's 4D AI Lab?
           </h2>
-          <p className="text-center text-muted-foreground text-lg mb-12">
+          <p className="text-center text-muted-foreground text-lg md:text-xl mb-16 font-body max-w-3xl mx-auto">
             India's most advanced career preparation platform with immersive learning technology
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
                 title: "🎯 Department-Specific Virtual Labs",
@@ -437,26 +431,26 @@ const Index = () => {
             ].map((feature, i) => (
               <div 
                 key={i}
-                className="bg-white border border-primary/20 rounded-2xl p-6 hover:border-primary/40 hover:shadow-lg transition-all"
+                className="glass-card p-8 hover-lift hover:glow-effect transition-all group"
               >
-                <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
+                <h3 className="text-xl font-display font-bold text-foreground mb-4 group-hover:text-primary transition-colors">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed font-body">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-20 text-center pb-12">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div className="h-px w-20 bg-gradient-to-r from-transparent to-primary" />
-            <Sparkles className="h-5 w-5 text-primary" />
-            <div className="h-px w-20 bg-gradient-to-l from-transparent to-primary" />
+        <div className="mt-32 text-center pb-16 animate-fade-in">
+          <div className="inline-flex items-center gap-4 mb-6">
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+            <div className="h-px w-24 bg-gradient-to-l from-transparent via-primary to-transparent" />
           </div>
-          <p className="text-sm text-muted-foreground mb-2">
-            Built with ❤️ by <span className="text-primary font-semibold">Preppright</span>
+          <p className="text-base text-muted-foreground mb-3 font-body">
+            Built with ❤️ by <span className="text-primary font-bold">Preppright</span>
           </p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground font-body">
             India's First 4D AI Lab | Transforming Careers Through Immersive Technology
           </p>
         </div>
