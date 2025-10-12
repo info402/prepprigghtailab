@@ -4,6 +4,8 @@ import { useToast } from "@/hooks/use-toast";
 
 export const useTokens = () => {
   const [tokens, setTokens] = useState<number | null>(null);
+  const [usedTokens, setUsedTokens] = useState<number>(0);
+  const [totalTokens, setTotalTokens] = useState<number>(100);
   const [isLoading, setIsLoading] = useState(true);
   const [isPremium, setIsPremium] = useState(false);
   const { toast } = useToast();
@@ -22,7 +24,21 @@ export const useTokens = () => {
 
       if (subscription?.plan_type === 'unlimited' && subscription.is_active) {
         setIsPremium(true);
-        setTokens(Infinity);
+        
+        // Still fetch token data for premium users to show usage
+        const { data: tokenData } = await supabase
+          .from('user_tokens')
+          .select('total_tokens, used_tokens')
+          .eq('user_id', user.id)
+          .single();
+
+        if (tokenData) {
+          const remaining = tokenData.total_tokens - tokenData.used_tokens;
+          setTokens(remaining);
+          setUsedTokens(tokenData.used_tokens);
+          setTotalTokens(tokenData.total_tokens);
+        }
+        
         setIsLoading(false);
         return;
       }
@@ -37,6 +53,8 @@ export const useTokens = () => {
       if (tokenData) {
         const remaining = tokenData.total_tokens - tokenData.used_tokens;
         setTokens(remaining);
+        setUsedTokens(tokenData.used_tokens);
+        setTotalTokens(tokenData.total_tokens);
       }
     } catch (error) {
       console.error('Error fetching tokens:', error);
@@ -81,6 +99,7 @@ export const useTokens = () => {
       if (error) throw error;
 
       setTokens(remaining - amount);
+      setUsedTokens(tokenData.used_tokens + amount);
       return true;
     } catch (error) {
       console.error('Error deducting tokens:', error);
@@ -110,6 +129,8 @@ export const useTokens = () => {
 
   return {
     tokens,
+    usedTokens,
+    totalTokens,
     isLoading,
     isPremium,
     deductTokens,

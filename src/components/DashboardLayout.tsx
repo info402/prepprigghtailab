@@ -39,7 +39,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const { tokens, isPremium, isLoading: tokensLoading } = useTokens();
+  const { tokens, usedTokens, totalTokens, isPremium, isLoading: tokensLoading } = useTokens();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -186,15 +186,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           {!tokensLoading && (
             <div className="flex items-center gap-2 ml-4">
               <Coins className="h-5 w-5 text-primary" />
-              <span className="text-sm font-medium">
-                {isPremium ? (
-                  <span className="flex items-center gap-2 text-primary">
+              <span className="text-sm font-medium flex items-center gap-2">
+                {isPremium && (
+                  <span className="flex items-center gap-1 text-primary">
                     <Crown className="h-4 w-4" />
                     Premium
                   </span>
-                ) : (
-                  <span><span className="text-primary font-bold">{tokens ?? 0}</span> / 100</span>
                 )}
+                <span className="text-muted-foreground">
+                  Used: <span className="text-foreground font-bold">{usedTokens}</span> / Remaining: <span className="text-primary font-bold">{tokens ?? 0}</span>
+                </span>
               </span>
             </div>
           )}
