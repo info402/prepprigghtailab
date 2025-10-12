@@ -12,7 +12,6 @@ const Navigation = () => {
     { name: "Home", path: "/", icon: Sparkles },
     { name: "AI Lab", path: "/", icon: Brain },
     { name: "Features", path: "/features", icon: Zap },
-    { name: "Get Started", path: "/", icon: Rocket },
   ];
 
   const isActive = (path: string) => location.pathname === path;
