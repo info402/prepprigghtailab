@@ -205,10 +205,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <Button 
               onClick={() => navigate('/pricing')}
               size="sm"
-              className="gap-2"
+              className="gap-2 bg-gradient-to-r from-primary to-accent"
             >
               <Crown className="h-4 w-4" />
-              Upgrade
+              Get 1000 Tokens
             </Button>
           )}
           
