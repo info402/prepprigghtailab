@@ -6,12 +6,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Map, Target } from "lucide-react";
+import { useTokens } from "@/hooks/useTokens";
+import { useNavigate } from "react-router-dom";
 
 const CareerPath = () => {
   const [background, setBackground] = useState("");
   const [roadmap, setRoadmap] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { checkTokens, deductTokens } = useTokens();
+  const navigate = useNavigate();
 
   const generateRoadmap = async () => {
     if (!background.trim()) {
@@ -23,6 +27,12 @@ const CareerPath = () => {
       return;
     }
 
+    // Check tokens before proceeding (costs 3 tokens)
+    if (!checkTokens(3)) {
+      setTimeout(() => navigate('/pricing'), 2000);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-career-roadmap", {
@@ -30,6 +40,9 @@ const CareerPath = () => {
       });
 
       if (error) throw error;
+
+      // Deduct tokens after successful response
+      await deductTokens(3);
 
       setRoadmap(data.roadmap);
       toast({

@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Video, Play } from "lucide-react";
+import { useTokens } from "@/hooks/useTokens";
+import { useNavigate } from "react-router-dom";
 
 const MockInterview = () => {
   const [role, setRole] = useState("");
@@ -16,6 +18,8 @@ const MockInterview = () => {
   const [score, setScore] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { checkTokens, deductTokens } = useTokens();
+  const navigate = useNavigate();
 
   const startInterview = async () => {
     if (!role.trim()) {
@@ -27,6 +31,12 @@ const MockInterview = () => {
       return;
     }
 
+    // Check tokens before proceeding
+    if (!checkTokens(1)) {
+      setTimeout(() => navigate('/pricing'), 2000);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-interview-question", {
@@ -34,6 +44,9 @@ const MockInterview = () => {
       });
 
       if (error) throw error;
+
+      // Deduct token after successful response
+      await deductTokens(1);
 
       setCurrentQuestion(data.question);
       toast({
@@ -61,6 +74,12 @@ const MockInterview = () => {
       return;
     }
 
+    // Check tokens before evaluating (costs 2 tokens)
+    if (!checkTokens(2)) {
+      setTimeout(() => navigate('/pricing'), 2000);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("evaluate-interview-answer", {
@@ -68,6 +87,9 @@ const MockInterview = () => {
       });
 
       if (error) throw error;
+
+      // Deduct tokens after successful evaluation
+      await deductTokens(2);
 
       setFeedback(data.feedback);
       setScore(data.score);

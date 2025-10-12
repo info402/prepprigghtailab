@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Sparkles } from "lucide-react";
+import { useTokens } from "@/hooks/useTokens";
+import { useNavigate } from "react-router-dom";
 
 const ResumeBuilder = () => {
   const [resumeText, setResumeText] = useState("");
@@ -13,6 +15,8 @@ const ResumeBuilder = () => {
   const [atsScore, setAtsScore] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { checkTokens, deductTokens } = useTokens();
+  const navigate = useNavigate();
 
   const handleImproveResume = async () => {
     if (!resumeText.trim()) {
@@ -24,6 +28,12 @@ const ResumeBuilder = () => {
       return;
     }
 
+    // Check tokens before proceeding (costs 2 tokens)
+    if (!checkTokens(2)) {
+      setTimeout(() => navigate('/pricing'), 2000);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("improve-resume", {
@@ -31,6 +41,9 @@ const ResumeBuilder = () => {
       });
 
       if (error) throw error;
+
+      // Deduct tokens after successful response
+      await deductTokens(2);
 
       setImprovedResume(data.improvedResume);
       setAtsScore(data.atsScore);

@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
+import { useTokens } from "@/hooks/useTokens";
+import { useNavigate } from "react-router-dom";
 
 type AIModel = "chatgpt" | "gemini" | "claude" | "huggingface";
 
@@ -13,6 +15,8 @@ const ChatPlayground = () => {
   const [response, setResponse] = useState("💡 AI responses will appear here...");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { checkTokens, deductTokens } = useTokens();
+  const navigate = useNavigate();
 
   const modelConfig = {
     chatgpt: {
@@ -53,6 +57,12 @@ const ChatPlayground = () => {
       return;
     }
 
+    // Check tokens before proceeding
+    if (!checkTokens(1)) {
+      setTimeout(() => navigate('/pricing'), 2000);
+      return;
+    }
+
     setIsLoading(true);
     setResponse("⏳ Thinking...");
 
@@ -62,6 +72,9 @@ const ChatPlayground = () => {
       });
 
       if (error) throw error;
+
+      // Deduct token after successful response
+      await deductTokens(1);
 
       setResponse(data.reply || "No response received");
     } catch (error: any) {

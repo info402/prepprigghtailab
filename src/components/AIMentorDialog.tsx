@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Bot, Sparkles, Send } from "lucide-react";
+import { Bot, Sparkles, Send, Coins } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useTokens } from "@/hooks/useTokens";
+import { useNavigate } from "react-router-dom";
 
 export const AIMentorDialog = () => {
   const [open, setOpen] = useState(false);
@@ -12,6 +14,8 @@ export const AIMentorDialog = () => {
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { tokens, isPremium, checkTokens, deductTokens } = useTokens();
+  const navigate = useNavigate();
 
   const handleAsk = async () => {
     if (!question.trim()) {
@@ -19,6 +23,12 @@ export const AIMentorDialog = () => {
         title: "Please enter a question",
         variant: "destructive"
       });
+      return;
+    }
+
+    // Check tokens before proceeding
+    if (!checkTokens(1)) {
+      setTimeout(() => navigate('/pricing'), 2000);
       return;
     }
 
@@ -32,6 +42,9 @@ export const AIMentorDialog = () => {
       });
 
       if (error) throw error;
+      
+      // Deduct token after successful response
+      await deductTokens(1);
       
       setResponse(data.reply || "I'm here to help you build amazing projects!");
     } catch (error) {
@@ -56,9 +69,15 @@ export const AIMentorDialog = () => {
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            AI Project Mentor
+          <DialogTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              AI Project Mentor
+            </div>
+            <div className="flex items-center gap-1 text-sm font-normal text-muted-foreground">
+              <Coins className="h-4 w-4" />
+              {isPremium ? "Unlimited" : `${tokens ?? 0} tokens`}
+            </div>
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
