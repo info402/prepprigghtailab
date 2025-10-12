@@ -34,11 +34,11 @@ serve(async (req) => {
 
     console.log('Activating premium for user:', user.id);
 
-    // Update subscription to unlimited/premium
+    // Update subscription to premium
     const { error: subError } = await supabaseClient
       .from('subscriptions')
       .update({
-        plan_type: 'unlimited',
+        plan_type: 'premium',
         is_active: true,
         start_date: new Date().toISOString(),
         end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
@@ -57,6 +57,7 @@ serve(async (req) => {
       .update({
         total_tokens: 1000,
         used_tokens: 0,
+        remaining_tokens: 1000,
         updated_at: new Date().toISOString(),
       })
       .eq('user_id', user.id);

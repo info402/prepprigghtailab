@@ -22,7 +22,7 @@ export const useTokens = () => {
         .eq('user_id', user.id)
         .single();
 
-      if (subscription?.plan_type === 'unlimited' && subscription.is_active) {
+      if (subscription && subscription.is_active && (subscription.plan_type === 'premium' || subscription.plan_type === 'unlimited')) {
         setIsPremium(true);
         
         // Still fetch token data for premium users to show usage
@@ -77,20 +77,18 @@ export const useTokens = () => {
 
       if (!tokenData) return false;
 
-      // For non-premium users, check if they have enough tokens
-      if (!isPremium) {
-        const remaining = tokenData.total_tokens - tokenData.used_tokens;
-        if (remaining < amount) {
-          toast({
-            title: "Insufficient Tokens",
-            description: "You've run out of tokens. Upgrade to Premium for unlimited access!",
-            variant: "destructive"
-          });
-          return false;
-        }
+      // Always check token availability (premium has a 1000-token cap)
+      const remaining = tokenData.total_tokens - tokenData.used_tokens;
+      if (remaining < amount) {
+        toast({
+          title: "Insufficient Tokens",
+          description: "You're out of tokens. Upgrade to Premium to get 1000 tokens!",
+          variant: "destructive"
+        });
+        return false;
       }
 
-      // Deduct tokens for all users (premium and non-premium)
+      // Deduct tokens for all users
       const { error } = await supabase
         .from('user_tokens')
         .update({ used_tokens: tokenData.used_tokens + amount })
@@ -99,9 +97,9 @@ export const useTokens = () => {
       if (error) throw error;
 
       const newUsedTokens = tokenData.used_tokens + amount;
-      const remaining = tokenData.total_tokens - newUsedTokens;
+      const newRemaining = tokenData.total_tokens - newUsedTokens;
       
-      setTokens(remaining);
+      setTokens(newRemaining);
       setUsedTokens(newUsedTokens);
       return true;
     } catch (error) {
@@ -111,18 +109,15 @@ export const useTokens = () => {
   };
 
   const checkTokens = (required: number = 1): boolean => {
-    if (isPremium) return true;
     if (tokens === null) return false;
-    
     if (tokens < required) {
       toast({
         title: "Insufficient Tokens",
-        description: "You've run out of tokens. Upgrade to Premium for unlimited access!",
+        description: "You're out of tokens. Upgrade to Premium to get 1000 tokens!",
         variant: "destructive"
       });
       return false;
     }
-    
     return true;
   };
 

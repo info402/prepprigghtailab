@@ -139,10 +139,10 @@ const Pricing = () => {
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
                 <Crown className="h-6 w-6 text-primary" />
-                <CardTitle className="text-2xl">Unlimited Plan</CardTitle>
+                <CardTitle className="text-2xl">Premium Plan</CardTitle>
               </div>
               <CardDescription className="text-base">
-                Unlimited access to all features
+                Access all features with 1000 tokens/month
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -161,7 +161,7 @@ const Pricing = () => {
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="h-5 w-5 text-primary mt-0.5" />
-                  <span className="text-sm">Unlimited AI tokens</span>
+                  <span className="text-sm">1000 AI tokens</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="h-5 w-5 text-primary mt-0.5" />
