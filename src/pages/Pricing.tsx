@@ -28,8 +28,8 @@ const Pricing = () => {
       window.open('https://rzp.io/rzp/ZoxjQol', '_blank');
       
       toast({
-        title: "Redirecting to payment",
-        description: "Complete the payment to activate your premium plan",
+        title: "Complete Payment",
+        description: "After payment, click 'Activate Premium' button below to get your 1000 tokens",
       });
 
       setIsLoading(false);
@@ -40,6 +40,33 @@ const Pricing = () => {
         description: error.message || "Failed to open payment page. Please try again.",
         variant: "destructive",
       });
+      setIsLoading(false);
+    }
+  };
+
+  const handleActivatePremium = async () => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('activate-premium');
+
+      if (error) throw error;
+
+      toast({
+        title: "Premium Activated!",
+        description: "You now have 1000 tokens. Enjoy unlimited access!",
+      });
+
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 2000);
+    } catch (error: any) {
+      console.error('Activation error:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to activate premium. Please contact support.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
     }
   };
@@ -158,14 +185,25 @@ const Pricing = () => {
                 </div>
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-3">
               <Button 
                 className="w-full bg-gradient-to-r from-primary to-accent text-white"
                 onClick={handleUpgrade}
                 disabled={isLoading}
               >
-                {isLoading ? "Processing..." : "Upgrade Now"}
+                {isLoading ? "Processing..." : "Pay Now (₹299)"}
               </Button>
+              <Button 
+                variant="outline"
+                className="w-full"
+                onClick={handleActivatePremium}
+                disabled={isLoading}
+              >
+                {isLoading ? "Activating..." : "Activate Premium (After Payment)"}
+              </Button>
+              <p className="text-xs text-muted-foreground text-center">
+                After payment, click "Activate Premium" to get 1000 tokens
+              </p>
             </CardFooter>
           </Card>
         </div>
