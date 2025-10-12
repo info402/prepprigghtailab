@@ -68,10 +68,7 @@ export const useTokens = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return false;
 
-      // Premium users don't need token deduction
-      if (isPremium) return true;
-
-      // Check if user has enough tokens
+      // Get current token data
       const { data: tokenData } = await supabase
         .from('user_tokens')
         .select('total_tokens, used_tokens')
@@ -80,17 +77,20 @@ export const useTokens = () => {
 
       if (!tokenData) return false;
 
-      const remaining = tokenData.total_tokens - tokenData.used_tokens;
-      if (remaining < amount) {
-        toast({
-          title: "Insufficient Tokens",
-          description: "You've run out of tokens. Upgrade to Premium for unlimited access!",
-          variant: "destructive"
-        });
-        return false;
+      // For non-premium users, check if they have enough tokens
+      if (!isPremium) {
+        const remaining = tokenData.total_tokens - tokenData.used_tokens;
+        if (remaining < amount) {
+          toast({
+            title: "Insufficient Tokens",
+            description: "You've run out of tokens. Upgrade to Premium for unlimited access!",
+            variant: "destructive"
+          });
+          return false;
+        }
       }
 
-      // Deduct tokens
+      // Deduct tokens for all users (premium and non-premium)
       const { error } = await supabase
         .from('user_tokens')
         .update({ used_tokens: tokenData.used_tokens + amount })
@@ -98,8 +98,11 @@ export const useTokens = () => {
 
       if (error) throw error;
 
-      setTokens(remaining - amount);
-      setUsedTokens(tokenData.used_tokens + amount);
+      const newUsedTokens = tokenData.used_tokens + amount;
+      const remaining = tokenData.total_tokens - newUsedTokens;
+      
+      setTokens(remaining);
+      setUsedTokens(newUsedTokens);
       return true;
     } catch (error) {
       console.error('Error deducting tokens:', error);
