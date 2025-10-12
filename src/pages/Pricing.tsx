@@ -20,39 +20,26 @@ const Pricing = () => {
           description: "Please sign in to upgrade your plan",
           variant: "destructive",
         });
+        setIsLoading(false);
         return;
       }
 
-      // Update subscription to unlimited
-      const { error: subError } = await supabase
-        .from("subscriptions")
-        .update({
-          plan_type: 'unlimited',
-          is_active: true,
-          start_date: new Date().toISOString(),
-          end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
-          price: 299,
-        })
-        .eq("user_id", user.id);
-
-      if (subError) throw subError;
-
+      // Open Razorpay payment link
+      window.open('https://rzp.io/rzp/ZoxjQol', '_blank');
+      
       toast({
-        title: "Success!",
-        description: "Your subscription has been activated. Enjoy unlimited access!",
+        title: "Redirecting to payment",
+        description: "Complete the payment to activate your premium plan",
       });
 
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 2000);
+      setIsLoading(false);
     } catch (error: any) {
       console.error('Upgrade error:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to upgrade. Please try again.",
+        description: error.message || "Failed to open payment page. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
