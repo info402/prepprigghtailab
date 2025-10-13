@@ -10,43 +10,43 @@
 @layer base {
   :root {
     /* Enterprise Professional Design System
-       Premium SaaS Aesthetic - Deep Space Theme
+       Premium Modern Aesthetic - Professional Light-Dark Hybrid
        Built for Scale & Performance
     */
     
-    /* Core Background & Foreground - Deep Slate */
-    --background: 222 47% 7%;
+    /* Core Background & Foreground - Professional Dark Blue Gray */
+    --background: 215 28% 17%;
     --foreground: 210 20% 98%;
 
     /* Card System - Elevated Surfaces with Premium Feel */
-    --card: 220 26% 10%;
+    --card: 215 25% 22%;
     --card-foreground: 210 20% 98%;
 
     /* Popover System */
-    --popover: 220 26% 10%;
+    --popover: 215 25% 22%;
     --popover-foreground: 210 20% 98%;
 
-    /* Primary Brand - Professional Indigo */
-    --primary: 231 65% 58%;
+    /* Primary Brand - Vibrant Blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 231 65% 52%;
-    --primary-glow: 231 65% 58% / 0.25;
+    --primary-hover: 217 91% 55%;
+    --primary-glow: 217 91% 60% / 0.3;
 
-    /* Secondary - Sophisticated Teal */
-    --secondary: 184 45% 45%;
+    /* Secondary - Professional Emerald */
+    --secondary: 158 64% 52%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-hover: 184 45% 40%;
-    --secondary-glow: 184 45% 45% / 0.2;
+    --secondary-hover: 158 64% 47%;
+    --secondary-glow: 158 64% 52% / 0.25;
 
     /* Muted Elements - Professional Gray Scale */
-    --muted: 220 17% 17%;
-    --muted-foreground: 215 14% 62%;
+    --muted: 215 20% 28%;
+    --muted-foreground: 215 16% 70%;
 
-    /* Accent - Refined Purple */
-    --accent: 266 60% 60%;
+    /* Accent - Vibrant Purple */
+    --accent: 271 81% 66%;
     --accent-foreground: 0 0% 100%;
-    --accent-hover: 266 60% 55%;
-    --accent-glow: 266 60% 60% / 0.2;
+    --accent-hover: 271 81% 60%;
+    --accent-glow: 271 81% 66% / 0.25;
 
     /* Success State */
     --success: 142 71% 45%;
@@ -61,20 +61,20 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Border & Input Elements - Refined */
-    --border: 220 20% 18%;
-    --input: 220 20% 15%;
-    --ring: 231 65% 58%;
+    --border: 215 22% 30%;
+    --input: 215 20% 25%;
+    --ring: 217 91% 60%;
 
     /* Border Radius - Modern */
-    --radius: 0.625rem;
+    --radius: 0.75rem;
 
     /* Professional Brand Palette */
-    --slate-darkest: 222 47% 4%;
-    --slate-darker: 222 47% 7%;
-    --slate-dark: 220 26% 10%;
-    --slate-base: 220 17% 17%;
-    --slate-light: 220 14% 25%;
-    --slate-lighter: 220 13% 35%;
+    --slate-darkest: 215 28% 12%;
+    --slate-darker: 215 28% 17%;
+    --slate-dark: 215 25% 22%;
+    --slate-base: 215 20% 28%;
+    --slate-light: 215 18% 35%;
+    --slate-lighter: 215 16% 45%;
 
     /* AI Model Professional Colors */
     --chatgpt: 171 77% 48%;
@@ -96,30 +96,30 @@
     --dept-business: 38 85% 55%;
     --dept-design: 326 75% 58%;
 
-    /* Professional Gradients - Subtle & Sophisticated */
-    --gradient-primary: linear-gradient(135deg, hsl(231 65% 58%), hsl(266 60% 60%));
-    --gradient-secondary: linear-gradient(135deg, hsl(184 45% 45%), hsl(231 65% 58%));
-    --gradient-bg: linear-gradient(180deg, hsl(222 47% 7%), hsl(222 47% 4%));
-    --gradient-card: linear-gradient(135deg, hsl(220 26% 10% / 0.95), hsl(220 20% 12% / 0.85));
-    --gradient-glass: linear-gradient(135deg, hsl(231 65% 58% / 0.03), hsl(266 60% 60% / 0.03));
-    --gradient-hero: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(231 65% 58% / 0.15), transparent 50%),
-                     radial-gradient(ellipse 60% 50% at 50% 120%, hsl(266 60% 60% / 0.1), transparent 50%);
-    --gradient-premium: linear-gradient(135deg, hsl(231 65% 58%), hsl(266 60% 60%), hsl(184 45% 45%));
+    /* Professional Gradients - Vibrant & Modern */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 81% 66%));
+    --gradient-secondary: linear-gradient(135deg, hsl(158 64% 52%), hsl(217 91% 60%));
+    --gradient-bg: linear-gradient(180deg, hsl(215 28% 17%), hsl(215 28% 12%));
+    --gradient-card: linear-gradient(135deg, hsl(215 25% 22% / 0.95), hsl(215 22% 24% / 0.85));
+    --gradient-glass: linear-gradient(135deg, hsl(217 91% 60% / 0.05), hsl(271 81% 66% / 0.05));
+    --gradient-hero: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(217 91% 60% / 0.18), transparent 50%),
+                     radial-gradient(ellipse 60% 50% at 50% 120%, hsl(271 81% 66% / 0.12), transparent 50%);
+    --gradient-premium: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 81% 66%), hsl(158 64% 52%));
 
     /* Modern Glassmorphism */
-    --glass-bg: hsl(220 26% 10% / 0.7);
-    --glass-border: hsl(231 65% 58% / 0.12);
-    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.45);
+    --glass-bg: hsl(215 25% 22% / 0.75);
+    --glass-border: hsl(217 91% 60% / 0.15);
+    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.4);
 
-    /* Enterprise Shadow System */
-    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.15);
-    --shadow-sm: 0 2px 4px 0 hsl(0 0% 0% / 0.2);
-    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.35);
-    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.45);
-    --shadow-xl: 0 20px 40px -12px hsl(0 0% 0% / 0.55);
-    --shadow-glow: 0 0 24px hsl(231 65% 58% / 0.2);
-    --shadow-glow-lg: 0 0 48px hsl(231 65% 58% / 0.25);
-    --shadow-glow-premium: 0 0 60px hsl(266 60% 60% / 0.3);
+    /* Professional Shadow System */
+    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.12);
+    --shadow-sm: 0 2px 4px 0 hsl(0 0% 0% / 0.16);
+    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.25);
+    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.35);
+    --shadow-xl: 0 20px 40px -12px hsl(0 0% 0% / 0.45);
+    --shadow-glow: 0 0 28px hsl(217 91% 60% / 0.25);
+    --shadow-glow-lg: 0 0 48px hsl(217 91% 60% / 0.3);
+    --shadow-glow-premium: 0 0 60px hsl(271 81% 66% / 0.35);
   }
 }
 
