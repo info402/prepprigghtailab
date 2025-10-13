@@ -9,99 +9,117 @@
 
 @layer base {
   :root {
-    /* Core Background & Foreground - Navy Blue Theme */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Enterprise Professional Design System
+       Premium SaaS Aesthetic - Deep Space Theme
+       Built for Scale & Performance
+    */
+    
+    /* Core Background & Foreground - Deep Slate */
+    --background: 222 47% 7%;
+    --foreground: 210 20% 98%;
 
-    /* Card System - Elevated Surfaces */
-    --card: 222 47% 14%;
-    --card-foreground: 210 40% 98%;
+    /* Card System - Elevated Surfaces with Premium Feel */
+    --card: 220 26% 10%;
+    --card-foreground: 210 20% 98%;
 
     /* Popover System */
-    --popover: 222 47% 15%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 26% 10%;
+    --popover-foreground: 210 20% 98%;
 
-    /* Primary Brand - Electric Blue */
-    --primary: 217 91% 60%;
+    /* Primary Brand - Professional Indigo */
+    --primary: 231 65% 58%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 217 91% 60% / 0.4;
+    --primary-hover: 231 65% 52%;
+    --primary-glow: 231 65% 58% / 0.25;
 
-    /* Secondary - Cyan Accent */
-    --secondary: 189 94% 43%;
+    /* Secondary - Sophisticated Teal */
+    --secondary: 184 45% 45%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 189 94% 43% / 0.3;
+    --secondary-hover: 184 45% 40%;
+    --secondary-glow: 184 45% 45% / 0.2;
 
-    /* Muted Elements */
-    --muted: 222 47% 18%;
-    --muted-foreground: 215 20% 65%;
+    /* Muted Elements - Professional Gray Scale */
+    --muted: 220 17% 17%;
+    --muted-foreground: 215 14% 62%;
 
-    /* Accent - Vibrant Purple */
-    --accent: 250 85% 65%;
+    /* Accent - Refined Purple */
+    --accent: 266 60% 60%;
     --accent-foreground: 0 0% 100%;
-    --accent-glow: 250 85% 65% / 0.35;
+    --accent-hover: 266 60% 55%;
+    --accent-glow: 266 60% 60% / 0.2;
+
+    /* Success State */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning State */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
     /* Destructive States */
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border & Input Elements */
-    --border: 222 47% 20%;
-    --input: 222 47% 18%;
-    --ring: 217 91% 60%;
+    /* Border & Input Elements - Refined */
+    --border: 220 20% 18%;
+    --input: 220 20% 15%;
+    --ring: 231 65% 58%;
 
-    /* Border Radius - Modern & Smooth */
-    --radius: 0.75rem;
+    /* Border Radius - Modern */
+    --radius: 0.625rem;
 
-    /* Brand Colors - Navy Blue Palette */
-    --navy-darkest: 222 47% 8%;
-    --navy-darker: 222 47% 11%;
-    --navy-dark: 222 47% 14%;
-    --navy-base: 222 47% 18%;
-    --navy-light: 222 47% 22%;
-    --navy-lighter: 222 47% 28%;
+    /* Professional Brand Palette */
+    --slate-darkest: 222 47% 4%;
+    --slate-darker: 222 47% 7%;
+    --slate-dark: 220 26% 10%;
+    --slate-base: 220 17% 17%;
+    --slate-light: 220 14% 25%;
+    --slate-lighter: 220 13% 35%;
 
-    /* AI Model Signature Colors */
-    --chatgpt: 175 80% 55%;
-    --chatgpt-glow: 175 80% 55% / 0.4;
+    /* AI Model Professional Colors */
+    --chatgpt: 171 77% 48%;
+    --chatgpt-glow: 171 77% 48% / 0.3;
     
-    --gemini: 220 90% 65%;
-    --gemini-glow: 220 90% 65% / 0.4;
+    --gemini: 224 76% 61%;
+    --gemini-glow: 224 76% 61% / 0.3;
     
-    --claude: 30 90% 60%;
-    --claude-glow: 30 90% 60% / 0.4;
+    --claude: 28 80% 57%;
+    --claude-glow: 28 80% 57% / 0.3;
     
-    --huggingface: 45 100% 55%;
-    --huggingface-glow: 45 100% 55% / 0.4;
+    --huggingface: 45 93% 58%;
+    --huggingface-glow: 45 93% 58% / 0.3;
 
-    /* Department Colors - Vibrant & Distinct */
-    --dept-ai: 217 91% 60%;
-    --dept-mech: 25 95% 60%;
-    --dept-arch: 150 80% 55%;
-    --dept-business: 45 100% 60%;
-    --dept-design: 330 85% 60%;
+    /* Department Colors - Enterprise Grade */
+    --dept-ai: 231 65% 58%;
+    --dept-mech: 25 85% 55%;
+    --dept-arch: 142 65% 50%;
+    --dept-business: 38 85% 55%;
+    --dept-design: 326 75% 58%;
 
-    /* Professional Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(250 85% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(189 94% 43%), hsl(217 91% 60%));
-    --gradient-bg: linear-gradient(180deg, hsl(222 47% 11%), hsl(222 47% 8%));
-    --gradient-card: linear-gradient(135deg, hsl(222 47% 14% / 0.8), hsl(222 47% 16% / 0.6));
-    --gradient-glass: linear-gradient(135deg, hsl(217 91% 60% / 0.05), hsl(250 85% 65% / 0.05));
-    --gradient-ar: linear-gradient(135deg, hsl(189 94% 43%), hsl(217 91% 60%), hsl(250 85% 65%));
-    --gradient-hero: radial-gradient(ellipse at top, hsl(217 91% 60% / 0.15), transparent 50%),
-                     radial-gradient(ellipse at bottom, hsl(250 85% 65% / 0.1), transparent 50%);
+    /* Professional Gradients - Subtle & Sophisticated */
+    --gradient-primary: linear-gradient(135deg, hsl(231 65% 58%), hsl(266 60% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(184 45% 45%), hsl(231 65% 58%));
+    --gradient-bg: linear-gradient(180deg, hsl(222 47% 7%), hsl(222 47% 4%));
+    --gradient-card: linear-gradient(135deg, hsl(220 26% 10% / 0.95), hsl(220 20% 12% / 0.85));
+    --gradient-glass: linear-gradient(135deg, hsl(231 65% 58% / 0.03), hsl(266 60% 60% / 0.03));
+    --gradient-hero: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(231 65% 58% / 0.15), transparent 50%),
+                     radial-gradient(ellipse 60% 50% at 50% 120%, hsl(266 60% 60% / 0.1), transparent 50%);
+    --gradient-premium: linear-gradient(135deg, hsl(231 65% 58%), hsl(266 60% 60%), hsl(184 45% 45%));
 
-    /* Glass Morphism */
-    --glass-bg: hsl(222 47% 14% / 0.6);
-    --glass-border: hsl(217 91% 60% / 0.15);
-    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.37);
+    /* Modern Glassmorphism */
+    --glass-bg: hsl(220 26% 10% / 0.7);
+    --glass-border: hsl(231 65% 58% / 0.12);
+    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.45);
 
-    /* Professional Shadows */
+    /* Enterprise Shadow System */
+    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.15);
     --shadow-sm: 0 2px 4px 0 hsl(0 0% 0% / 0.2);
-    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.4);
-    --shadow-xl: 0 16px 48px 0 hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 0 20px hsl(217 91% 60% / 0.3);
-    --shadow-glow-lg: 0 0 40px hsl(217 91% 60% / 0.4);
+    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.35);
+    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.45);
+    --shadow-xl: 0 20px 40px -12px hsl(0 0% 0% / 0.55);
+    --shadow-glow: 0 0 24px hsl(231 65% 58% / 0.2);
+    --shadow-glow-lg: 0 0 48px hsl(231 65% 58% / 0.25);
+    --shadow-glow-premium: 0 0 60px hsl(266 60% 60% / 0.3);
   }
 }
 
