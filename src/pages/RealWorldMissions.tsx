@@ -207,10 +207,12 @@ const RealWorldMissions = () => {
   };
 
   return (
-    <DashboardLayout
-      title="Real-World Missions"
-      description="Work on global problems, earn XP, build your career proof"
-    >
+    <DashboardLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Real-World Missions</h1>
+        <p className="text-muted-foreground">Work on global problems, earn XP, build your career proof</p>
+      </div>
+      
       <div className="space-y-6">
         {/* Hero Section */}
         <Card className="p-8 glass-card bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 border-primary/20">

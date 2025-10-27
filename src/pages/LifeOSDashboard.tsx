@@ -79,7 +79,7 @@ const LifeOSDashboard = () => {
 
   if (loading) {
     return (
-      <DashboardLayout title="LifeOS" description="Your Personal Operating System">
+      <DashboardLayout>
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="animate-pulse text-muted-foreground">Loading your LifeOS...</div>
         </div>
@@ -91,10 +91,12 @@ const LifeOSDashboard = () => {
   const readinessScore = 68; // Calculate based on skills & projects
 
   return (
-    <DashboardLayout
-      title="LifeOS Dashboard"
-      description="Your central hub for growth, skills, and career readiness"
-    >
+    <DashboardLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">LifeOS Dashboard</h1>
+        <p className="text-muted-foreground">Your central hub for growth, skills, and career readiness</p>
+      </div>
+      
       <div className="space-y-6">
         {/* Hero Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

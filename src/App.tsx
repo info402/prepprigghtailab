@@ -23,6 +23,10 @@ import Competitions from "./pages/Competitions";
 import Leaderboard from "./pages/Leaderboard";
 import VirtualLab from "./pages/VirtualLab";
 import DepartmentLab from "./pages/DepartmentLab";
+import PurposeEngine from "./pages/PurposeEngine";
+import LifeOSDashboard from "./pages/LifeOSDashboard";
+import MetaProfile from "./pages/MetaProfile";
+import RealWorldMissions from "./pages/RealWorldMissions";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +56,10 @@ const App = () => (
           <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
           <Route path="/dashboard/lab" element={<VirtualLab />} />
           <Route path="/dashboard/lab/:departmentId" element={<DepartmentLab />} />
+          <Route path="/dashboard/purpose" element={<PurposeEngine />} />
+          <Route path="/dashboard/lifeos" element={<LifeOSDashboard />} />
+          <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
+          <Route path="/dashboard/missions" element={<RealWorldMissions />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -67,10 +67,12 @@ const MetaProfile = () => {
   const readinessScore = 78;
 
   return (
-    <DashboardLayout
-      title="Meta-Profile"
-      description="Your dynamic, evolving career passport"
-    >
+    <DashboardLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Meta-Profile</h1>
+        <p className="text-muted-foreground">Your dynamic, evolving career passport</p>
+      </div>
+      
       <div className="space-y-6">
         {/* Profile Header */}
         <Card className="p-8 glass-card relative overflow-hidden">

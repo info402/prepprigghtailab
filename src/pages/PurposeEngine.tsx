@@ -73,11 +73,12 @@ const PurposeEngine = () => {
   };
 
   return (
-    <DashboardLayout
-      title="Purpose Engine"
-      description="Discover your 'why' - Let's map your interests, purpose & curiosity"
-    >
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Purpose Engine</h1>
+          <p className="text-muted-foreground">Discover your 'why' - Let's map your interests, purpose & curiosity</p>
+        </div>
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">

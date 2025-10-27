@@ -459,6 +459,45 @@ export type Database = {
         }
         Relationships: []
       }
+      purpose_profiles: {
+        Row: {
+          career_goals: string
+          challenges: string | null
+          created_at: string
+          id: string
+          interests: string
+          learning_style: string
+          passions: string | null
+          skill_level: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          career_goals: string
+          challenges?: string | null
+          created_at?: string
+          id?: string
+          interests: string
+          learning_style: string
+          passions?: string | null
+          skill_level: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          career_goals?: string
+          challenges?: string | null
+          created_at?: string
+          id?: string
+          interests?: string
+          learning_style?: string
+          passions?: string | null
+          skill_level?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       resumes: {
         Row: {
           ats_score: number | null
