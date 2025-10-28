@@ -403,6 +403,201 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Why Choose Section */}
+      <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+              Why Choose <span className="gradient-text">Preppright 4D AI Lab?</span>
+            </h2>
+            <p className="text-xl text-foreground font-semibold max-w-4xl mx-auto leading-relaxed">
+              Leave the Technology to us, give your commitment & dedication. We will make you successful.
+            </p>
+          </div>
+
+          {/* Career Transformation Courses */}
+          <div className="mb-12">
+            <h3 className="text-3xl font-display font-bold text-foreground text-center mb-12">
+              Career Transformation Courses <span className="text-primary">(Offline & ONLINE)</span>
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Python Full Stack */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-blue-500 to-cyan-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Brain className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">Python Full Stack with GenAI & DevOps</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: Python, Django, Generative AI, Machine Learning, DB/SQL
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">400+ Hours</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Package Range:</span>
+                    <span className="font-bold text-primary">3 - 12 LPA</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* Java Full Stack */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-orange-500 to-red-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">Java Full Stack with GenAI & DevOps</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: Java, DSA, DB/SQL, Spring Boot, Hibernate, AWS, Kubernetes, Docker
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">500+ Hours</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Package Range:</span>
+                    <span className="font-bold text-primary">3 - 12 LPA</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* MERN Full Stack */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-green-500 to-emerald-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Rocket className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">MERN Full Stack Development</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: HTML, CSS, JavaScript, React.js, Node.js, MongoDB, AWS, Kubernetes, Docker
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">300+ Hours</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Package Range:</span>
+                    <span className="font-bold text-primary">3 - 7 LPA</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* Programming */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-purple-500 to-pink-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Brain className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">Programming</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: Extensive programming from zero-hero with 500+ programs, LeetCode & HackerRank programs
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">80 Hours</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* DSA */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-indigo-500 to-blue-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Target className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">DSA</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: Arrays, Lists, Set, Hashing, Maps & Graphs
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">30 Hours</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* SQL/DB */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-yellow-500 to-orange-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <FileText className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">SQL/DB</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: Oracle, MongoDB
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">80 Hours</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* API, Microservices, Git & Maven */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-teal-500 to-cyan-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Zap className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">API, Microservices, Git & Maven</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Master API development, microservices architecture, version control with Git, and build automation with Maven
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">25 Hours</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+
+              {/* DevOps with AWS Cloud */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-6 hover:shadow-xl transition-all hover:scale-105">
+                <div className="bg-gradient-to-br from-rose-500 to-pink-500 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                  <Rocket className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="text-xl font-bold text-foreground mb-3">DevOps with AWS Cloud</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tech: AWS, Kubernetes, Docker, CI-CD Pipeline with Jenkins
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Time Duration:</span>
+                    <span className="font-semibold text-foreground">200 Hours</span>
+                  </div>
+                </div>
+                <Button className="w-full bg-gradient-to-r from-primary to-accent" onClick={() => navigate("/auth")}>
+                  Explore More
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* AI Chat Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 relative z-10">
         <div className="text-center mb-12 animate-fade-in-up">
