@@ -291,6 +291,38 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Companies Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h3 className="text-center text-2xl md:text-3xl font-display font-bold text-foreground mb-12">
+          Our students work at
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
+          {[
+            { name: "Amazon", gradient: "from-orange-400 to-yellow-600" },
+            { name: "Adobe", gradient: "from-red-500 to-pink-600" },
+            { name: "Google", gradient: "from-blue-500 to-green-500" },
+            { name: "Facebook", gradient: "from-blue-600 to-indigo-600" },
+            { name: "Apple", gradient: "from-gray-700 to-gray-900" },
+            { name: "TCS", gradient: "from-blue-700 to-purple-700" },
+            { name: "Microsoft", gradient: "from-cyan-500 to-blue-600" },
+            { name: "Flipkart", gradient: "from-yellow-500 to-orange-600" },
+            { name: "Oracle", gradient: "from-red-600 to-red-700" },
+            { name: "Capgemini", gradient: "from-blue-600 to-cyan-600" },
+            { name: "Jio", gradient: "from-blue-500 to-blue-700" },
+            { name: "+ Many More", gradient: "from-primary to-accent" },
+          ].map((company, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-center p-6 bg-white/90 backdrop-blur-sm rounded-xl border border-primary/10 hover:shadow-lg transition-all hover:scale-105 group"
+            >
+              <span className={`text-lg font-bold bg-gradient-to-r ${company.gradient} bg-clip-text text-transparent group-hover:scale-110 transition-transform`}>
+                {company.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Top Categories */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-16">
