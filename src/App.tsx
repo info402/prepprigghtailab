@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard";
 import ChatPlayground from "./pages/ChatPlayground";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import MockInterview from "./pages/MockInterview";
-import CareerPath from "./pages/CareerPath";
 import Jobs from "./pages/Jobs";
 import Projects from "./pages/Projects";
 import Certificates from "./pages/Certificates";
@@ -23,7 +22,6 @@ import Leaderboard from "./pages/Leaderboard";
 import VirtualLab from "./pages/VirtualLab";
 import DepartmentLab from "./pages/DepartmentLab";
 import PurposeEngine from "./pages/PurposeEngine";
-import LifeOSDashboard from "./pages/LifeOSDashboard";
 import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
 import NotFound from "./pages/NotFound";
@@ -43,7 +41,6 @@ const App = () => (
           <Route path="/dashboard/chat" element={<ChatPlayground />} />
           <Route path="/dashboard/resume" element={<ResumeBuilder />} />
           <Route path="/dashboard/interview" element={<MockInterview />} />
-          <Route path="/dashboard/career" element={<CareerPath />} />
           <Route path="/dashboard/jobs" element={<Jobs />} />
           <Route path="/dashboard/projects" element={<Projects />} />
           <Route path="/dashboard/certificates" element={<Certificates />} />
@@ -55,7 +52,6 @@ const App = () => (
           <Route path="/dashboard/lab" element={<VirtualLab />} />
           <Route path="/dashboard/lab/:departmentId" element={<DepartmentLab />} />
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
-          <Route path="/dashboard/lifeos" element={<LifeOSDashboard />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
           <Route path="/dashboard/profile" element={<Profile />} />
