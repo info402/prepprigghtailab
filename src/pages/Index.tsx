@@ -5,7 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
-import { Sparkles, Zap, Brain, Rocket, ExternalLink, Upload, FileText, Image as ImageIcon, File } from "lucide-react";
+import { Sparkles, Zap, Brain, Rocket, ExternalLink, Upload, FileText, Image as ImageIcon, File, Target, Users, Award, Briefcase } from "lucide-react";
+import heroStudent from "@/assets/hero-student.jpg";
+import aiLab from "@/assets/ai-lab.jpg";
 
 type AIModel = "chatgpt" | "gemini" | "claude" | "huggingface";
 
@@ -180,142 +182,190 @@ const Index = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
-          <div className="text-center">
-            {/* Main Hero Content */}
-            <div className="relative">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-8 animate-fade-in">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-primary/20 mb-6 animate-fade-in">
                 <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-                <span className="text-sm font-semibold text-primary">India's First 4D AI Lab for Careers</span>
+                <span className="text-sm font-semibold text-primary">Strategically Crafted by Industry Experts</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 animate-fade-in-up leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight mb-6 animate-fade-in-up leading-tight">
                 <span className="text-foreground">
-                  Making Career Success
+                  Experience the future of Career Preparation with
                 </span>
                 <br />
-                <span className="gradient-text">accessible for all</span>
+                <span className="gradient-text">AI-Powered Labs @ PREPPRIGHT</span>
               </h1>
               
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up font-body" style={{ animationDelay: '0.2s' }}>
-                World-class AI education for learners at every level, real-world projects driving innovation, and career solutions that make a difference. Everything in one platform, built to make success accessible without complexity.
-              </p>
-              
-              {/* Benefits Section */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <div className="glass-card p-8 hover-lift hover:glow-effect group">
-                  <div className="bg-gradient-primary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
-                    <Brain className="h-7 w-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-display font-bold text-foreground mb-3">AI-Powered Learning</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Get personalized learning paths with ChatGPT, Gemini, Claude & HuggingFace integrated AI assistance
-                  </p>
-                </div>
-                
-                <div className="glass-card p-8 hover-lift hover:glow-effect group">
-                  <div className="bg-gradient-secondary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
-                    <Zap className="h-7 w-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-display font-bold text-foreground mb-3">Live Coding Environments</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Practice in department-specific virtual labs with real-time code execution and AR mentor guidance
-                  </p>
-                </div>
-                
-                <div className="glass-card p-8 hover-lift hover:glow-effect group">
-                  <div className="bg-gradient-primary w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 transition-transform">
-                    <Rocket className="h-7 w-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-display font-bold text-foreground mb-3">Career Fast-Track</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    AI resume optimization, mock interviews, coding challenges & direct connections to top companies
-                  </p>
-                </div>
+              <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <p className="text-muted-foreground text-base mb-4">
+                  Over <span className="font-bold text-primary text-xl">10,000+</span> students placed in
+                </p>
+                <p className="text-foreground font-semibold text-lg">
+                  Top Tech Companies & Startups Since <span className="text-primary">2023</span>
+                </p>
               </div>
 
+              <div className="bg-gradient-primary/10 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-primary/20 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <div className="text-5xl font-display font-extrabold text-foreground mb-2">
+                  1000+
+                </div>
+                <p className="text-muted-foreground">
+                  Placed in India&apos;s Top Product Companies & MNCs
+                </p>
+              </div>
+              
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <Button 
                   size="lg" 
                   className="text-base px-8 py-6 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-semibold transition-all hover:scale-105 shadow-md"
                   onClick={() => navigate("/auth")}
                 >
-                  Get Started Free
+                  Start Learning
                   <Rocket className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline"
                   className="text-base px-8 py-6 bg-white/80 hover:bg-white border-2 border-primary/20 text-foreground rounded-xl font-semibold transition-all hover:scale-105"
-                  onClick={() => navigate("/features")}
+                  onClick={() => navigate("/auth")}
                 >
-                  Explore Features
-                  <Brain className="ml-2 h-5 w-5" />
+                  New User? Join Now
+                  <Users className="ml-2 h-5 w-5" />
                 </Button>
               </div>
+            </div>
 
-              {/* Connect to AI Services */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 justify-center mb-16 max-w-5xl mx-auto animate-fade-in" style={{ animationDelay: '0.8s' }}>
-                <Button 
-                  size="lg" 
-                  className="text-sm px-5 py-6 bg-chatgpt hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
-                  onClick={() => window.open("https://chatgpt.com", "_blank")}
-                >
-                  🤖 ChatGPT
-                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  className="text-sm px-5 py-6 bg-gemini hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
-                  onClick={() => window.open("https://gemini.google.com/app", "_blank")}
-                >
-                  🌐 Gemini
-                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  className="text-sm px-5 py-6 bg-huggingface hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
-                  onClick={() => window.open("https://huggingface.co", "_blank")}
-                >
-                  📚 HuggingFace
-                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  className="text-sm px-5 py-6 bg-accent hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold"
-                  onClick={() => window.open("https://huggingface.co/spaces", "_blank")}
-                >
-                  🚀 HF Spaces
-                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                </Button>
-                <Button 
-                  size="lg" 
-                  className="text-sm px-5 py-6 bg-claude hover:opacity-90 text-white border-0 shadow-md hover:shadow-glow transition-all hover:scale-105 font-semibold col-span-2 sm:col-span-1"
-                  onClick={() => window.open("https://claude.ai", "_blank")}
-                >
-                  🧠 Claude
-                  <ExternalLink className="ml-2 h-3.5 w-3.5" />
-                </Button>
+            {/* Right Image */}
+            <div className="relative animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src={heroStudent} 
+                  alt="Preppright Student Success" 
+                  className="w-full h-auto object-cover"
+                />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              {/* Stats Section */}
-              <div className="flex flex-wrap justify-center gap-12 animate-fade-in" style={{ animationDelay: '1s' }}>
+      {/* Stats Banner */}
+      <div className="bg-gradient-primary/10 backdrop-blur-sm border-y border-primary/20 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h3 className="text-center text-2xl font-display font-bold text-foreground mb-8">
+            Unlock Your Potential With India&apos;s Most Advanced AI-Powered Career Platform
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-3">
+                <FileText className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-display font-bold text-foreground mb-1">2000+hrs</div>
+              <div className="text-sm text-muted-foreground font-medium">Learning Content</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-3">
+                <Users className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-display font-bold text-foreground mb-1">150+</div>
+              <div className="text-sm text-muted-foreground font-medium">Industry Mentors</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-3">
+                <Award className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-display font-bold text-foreground mb-1">10K+</div>
+              <div className="text-sm text-muted-foreground font-medium">Success Stories</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-3">
+                <Briefcase className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-display font-bold text-foreground mb-1">500+</div>
+              <div className="text-sm text-muted-foreground font-medium">Hiring Partners</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Top Categories */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="text-center mb-16">
+          <p className="text-primary font-semibold mb-4">Popular Learning Tracks</p>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+            Top Career Categories
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+            Explore our most sought-after career tracks designed to take your skills to new heights. Experience comprehensive learning curated by industry experts and unlock your full potential.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {[
+            { icon: Brain, title: "AI & Machine Learning", placements: "1200+", color: "primary" },
+            { icon: Zap, title: "Full Stack Development", placements: "2500+", color: "accent" },
+            { icon: Target, title: "Data Science & Analytics", placements: "1800+", color: "secondary" },
+            { icon: Rocket, title: "Product Management", placements: "900+", color: "primary" },
+          ].map((category, idx) => (
+            <div key={idx} className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8 hover:shadow-xl transition-all hover:scale-105">
+              <div className={`bg-gradient-${category.color} w-16 h-16 rounded-xl flex items-center justify-center mb-6`}>
+                <category.icon className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-display font-bold text-foreground mb-4">{category.title}</h3>
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-display font-bold text-foreground">{category.placements}</span>
+                <span className="text-sm text-muted-foreground">Placements</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+      {/* AI Lab Showcase */}
+      <div className="bg-white/50 backdrop-blur-sm py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src={aiLab} 
+                alt="Preppright AI Learning Lab" 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+                India&apos;s Most Advanced <span className="gradient-text">AI Learning Lab</span>
+              </h2>
+              <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                Step into the future with our state-of-the-art 4D AI Lab, where virtual reality meets real-world learning. Experience hands-on training with holographic displays, AR mentorship, and live coding environments designed to prepare you for tomorrow&apos;s jobs.
+              </p>
+              <div className="space-y-4 mb-8">
                 {[
-                  { value: "10,000+", label: "Students Trained", color: "text-chatgpt" },
-                  { value: "500+", label: "Companies Hiring", color: "text-gemini" },
-                  { value: "95%", label: "Placement Rate", color: "text-claude" },
-                  { value: "4D", label: "AI Lab Experience", color: "text-huggingface" },
-                ].map((stat, i) => (
-                  <div key={i} className="text-center hover:scale-110 transition-transform">
-                    <div className={`text-4xl md:text-5xl font-display font-extrabold ${stat.color} mb-2 text-glow`}>
-                      {stat.value}
+                  "Virtual Reality Lab Simulations",
+                  "AR-Powered Mentor Guidance",
+                  "Real-time Code Collaboration",
+                  "Industry-Standard Tools & Frameworks",
+                ].map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <div className="bg-primary/20 rounded-full p-1">
+                      <Sparkles className="h-4 w-4 text-primary" />
                     </div>
-                    <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">
-                      {stat.label}
-                    </div>
+                    <span className="text-foreground font-medium">{feature}</span>
                   </div>
                 ))}
               </div>
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-semibold px-8 py-6"
+                onClick={() => navigate("/features")}
+              >
+                Explore Our Labs
+                <ExternalLink className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
