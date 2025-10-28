@@ -203,7 +203,7 @@ const Index = () => {
                   Over <span className="font-bold text-primary text-xl">10,000+</span> students placed in
                 </p>
                 <p className="text-foreground font-semibold text-lg">
-                  Top Tech Companies & Startups Since <span className="text-primary">2023</span>
+                  Top Tech Companies & Startups Since <span className="text-primary">2024</span>
                 </p>
               </div>
 
