@@ -24,6 +24,7 @@ import {
   Microscope,
   Coins,
   Crown,
+  TrendingUp,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
@@ -72,6 +73,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Sparkles, label: "Purpose Engine", path: "/dashboard/purpose" },
     { icon: UserIcon, label: "Meta-Profile", path: "/dashboard/meta-profile" },
     { icon: Trophy, label: "Missions", path: "/dashboard/missions" },
+    { icon: TrendingUp, label: "Career Transformation", path: "/dashboard/career-transformation" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
