@@ -7,7 +7,6 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ChatPlayground from "./pages/ChatPlayground";
-import ResumeBuilder from "./pages/ResumeBuilder";
 import MockInterview from "./pages/MockInterview";
 import Jobs from "./pages/Jobs";
 import Projects from "./pages/Projects";
@@ -39,7 +38,6 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/chat" element={<ChatPlayground />} />
-          <Route path="/dashboard/resume" element={<ResumeBuilder />} />
           <Route path="/dashboard/interview" element={<MockInterview />} />
           <Route path="/dashboard/jobs" element={<Jobs />} />
           <Route path="/dashboard/projects" element={<Projects />} />

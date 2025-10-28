@@ -7,7 +7,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
   MessageSquare,
-  FileText,
   Video,
   Briefcase,
   FolderGit2,
@@ -73,7 +72,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Sparkles, label: "Purpose Engine", path: "/dashboard/purpose" },
     { icon: UserIcon, label: "Meta-Profile", path: "/dashboard/meta-profile" },
     { icon: Trophy, label: "Missions", path: "/dashboard/missions" },
-    { icon: FileText, label: "Resume Builder", path: "/dashboard/resume" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
