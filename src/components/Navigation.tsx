@@ -10,8 +10,8 @@ const Navigation = () => {
 
   const navItems = [
     { name: "Home", path: "/", icon: Sparkles },
-    { name: "AI Lab", path: "/", icon: Brain },
-    { name: "Features", path: "/features", icon: Zap },
+    { name: "AI Lab", path: "/dashboard/lab", icon: Brain },
+    { name: "Coding Challenges", path: "/dashboard/challenges", icon: Zap },
   ];
 
   const isActive = (path: string) => location.pathname === path;

@@ -361,7 +361,7 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-semibold px-8 py-6"
-                onClick={() => navigate("/features")}
+                onClick={() => navigate("/dashboard/lab")}
               >
                 Explore Our Labs
                 <ExternalLink className="ml-2 h-5 w-5" />
