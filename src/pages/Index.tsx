@@ -167,16 +167,16 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-bg">
+    <div className="min-h-screen bg-[var(--gradient-hero)] animate-gradient">
       <Navigation />
       
       {/* Hero Section */}
       <div className="relative overflow-hidden pt-20">
-        {/* Animated Background Elements */}
+        {/* Soft Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-[600px] h-[600px] bg-accent/15 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-40 right-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-40 right-20 w-80 h-80 bg-accent/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
@@ -188,16 +188,16 @@ const Index = () => {
                 <span className="text-sm font-semibold text-primary">India's First 4D AI Lab for Careers</span>
               </div>
               
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tight mb-8 animate-fade-in-up">
-                <span className="gradient-text">
-                  Future of Learning
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight mb-8 animate-fade-in-up leading-tight">
+                <span className="text-foreground">
+                  Making Career Success
                 </span>
                 <br />
-                <span className="text-foreground text-glow">& Hiring</span>
+                <span className="gradient-text">accessible for all</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up font-body" style={{ animationDelay: '0.2s' }}>
-                Master your career with Preppright's revolutionary 4D AI Lab - combining <span className="text-primary font-bold">Virtual Reality Labs</span>, <span className="text-accent font-bold">AR Mentorship</span>, <span className="text-secondary font-bold">AI-Powered Assessments</span>, and <span className="text-accent font-bold">Live Industry Projects</span> in one immersive platform.
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in-up font-body" style={{ animationDelay: '0.2s' }}>
+                World-class AI education for learners at every level, real-world projects driving innovation, and career solutions that make a difference. Everything in one platform, built to make success accessible without complexity.
               </p>
               
               {/* Benefits Section */}
@@ -234,10 +234,10 @@ const Index = () => {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-5 justify-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                 <Button 
                   size="lg" 
-                  className="text-lg px-10 py-7 bg-gradient-primary hover:opacity-90 shadow-glow-lg hover:shadow-glow font-semibold transition-all hover:scale-105"
+                  className="text-base px-8 py-6 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-semibold transition-all hover:scale-105 shadow-md"
                   onClick={() => navigate("/auth")}
                 >
                   Get Started Free
@@ -245,7 +245,8 @@ const Index = () => {
                 </Button>
                 <Button 
                   size="lg" 
-                  className="text-lg px-10 py-7 glass-card hover:bg-[var(--glass-bg)]/80 font-semibold transition-all hover:scale-105"
+                  variant="outline"
+                  className="text-base px-8 py-6 bg-white/80 hover:bg-white border-2 border-primary/20 text-foreground rounded-xl font-semibold transition-all hover:scale-105"
                   onClick={() => navigate("/features")}
                 >
                   Explore Features
@@ -332,7 +333,7 @@ const Index = () => {
         </div>
 
         {/* Input Section */}
-        <div className="glass-card p-8 w-full max-w-4xl mx-auto shadow-glass hover:shadow-glow-lg transition-all animate-scale-in">
+        <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8 w-full max-w-4xl mx-auto shadow-lg hover:shadow-xl transition-all animate-scale-in">
         
         {/* File Upload Button */}
         <div className="mb-6">
@@ -369,7 +370,7 @@ const Index = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your question here or upload files to search..."
-          className="min-h-32 p-5 rounded-xl bg-muted/30 border-border text-foreground focus:ring-2 focus:ring-primary focus:border-primary resize-none font-body backdrop-blur-sm"
+          className="min-h-32 p-5 rounded-xl bg-input border-border text-foreground focus:ring-2 focus:ring-primary focus:border-primary resize-none font-body"
           disabled={isLoading}
         />
 
@@ -388,7 +389,7 @@ const Index = () => {
         </div>
 
         {/* Response Box */}
-        <div className="mt-8 p-6 rounded-xl glass-card text-lg text-foreground min-h-[120px] whitespace-pre-wrap font-body leading-relaxed shadow-inner">
+        <div className="mt-8 p-6 rounded-xl bg-muted/50 border border-primary/10 text-base text-foreground min-h-[120px] whitespace-pre-wrap font-body leading-relaxed">
           {response}
         </div>
       </div>

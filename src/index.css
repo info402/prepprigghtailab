@@ -9,44 +9,44 @@
 
 @layer base {
   :root {
-    /* Enterprise Professional Design System
-       Premium Modern Aesthetic - Professional Light-Dark Hybrid
-       Built for Scale & Performance
+    /* Vizuara-Inspired Design System
+       Clean, Modern, Accessible - Light & Vibrant
+       Built for Indian Education Excellence
     */
     
-    /* Core Background & Foreground - Professional Dark Blue Gray */
-    --background: 215 28% 17%;
-    --foreground: 210 20% 98%;
+    /* Core Background & Foreground - Clean Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
 
-    /* Card System - Elevated Surfaces with Premium Feel */
-    --card: 215 25% 22%;
-    --card-foreground: 210 20% 98%;
+    /* Card System - Elevated White Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
 
     /* Popover System */
-    --popover: 215 25% 22%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Primary Brand - Vibrant Blue */
-    --primary: 217 91% 60%;
+    /* Primary Brand - Vibrant Purple (Vizuara Style) */
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 217 91% 55%;
-    --primary-glow: 217 91% 60% / 0.3;
+    --primary-hover: 262 83% 50%;
+    --primary-glow: 262 83% 58% / 0.3;
 
-    /* Secondary - Professional Emerald */
-    --secondary: 158 64% 52%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-hover: 158 64% 47%;
-    --secondary-glow: 158 64% 52% / 0.25;
+    /* Secondary - Soft Pink Accent */
+    --secondary: 330 81% 75%;
+    --secondary-foreground: 0 0% 10%;
+    --secondary-hover: 330 81% 65%;
+    --secondary-glow: 330 81% 75% / 0.25;
 
-    /* Muted Elements - Professional Gray Scale */
-    --muted: 215 20% 28%;
-    --muted-foreground: 215 16% 70%;
+    /* Muted Elements - Light Gray Scale */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    /* Accent - Vibrant Purple */
-    --accent: 271 81% 66%;
+    /* Accent - Blue Accent */
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
-    --accent-hover: 271 81% 60%;
-    --accent-glow: 271 81% 66% / 0.25;
+    --accent-hover: 217 91% 55%;
+    --accent-glow: 217 91% 60% / 0.25;
 
     /* Success State */
     --success: 142 71% 45%;
@@ -60,23 +60,24 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border & Input Elements - Refined */
-    --border: 215 22% 30%;
-    --input: 215 20% 25%;
-    --ring: 217 91% 60%;
+    /* Border & Input Elements */
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
+    --ring: 262 83% 58%;
 
-    /* Border Radius - Modern */
-    --radius: 0.75rem;
+    /* Border Radius - Soft & Modern */
+    --radius: 1rem;
 
-    /* Professional Brand Palette */
-    --slate-darkest: 215 28% 12%;
-    --slate-darker: 215 28% 17%;
-    --slate-dark: 215 25% 22%;
-    --slate-base: 215 20% 28%;
-    --slate-light: 215 18% 35%;
-    --slate-lighter: 215 16% 45%;
+    /* Soft Color Palette */
+    --cream: 39 100% 97%;
+    --cream-dark: 39 50% 92%;
+    --pink-light: 330 81% 95%;
+    --pink-medium: 330 81% 85%;
+    --purple-light: 262 83% 95%;
+    --purple-medium: 262 83% 75%;
+    --blue-light: 217 91% 95%;
 
-    /* AI Model Professional Colors */
+    /* AI Model Colors */
     --chatgpt: 171 77% 48%;
     --chatgpt-glow: 171 77% 48% / 0.3;
     
@@ -89,37 +90,36 @@
     --huggingface: 45 93% 58%;
     --huggingface-glow: 45 93% 58% / 0.3;
 
-    /* Department Colors - Enterprise Grade */
-    --dept-ai: 231 65% 58%;
+    /* Department Colors - Vibrant India */
+    --dept-ai: 262 83% 58%;
     --dept-mech: 25 85% 55%;
     --dept-arch: 142 65% 50%;
     --dept-business: 38 85% 55%;
-    --dept-design: 326 75% 58%;
+    --dept-design: 330 81% 65%;
 
-    /* Professional Gradients - Vibrant & Modern */
-    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 81% 66%));
-    --gradient-secondary: linear-gradient(135deg, hsl(158 64% 52%), hsl(217 91% 60%));
-    --gradient-bg: linear-gradient(180deg, hsl(215 28% 17%), hsl(215 28% 12%));
-    --gradient-card: linear-gradient(135deg, hsl(215 25% 22% / 0.95), hsl(215 22% 24% / 0.85));
-    --gradient-glass: linear-gradient(135deg, hsl(217 91% 60% / 0.05), hsl(271 81% 66% / 0.05));
-    --gradient-hero: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(217 91% 60% / 0.18), transparent 50%),
-                     radial-gradient(ellipse 60% 50% at 50% 120%, hsl(271 81% 66% / 0.12), transparent 50%);
-    --gradient-premium: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 81% 66%), hsl(158 64% 52%));
+    /* Soft Gradients - Vizuara Inspired */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(217 91% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(330 81% 75%), hsl(262 83% 70%));
+    --gradient-bg: linear-gradient(135deg, hsl(330 81% 95%) 0%, hsl(262 83% 95%) 50%, hsl(39 100% 97%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(330 81% 90%) 0%, hsl(262 70% 90%) 50%, hsl(39 100% 95%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(262 50% 98% / 0.8));
+    --gradient-glass: linear-gradient(135deg, hsl(330 81% 98% / 0.6), hsl(262 83% 98% / 0.5));
+    --gradient-premium: linear-gradient(135deg, hsl(330 81% 75%), hsl(262 83% 58%), hsl(217 91% 60%));
 
-    /* Modern Glassmorphism */
-    --glass-bg: hsl(215 25% 22% / 0.75);
-    --glass-border: hsl(217 91% 60% / 0.15);
-    --glass-shadow: 0 8px 32px 0 hsl(0 0% 0% / 0.4);
+    /* Modern Glassmorphism - Light */
+    --glass-bg: hsl(0 0% 100% / 0.7);
+    --glass-border: hsl(262 83% 58% / 0.15);
+    --glass-shadow: 0 8px 32px 0 hsl(262 83% 58% / 0.1);
 
-    /* Professional Shadow System */
-    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.12);
-    --shadow-sm: 0 2px 4px 0 hsl(0 0% 0% / 0.16);
-    --shadow-md: 0 4px 12px 0 hsl(0 0% 0% / 0.25);
-    --shadow-lg: 0 8px 24px 0 hsl(0 0% 0% / 0.35);
-    --shadow-xl: 0 20px 40px -12px hsl(0 0% 0% / 0.45);
-    --shadow-glow: 0 0 28px hsl(217 91% 60% / 0.25);
-    --shadow-glow-lg: 0 0 48px hsl(217 91% 60% / 0.3);
-    --shadow-glow-premium: 0 0 60px hsl(271 81% 66% / 0.35);
+    /* Soft Shadow System */
+    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 2px 8px 0 hsl(262 83% 58% / 0.08);
+    --shadow-md: 0 4px 16px 0 hsl(262 83% 58% / 0.12);
+    --shadow-lg: 0 8px 24px 0 hsl(262 83% 58% / 0.15);
+    --shadow-xl: 0 20px 40px -12px hsl(262 83% 58% / 0.2);
+    --shadow-glow: 0 0 28px hsl(262 83% 58% / 0.3);
+    --shadow-glow-lg: 0 0 48px hsl(330 81% 75% / 0.4);
+    --shadow-glow-premium: 0 0 60px hsl(262 83% 58% / 0.35);
   }
 }
 
