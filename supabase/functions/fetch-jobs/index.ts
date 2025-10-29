@@ -23,8 +23,9 @@ serve(async (req) => {
     // Initialize Supabase client
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    // Multiple search queries targeting freshers and interns
-    const searchQueries = [
+    // Reduced search queries to avoid rate limiting
+    // Rotate through different queries on each call
+    const allQueries = [
       { query: "software developer fresher", location: "India" },
       { query: "frontend developer internship", location: "India" },
       { query: "backend developer fresher", location: "India" },
@@ -35,12 +36,12 @@ serve(async (req) => {
       { query: "java developer internship paid", location: "India" },
       { query: "web developer fresher 2024", location: "India" },
       { query: "software engineer trainee", location: "India" },
-      { query: "graduate engineer trainee", location: "India" },
-      { query: "UI UX designer internship", location: "India" },
-      { query: "data science internship paid", location: "India" },
-      { query: "machine learning fresher", location: "India" },
-      { query: "devops engineer fresher", location: "India" },
     ];
+
+    // Select 3 random queries to avoid rate limiting
+    const searchQueries = allQueries
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
 
     let allJobsToInsert: any[] = [];
 
@@ -105,8 +106,8 @@ serve(async (req) => {
 
         allJobsToInsert = [...allJobsToInsert, ...jobsFromQuery];
 
-        // Small delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Longer delay to avoid rate limiting (2 seconds between requests)
+        await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {
         console.error(`Error fetching jobs for query "${searchQuery.query}":`, error);
         continue;
