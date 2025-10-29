@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
-import ChatPlayground from "./pages/ChatPlayground";
 import MockInterview from "./pages/MockInterview";
 import Jobs from "./pages/Jobs";
 import PublicJobs from "./pages/PublicJobs";
@@ -24,7 +23,6 @@ import DepartmentLab from "./pages/DepartmentLab";
 import PurposeEngine from "./pages/PurposeEngine";
 import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
-import CareerTransformation from "./pages/CareerTransformation";
 import HostEvent from "./pages/HostEvent";
 import StudentEvents from "./pages/StudentEvents";
 import MyVouchers from "./pages/MyVouchers";
@@ -45,7 +43,6 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/jobs" element={<PublicJobs />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/chat" element={<ChatPlayground />} />
           <Route path="/dashboard/interview" element={<MockInterview />} />
           <Route path="/dashboard/jobs" element={<Jobs />} />
           <Route path="/dashboard/projects" element={<Projects />} />
@@ -60,7 +57,6 @@ const App = () => (
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
-          <Route path="/dashboard/career-transformation" element={<CareerTransformation />} />
           <Route path="/dashboard/host-event" element={<HostEvent />} />
           <Route path="/dashboard/student-events" element={<StudentEvents />} />
           <Route path="/dashboard/student-events/:id" element={<EventDetail />} />

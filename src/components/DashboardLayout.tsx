@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
-  MessageSquare,
   Video,
   Briefcase,
   FolderGit2,
@@ -24,7 +23,6 @@ import {
   Microscope,
   Coins,
   Crown,
-  TrendingUp,
   Calendar,
   Gift,
   Shield,
@@ -93,12 +91,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
-    { icon: MessageSquare, label: "AI Chat", path: "/dashboard/chat" },
     { icon: Microscope, label: "Virtual Lab", path: "/dashboard/lab" },
     { icon: Sparkles, label: "Purpose Engine", path: "/dashboard/purpose" },
     { icon: UserIcon, label: "Meta-Profile", path: "/dashboard/meta-profile" },
     { icon: Trophy, label: "Missions", path: "/dashboard/missions" },
-    { icon: TrendingUp, label: "Career Transformation", path: "/dashboard/career-transformation" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
     { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
     { icon: Award, label: "Certificates", path: "/dashboard/certificates" },
