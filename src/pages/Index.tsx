@@ -244,6 +244,8 @@ const Index = () => {
                 <img 
                   src={heroStudent} 
                   alt="Preppright Student Success" 
+                  width="584"
+                  height="329"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -365,6 +367,8 @@ const Index = () => {
               <img 
                 src={aiLab} 
                 alt="Preppright AI Learning Lab" 
+                width="584"
+                height="329"
                 className="w-full h-auto object-cover"
               />
             </div>
