@@ -68,6 +68,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: MessageSquare, label: "AI Chat", path: "/dashboard/chat" },
     { icon: Microscope, label: "Virtual Lab", path: "/dashboard/lab" },
     { icon: Sparkles, label: "Purpose Engine", path: "/dashboard/purpose" },
@@ -75,7 +76,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Trophy, label: "Missions", path: "/dashboard/missions" },
     { icon: TrendingUp, label: "Career Transformation", path: "/dashboard/career-transformation" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
-    { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
     { icon: Award, label: "Certificates", path: "/dashboard/certificates" },
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },

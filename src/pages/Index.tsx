@@ -403,8 +403,49 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Why Choose Section */}
+      {/* Jobs & Internships Section */}
       <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-primary/20 mb-6">
+              <Briefcase className="h-4 w-4 text-primary animate-pulse" />
+              <span className="text-sm font-semibold text-primary">1000+ Fresh Opportunities Weekly</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
+              Jobs & Internships for Freshers 🚀
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+              Auto-curated positions from top job portals. Real opportunities for freshers & paid internships - No fake postings!
+            </p>
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-primary to-accent hover:opacity-90 text-primary-foreground rounded-xl font-semibold px-8 py-6"
+              onClick={() => navigate("/dashboard/jobs")}
+            >
+              Explore Opportunities
+              <Briefcase className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8 text-center hover:shadow-xl transition-all">
+              <div className="text-4xl font-bold text-primary mb-2">1000+</div>
+              <p className="text-muted-foreground font-medium">Fresh Job Postings This Week</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8 text-center hover:shadow-xl transition-all">
+              <div className="text-4xl font-bold text-primary mb-2">500+</div>
+              <p className="text-muted-foreground font-medium">Paid Internship Opportunities</p>
+            </div>
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8 text-center hover:shadow-xl transition-all">
+              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
+              <p className="text-muted-foreground font-medium">Auto-Updated from Job Portals</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Why Choose Section */}
+      <div className="bg-white/50 backdrop-blur-sm py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">

@@ -229,11 +229,23 @@ const Jobs = () => {
                     {job.salary_range && job.salary_range !== 'Not specified' && (
                       <p className="font-semibold text-primary">💰 {job.salary_range}</p>
                     )}
-                    <Button asChild className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90">
-                      <a href={job.apply_url} target="_blank" rel="noopener noreferrer">
-                        Apply Now
-                        <ExternalLink className="h-4 w-4 ml-2" />
-                      </a>
+                    <Button 
+                      onClick={async () => {
+                        const { data: { session } } = await supabase.auth.getSession();
+                        if (!session) {
+                          toast({
+                            title: "Login Required",
+                            description: "Please sign in to apply for jobs",
+                            variant: "destructive"
+                          });
+                          return;
+                        }
+                        window.open(job.apply_url, '_blank');
+                      }}
+                      className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                    >
+                      Apply Now
+                      <ExternalLink className="h-4 w-4 ml-2" />
                     </Button>
                   </CardContent>
                 </Card>
