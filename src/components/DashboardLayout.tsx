@@ -81,6 +81,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
     { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
     { icon: BarChart3, label: "Leaderboard", path: "/dashboard/leaderboard" },
+    { icon: Crown, label: "Get Premium", path: "/dashboard/pricing" },
   ];
 
   if (isLoading) {
@@ -205,7 +206,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           
           {!isPremium && !tokensLoading && (
             <Button 
-              onClick={() => navigate('/pricing')}
+              onClick={() => navigate('/dashboard/pricing')}
               size="sm"
               className="gap-2 bg-gradient-to-r from-primary to-accent"
             >
