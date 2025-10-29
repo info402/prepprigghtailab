@@ -231,6 +231,134 @@ export type Database = {
         }
         Relationships: []
       }
+      event_participants: {
+        Row: {
+          event_id: string
+          id: string
+          joined_at: string | null
+          rank: number | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          event_id: string
+          id?: string
+          joined_at?: string | null
+          rank?: number | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          event_id?: string
+          id?: string
+          joined_at?: string | null
+          rank?: number | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_participants_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_vouchers: {
+        Row: {
+          created_at: string | null
+          event_id: string
+          id: string
+          quantity: number | null
+          rank_requirement: number | null
+          voucher_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_id: string
+          id?: string
+          quantity?: number | null
+          rank_requirement?: number | null
+          voucher_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string
+          id?: string
+          quantity?: number | null
+          rank_requirement?: number | null
+          voucher_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_vouchers_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_vouchers_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "vouchers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          banner_url: string | null
+          created_at: string | null
+          description: string | null
+          end_time: string
+          event_type: string
+          host_id: string
+          id: string
+          max_participants: number | null
+          prize_details: string | null
+          registration_deadline: string | null
+          start_time: string
+          status: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          banner_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_time: string
+          event_type: string
+          host_id: string
+          id?: string
+          max_participants?: number | null
+          prize_details?: string | null
+          registration_deadline?: string | null
+          start_time: string
+          status?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          banner_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_time?: string
+          event_type?: string
+          host_id?: string
+          id?: string
+          max_participants?: number | null
+          prize_details?: string | null
+          registration_deadline?: string | null
+          start_time?: string
+          status?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       interview_attempts: {
         Row: {
           answers: Json
@@ -498,6 +626,141 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_attempts: {
+        Row: {
+          answers: Json
+          completed_at: string | null
+          id: string
+          quiz_id: string
+          score: number | null
+          time_taken: number | null
+          total_points: number | null
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          completed_at?: string | null
+          id?: string
+          quiz_id: string
+          score?: number | null
+          time_taken?: number | null
+          total_points?: number | null
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          completed_at?: string | null
+          id?: string
+          quiz_id?: string
+          score?: number | null
+          time_taken?: number | null
+          total_points?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          correct_answer: string
+          created_at: string | null
+          id: string
+          options: Json | null
+          order_index: number | null
+          points: number | null
+          question_text: string
+          question_type: string
+          quiz_id: string
+        }
+        Insert: {
+          correct_answer: string
+          created_at?: string | null
+          id?: string
+          options?: Json | null
+          order_index?: number | null
+          points?: number | null
+          question_text: string
+          question_type: string
+          quiz_id: string
+        }
+        Update: {
+          correct_answer?: string
+          created_at?: string | null
+          id?: string
+          options?: Json | null
+          order_index?: number | null
+          points?: number | null
+          question_text?: string
+          question_type?: string
+          quiz_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          event_id: string | null
+          host_id: string
+          id: string
+          is_published: boolean | null
+          passing_score: number | null
+          time_limit: number | null
+          title: string
+          total_points: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          event_id?: string | null
+          host_id: string
+          id?: string
+          is_published?: boolean | null
+          passing_score?: number | null
+          time_limit?: number | null
+          title: string
+          total_points?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          event_id?: string | null
+          host_id?: string
+          id?: string
+          is_published?: boolean | null
+          passing_score?: number | null
+          time_limit?: number | null
+          title?: string
+          total_points?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       resumes: {
         Row: {
           ats_score: number | null
@@ -671,6 +934,102 @@ export type Database = {
           updated_at?: string
           used_tokens?: number
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_vouchers: {
+        Row: {
+          claimed_at: string | null
+          event_id: string | null
+          id: string
+          is_used: boolean | null
+          rank_achieved: number | null
+          used_at: string | null
+          user_id: string
+          voucher_id: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          event_id?: string | null
+          id?: string
+          is_used?: boolean | null
+          rank_achieved?: number | null
+          used_at?: string | null
+          user_id: string
+          voucher_id: string
+        }
+        Update: {
+          claimed_at?: string | null
+          event_id?: string | null
+          id?: string
+          is_used?: boolean | null
+          rank_achieved?: number | null
+          used_at?: string | null
+          user_id?: string
+          voucher_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_vouchers_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_vouchers_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "vouchers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vouchers: {
+        Row: {
+          code: string
+          company_name: string | null
+          created_at: string | null
+          created_by: string | null
+          current_uses: number | null
+          description: string | null
+          discount_type: string | null
+          discount_value: string | null
+          expiry_date: string | null
+          id: string
+          max_uses: number | null
+          title: string
+          voucher_image_url: string | null
+        }
+        Insert: {
+          code: string
+          company_name?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: string | null
+          expiry_date?: string | null
+          id?: string
+          max_uses?: number | null
+          title: string
+          voucher_image_url?: string | null
+        }
+        Update: {
+          code?: string
+          company_name?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: string | null
+          expiry_date?: string | null
+          id?: string
+          max_uses?: number | null
+          title?: string
+          voucher_image_url?: string | null
         }
         Relationships: []
       }

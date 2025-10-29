@@ -25,6 +25,8 @@ import {
   Coins,
   Crown,
   TrendingUp,
+  Calendar,
+  Gift,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
@@ -81,6 +83,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
     { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
     { icon: BarChart3, label: "Leaderboard", path: "/dashboard/leaderboard" },
+    { icon: Calendar, label: "Student Events", path: "/dashboard/student-events" },
+    { icon: Gift, label: "My Vouchers", path: "/dashboard/my-vouchers" },
     { icon: Crown, label: "Get Premium", path: "/dashboard/pricing" },
   ];
 

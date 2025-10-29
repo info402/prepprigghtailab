@@ -25,6 +25,9 @@ import PurposeEngine from "./pages/PurposeEngine";
 import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
 import CareerTransformation from "./pages/CareerTransformation";
+import HostEvent from "./pages/HostEvent";
+import StudentEvents from "./pages/StudentEvents";
+import MyVouchers from "./pages/MyVouchers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +59,9 @@ const App = () => (
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
           <Route path="/dashboard/career-transformation" element={<CareerTransformation />} />
+          <Route path="/dashboard/host-event" element={<HostEvent />} />
+          <Route path="/dashboard/student-events" element={<StudentEvents />} />
+          <Route path="/dashboard/my-vouchers" element={<MyVouchers />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
