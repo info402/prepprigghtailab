@@ -28,6 +28,8 @@ import CareerTransformation from "./pages/CareerTransformation";
 import HostEvent from "./pages/HostEvent";
 import StudentEvents from "./pages/StudentEvents";
 import MyVouchers from "./pages/MyVouchers";
+import AdminVouchers from "./pages/AdminVouchers";
+import EventDetail from "./pages/EventDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -61,7 +63,9 @@ const App = () => (
           <Route path="/dashboard/career-transformation" element={<CareerTransformation />} />
           <Route path="/dashboard/host-event" element={<HostEvent />} />
           <Route path="/dashboard/student-events" element={<StudentEvents />} />
+          <Route path="/dashboard/student-events/:id" element={<EventDetail />} />
           <Route path="/dashboard/my-vouchers" element={<MyVouchers />} />
+          <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -119,7 +119,11 @@ const StudentEvents = () => {
   };
 
   const renderEventCard = (event: Event) => (
-    <Card key={event.id} className="hover:shadow-lg transition-shadow">
+    <Card 
+      key={event.id} 
+      className="hover:shadow-lg transition-shadow cursor-pointer"
+      onClick={() => navigate(`/dashboard/student-events/${event.id}`)}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
@@ -157,7 +161,10 @@ const StudentEvents = () => {
 
         <Button
           className="w-full"
-          onClick={() => handleJoinEvent(event.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleJoinEvent(event.id);
+          }}
           disabled={joinedEvents.has(event.id) || event.status === "completed"}
         >
           {joinedEvents.has(event.id)

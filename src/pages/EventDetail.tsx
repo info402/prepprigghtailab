@@ -21,7 +21,7 @@ interface Event {
   max_participants: number;
   prize_details: string;
   status: string;
-  meeting_link: string;
+  meeting_link: string | null;
 }
 
 interface Participant {
@@ -92,18 +92,29 @@ const EventDetail = () => {
     try {
       const { data, error } = await supabase
         .from("event_participants")
-        .select(`
-          *,
-          profiles:user_id (
-            full_name,
-            email
-          )
-        `)
+        .select("*")
         .eq("event_id", id)
         .order("rank", { ascending: true, nullsFirst: false });
 
       if (error) throw error;
-      setParticipants(data || []);
+
+      // Fetch profile data for each participant
+      const participantsWithProfiles = await Promise.all(
+        (data || []).map(async (participant) => {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("full_name, email")
+            .eq("id", participant.user_id)
+            .single();
+
+          return {
+            ...participant,
+            profiles: profile || { full_name: "Anonymous", email: "" },
+          };
+        })
+      );
+
+      setParticipants(participantsWithProfiles);
     } catch (error) {
       console.error("Error fetching participants:", error);
     }

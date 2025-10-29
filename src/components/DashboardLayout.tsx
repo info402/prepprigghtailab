@@ -27,6 +27,7 @@ import {
   TrendingUp,
   Calendar,
   Gift,
+  Shield,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
@@ -38,6 +39,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { tokens, usedTokens, totalTokens, isPremium, isLoading: tokensLoading } = useTokens();
@@ -48,6 +50,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       setIsLoading(false);
       if (!session) {
         navigate("/auth");
+      } else {
+        checkAdminStatus(session.user.id);
       }
     });
 
@@ -57,11 +61,29 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       setUser(session?.user ?? null);
       if (!session) {
         navigate("/auth");
+      } else if (session.user) {
+        checkAdminStatus(session.user.id);
       }
     });
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const checkAdminStatus = async (userId: string) => {
+    try {
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .single();
+
+      if (data?.role === "admin") {
+        setIsAdmin(true);
+      }
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+    }
+  };
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -85,6 +107,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: BarChart3, label: "Leaderboard", path: "/dashboard/leaderboard" },
     { icon: Calendar, label: "Student Events", path: "/dashboard/student-events" },
     { icon: Gift, label: "My Vouchers", path: "/dashboard/my-vouchers" },
+    ...(isAdmin ? [{ icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" }] : []),
     { icon: Crown, label: "Get Premium", path: "/dashboard/pricing" },
   ];
 

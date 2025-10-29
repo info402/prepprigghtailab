@@ -318,6 +318,7 @@ export type Database = {
           host_id: string
           id: string
           max_participants: number | null
+          meeting_link: string | null
           prize_details: string | null
           registration_deadline: string | null
           start_time: string
@@ -334,6 +335,7 @@ export type Database = {
           host_id: string
           id?: string
           max_participants?: number | null
+          meeting_link?: string | null
           prize_details?: string | null
           registration_deadline?: string | null
           start_time: string
@@ -350,6 +352,7 @@ export type Database = {
           host_id?: string
           id?: string
           max_participants?: number | null
+          meeting_link?: string | null
           prize_details?: string | null
           registration_deadline?: string | null
           start_time?: string

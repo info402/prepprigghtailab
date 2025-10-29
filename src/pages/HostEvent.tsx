@@ -23,6 +23,7 @@ const HostEvent = () => {
     max_participants: "",
     registration_deadline: "",
     prize_details: "",
+    meeting_link: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -185,6 +186,20 @@ const HostEvent = () => {
                   placeholder="e.g., 1st: ₹500 voucher, 2nd: ₹300 voucher, 3rd: ₹200 voucher"
                   rows={3}
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="meeting_link">Meeting Link (Google Meet / Zoom)</Label>
+                <Input
+                  id="meeting_link"
+                  type="url"
+                  value={formData.meeting_link}
+                  onChange={(e) => setFormData({ ...formData, meeting_link: e.target.value })}
+                  placeholder="https://meet.google.com/xxx or https://zoom.us/j/xxx"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Add Google Meet or Zoom link for virtual events
+                </p>
               </div>
 
               <div className="flex gap-4">
