@@ -10,6 +10,44 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { CalendarIcon, Plus } from "lucide-react";
+import { z } from "zod";
+
+const eventSchema = z.object({
+  title: z.string().trim().min(3, "Title must be at least 3 characters").max(200, "Title must be less than 200 characters"),
+  description: z.string().trim().max(2000, "Description must be less than 2000 characters").optional(),
+  event_type: z.enum(["quiz", "competition", "hackathon", "workshop"]),
+  start_time: z.string().min(1, "Start time is required"),
+  end_time: z.string().min(1, "End time is required"),
+  max_participants: z.string().optional(),
+  registration_deadline: z.string().optional(),
+  prize_details: z.string().trim().max(1000, "Prize details must be less than 1000 characters").optional(),
+  meeting_link: z.string().trim().url("Please enter a valid URL").optional().or(z.literal("")),
+}).refine(data => {
+  if (data.start_time && data.end_time) {
+    return new Date(data.end_time) > new Date(data.start_time);
+  }
+  return true;
+}, {
+  message: "End time must be after start time",
+  path: ["end_time"]
+}).refine(data => {
+  if (data.registration_deadline && data.start_time) {
+    return new Date(data.registration_deadline) < new Date(data.start_time);
+  }
+  return true;
+}, {
+  message: "Registration deadline must be before start time",
+  path: ["registration_deadline"]
+}).refine(data => {
+  if (data.max_participants) {
+    const num = parseInt(data.max_participants);
+    return !isNaN(num) && num > 0 && num <= 10000;
+  }
+  return true;
+}, {
+  message: "Max participants must be between 1 and 10000",
+  path: ["max_participants"]
+});
 
 const HostEvent = () => {
   const navigate = useNavigate();
@@ -31,6 +69,20 @@ const HostEvent = () => {
     setIsSubmitting(true);
 
     try {
+      // Validate form data
+      const validationResult = eventSchema.safeParse(formData);
+      
+      if (!validationResult.success) {
+        const firstError = validationResult.error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         toast({
@@ -38,13 +90,21 @@ const HostEvent = () => {
           description: "Please sign in to host an event",
           variant: "destructive",
         });
+        setIsSubmitting(false);
         return;
       }
 
       const { error } = await supabase.from("events").insert({
-        ...formData,
+        title: validationResult.data.title,
+        description: validationResult.data.description || "",
+        event_type: validationResult.data.event_type,
+        start_time: validationResult.data.start_time,
+        end_time: validationResult.data.end_time,
+        max_participants: validationResult.data.max_participants ? parseInt(validationResult.data.max_participants) : null,
+        registration_deadline: validationResult.data.registration_deadline || null,
+        prize_details: validationResult.data.prize_details || null,
+        meeting_link: validationResult.data.meeting_link || null,
         host_id: user.id,
-        max_participants: formData.max_participants ? parseInt(formData.max_participants) : null,
         status: "upcoming",
       });
 
