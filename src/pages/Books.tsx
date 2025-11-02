@@ -1,27 +1,24 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "@/components/DashboardLayout";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Download, Star, TrendingUp } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
+import { BookOpen, Download, Star, TrendingUp, Tag } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Book {
   id: string;
   title: string;
-  description: string | null;
-  cover_image_url: string | null;
-  author: string | null;
+  description: string;
+  author: string;
   category: string;
+  cover_image_url: string;
   is_free: boolean;
-  price: number;
-  pages: number | null;
-  language: string | null;
-  published_date: string | null;
-  pdf_url: string | null;
   is_featured: boolean;
+  pages: number;
+  published_date: string;
+  pdf_url?: string;
 }
 
 const Books = () => {
@@ -36,14 +33,14 @@ const Books = () => {
   const fetchBooks = async () => {
     try {
       const { data, error } = await supabase
-        .from("books")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .from('books')
+        .select('*')
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
       setBooks(data || []);
     } catch (error) {
-      console.error("Error fetching books:", error);
+      console.error('Error fetching books:', error);
       toast({
         title: "Error",
         description: "Failed to load books",
@@ -54,220 +51,175 @@ const Books = () => {
     }
   };
 
-  const handleDownload = (book: Book) => {
-    if (book.pdf_url) {
-      window.open(book.pdf_url, "_blank");
-    } else {
-      toast({
-        title: "Coming Soon",
-        description: "This book will be available for download soon!",
-      });
-    }
-  };
-
   const freeBooks = books.filter(book => book.is_free);
-  const featuredBooks = books.filter(book => book.is_featured);
+  const featuredBooks = books.filter(book => book.is_featured).slice(0, 10);
   const categories = [...new Set(books.map(book => book.category))];
 
-  const BookCard = ({ book, showRank }: { book: Book; showRank?: number }) => (
+  const BookCard = ({ book }: { book: Book }) => (
     <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
-      {showRank && (
-        <div className="absolute top-4 left-4 z-10 bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg">
-          #{showRank}
-        </div>
-      )}
-      <div className="relative h-64 bg-muted overflow-hidden">
-        {book.cover_image_url ? (
-          <img
-            src={book.cover_image_url}
-            alt={book.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <BookOpen className="w-16 h-16 text-muted-foreground" />
+      <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+        <img
+          src={book.cover_image_url}
+          alt={book.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        {book.is_free && (
+          <Badge className="absolute top-2 right-2 bg-primary">FREE</Badge>
+        )}
+        {book.is_featured && (
+          <div className="absolute top-2 left-2 bg-accent text-accent-foreground p-1 rounded-full">
+            <Star className="h-4 w-4" />
           </div>
         )}
       </div>
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg line-clamp-2">{book.title}</CardTitle>
-          {book.is_free && (
-            <Badge variant="secondary" className="shrink-0">Free</Badge>
-          )}
-        </div>
-        {book.author && (
-          <CardDescription>by {book.author}</CardDescription>
-        )}
+      <CardHeader className="pb-3">
+        <CardTitle className="line-clamp-2 text-lg">{book.title}</CardTitle>
+        <CardDescription className="line-clamp-2">{book.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground line-clamp-3">
-          {book.description || "Enhance your career with this comprehensive guide."}
-        </p>
-        <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
+        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
           <span className="flex items-center gap-1">
-            <BookOpen className="w-4 h-4" />
-            {book.pages || "N/A"} pages
+            <BookOpen className="h-3 w-3" />
+            {book.pages} pages
           </span>
-          <Badge variant="outline">{book.category}</Badge>
+          <Badge variant="secondary" className="text-xs">{book.category}</Badge>
         </div>
-      </CardContent>
-      <CardFooter>
-        <Button 
-          onClick={() => handleDownload(book)} 
-          className="w-full"
-          variant={book.is_free ? "default" : "secondary"}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          {book.is_free ? "Download Free" : `Get for ₹${book.price}`}
+        <Button className="w-full" variant={book.pdf_url ? "default" : "secondary"}>
+          <Download className="h-4 w-4 mr-2" />
+          {book.pdf_url ? "Download" : "Coming Soon"}
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-pulse text-muted-foreground">Loading books...</div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-12">
         {/* Hero Section */}
-        <div className="relative rounded-lg overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-background p-8 md:p-12">
-          <div className="relative z-10 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Level Up Your Career with Free Resources
+        <section className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-background p-8 md:p-12">
+          <div className="relative z-10 max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Free Learning Resources
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
-              Access comprehensive guides, tutorials, and career development books curated for ambitious professionals
+              Access our comprehensive collection of books designed to help you ace interviews, build projects, and advance your tech career. All completely free.
             </p>
-            <Button size="lg">
-              <TrendingUp className="w-4 h-4 mr-2" />
+            <Button size="lg" className="gap-2">
+              <BookOpen className="h-5 w-5" />
               Explore All Books
             </Button>
           </div>
-        </div>
+          <div className="absolute top-0 right-0 w-1/3 h-full opacity-10">
+            <BookOpen className="w-full h-full" />
+          </div>
+        </section>
 
-        <Tabs defaultValue="free" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 max-w-2xl">
-            <TabsTrigger value="free">Free Books</TabsTrigger>
-            <TabsTrigger value="featured">Top 10</TabsTrigger>
-            <TabsTrigger value="categories">Categories</TabsTrigger>
-            <TabsTrigger value="all">All Books</TabsTrigger>
-          </TabsList>
-
-          {/* Free Books Tab */}
-          <TabsContent value="free" className="space-y-6">
+        {/* Free Books Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold flex items-center gap-2">
-                    <Star className="w-6 h-6 text-primary" />
-                    Free Books for You
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Start learning today with our free collection
-                  </p>
-                </div>
-              </div>
-              {loading ? (
-                <div className="text-center py-12">Loading books...</div>
-              ) : freeBooks.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {freeBooks.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                  ))}
-                </div>
-              ) : (
-                <Card className="p-12 text-center">
-                  <BookOpen className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-lg text-muted-foreground">
-                    No free books available yet. Check back soon!
-                  </p>
-                </Card>
-              )}
-            </div>
-          </TabsContent>
-
-          {/* Featured/Top 10 Tab */}
-          <TabsContent value="featured" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold mb-2">Top 10 Books of All Time</h2>
-              <p className="text-muted-foreground mb-6">
-                Our most popular books loved by thousands of learners
+              <h2 className="text-3xl font-bold flex items-center gap-2">
+                <BookOpen className="h-8 w-8 text-primary" />
+                Free Books for You
+              </h2>
+              <p className="text-muted-foreground mt-1">
+                Complete learning resources at zero cost
               </p>
-              {loading ? (
-                <div className="text-center py-12">Loading books...</div>
-              ) : featuredBooks.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {featuredBooks.slice(0, 10).map((book, index) => (
-                    <BookCard key={book.id} book={book} showRank={index + 1} />
-                  ))}
-                </div>
-              ) : (
-                <Card className="p-12 text-center">
-                  <TrendingUp className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-lg text-muted-foreground">
-                    Featured books will appear here soon!
-                  </p>
-                </Card>
-              )}
             </div>
-          </TabsContent>
+            <Button variant="outline">Explore All</Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {freeBooks.slice(0, 15).map(book => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        </section>
 
-          {/* Categories Tab */}
-          <TabsContent value="categories" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold mb-2">Explore by Categories</h2>
-              <p className="text-muted-foreground mb-6">
-                Find books tailored to your interests
+        {/* Top Featured Books */}
+        {featuredBooks.length > 0 && (
+          <section>
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold flex items-center gap-2">
+                <TrendingUp className="h-8 w-8 text-primary" />
+                Top 10 Books of All Time
+              </h2>
+              <p className="text-muted-foreground mt-1">
+                Our most popular and highly-rated books
               </p>
-              {categories.length > 0 ? (
-                <div className="space-y-8">
-                  {categories.map((category) => {
-                    const categoryBooks = books.filter(b => b.category === category).slice(0, 4);
-                    return (
-                      <div key={category}>
-                        <h3 className="text-xl font-semibold mb-4 capitalize">{category}</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                          {categoryBooks.map((book) => (
-                            <BookCard key={book.id} book={book} />
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <Card className="p-12 text-center">
-                  <BookOpen className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-lg text-muted-foreground">
-                    No categories available yet.
-                  </p>
-                </Card>
-              )}
             </div>
-          </TabsContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+              {featuredBooks.map((book, index) => (
+                <div key={book.id} className="relative">
+                  <div className="absolute -top-3 -left-3 z-10 bg-primary text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg">
+                    #{index + 1}
+                  </div>
+                  <BookCard book={book} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
-          {/* All Books Tab */}
-          <TabsContent value="all" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold mb-6">All Books</h2>
-              {loading ? (
-                <div className="text-center py-12">Loading books...</div>
-              ) : books.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {books.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                  ))}
-                </div>
-              ) : (
-                <Card className="p-12 text-center">
-                  <BookOpen className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <p className="text-lg text-muted-foreground">
-                    No books available yet. Check back soon!
-                  </p>
-                </Card>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+        {/* Categories Section */}
+        <section>
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold flex items-center gap-2">
+              <Tag className="h-8 w-8 text-primary" />
+              Explore by Categories
+            </h2>
+            <p className="text-muted-foreground mt-1">
+              Find books by your area of interest
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {categories.map(category => {
+              const count = books.filter(book => book.category === category).length;
+              return (
+                <Button
+                  key={category}
+                  variant="outline"
+                  size="lg"
+                  className="hover:bg-primary hover:text-primary-foreground transition-colors"
+                >
+                  {category}
+                  <Badge variant="secondary" className="ml-2">{count}</Badge>
+                </Button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-4xl font-bold text-primary">{books.length}+</CardTitle>
+              <CardDescription>Free Books Available</CardDescription>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-4xl font-bold text-primary">{categories.length}+</CardTitle>
+              <CardDescription>Different Categories</CardDescription>
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-4xl font-bold text-primary">100%</CardTitle>
+              <CardDescription>Free Forever</CardDescription>
+            </CardHeader>
+          </Card>
+        </section>
       </div>
     </DashboardLayout>
   );
