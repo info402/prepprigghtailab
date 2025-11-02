@@ -515,6 +515,54 @@ export type Database = {
         }
         Relationships: []
       }
+      project_templates: {
+        Row: {
+          category: string
+          created_at: string | null
+          demo_url: string | null
+          description: string
+          difficulty: string
+          estimated_time: string | null
+          features: string[] | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          starter_code_url: string | null
+          tech_stack: string[] | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          demo_url?: string | null
+          description: string
+          difficulty: string
+          estimated_time?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          starter_code_url?: string | null
+          tech_stack?: string[] | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          demo_url?: string | null
+          description?: string
+          difficulty?: string
+          estimated_time?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          starter_code_url?: string | null
+          tech_stack?: string[] | null
+        }
+        Relationships: []
+      }
       project_tools: {
         Row: {
           created_at: string | null
@@ -888,6 +936,65 @@ export type Database = {
             columns: ["badge_id"]
             isOneToOne: false
             referencedRelation: "badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_projects: {
+        Row: {
+          completion_percentage: number | null
+          created_at: string | null
+          deployed_url: string | null
+          deployment_platform: string | null
+          description: string | null
+          github_repo_url: string | null
+          id: string
+          last_deployed_at: string | null
+          project_name: string
+          status: string | null
+          tech_stack: string[] | null
+          template_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completion_percentage?: number | null
+          created_at?: string | null
+          deployed_url?: string | null
+          deployment_platform?: string | null
+          description?: string | null
+          github_repo_url?: string | null
+          id?: string
+          last_deployed_at?: string | null
+          project_name: string
+          status?: string | null
+          tech_stack?: string[] | null
+          template_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completion_percentage?: number | null
+          created_at?: string | null
+          deployed_url?: string | null
+          deployment_platform?: string | null
+          description?: string | null
+          github_repo_url?: string | null
+          id?: string
+          last_deployed_at?: string | null
+          project_name?: string
+          status?: string | null
+          tech_stack?: string[] | null
+          template_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_projects_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "project_templates"
             referencedColumns: ["id"]
           },
         ]
