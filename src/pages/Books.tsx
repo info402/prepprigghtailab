@@ -4,22 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Download, Star, TrendingUp, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { BookOpen, Download, Star, Users, TrendingUp } from "lucide-react";
+import type { Database } from "@/integrations/supabase/types";
 
-interface Book {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  category: string;
-  cover_image_url: string;
-  is_free: boolean;
-  is_featured: boolean;
-  pages: number;
-  published_date: string;
-  pdf_url?: string;
-}
+type Book = Database["public"]["Tables"]["books"]["Row"];
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -33,14 +22,14 @@ const Books = () => {
   const fetchBooks = async () => {
     try {
       const { data, error } = await supabase
-        .from('books')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("books")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       setBooks(data || []);
     } catch (error) {
-      console.error('Error fetching books:', error);
+      console.error("Error fetching books:", error);
       toast({
         title: "Error",
         description: "Failed to load books",
@@ -51,140 +40,141 @@ const Books = () => {
     }
   };
 
-  const freeBooks = books.filter(book => book.is_free);
-  const featuredBooks = books.filter(book => book.is_featured).slice(0, 10);
-  const categories = [...new Set(books.map(book => book.category))];
+  const freeBooks = books.filter((book) => book.is_free);
+  const featuredBooks = books.filter((book) => book.is_featured);
+  const categories = Array.from(new Set(books.map((book) => book.category)));
 
   const BookCard = ({ book }: { book: Book }) => (
-    <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
-      <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+    <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden border-border/50 hover:border-primary/50">
+      <div className="aspect-[3/4] overflow-hidden bg-muted">
         <img
-          src={book.cover_image_url}
+          src={book.cover_image_url || "/placeholder.svg"}
           alt={book.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        {book.is_free && (
-          <Badge className="absolute top-2 right-2 bg-primary">FREE</Badge>
-        )}
-        {book.is_featured && (
-          <div className="absolute top-2 left-2 bg-accent text-accent-foreground p-1 rounded-full">
-            <Star className="h-4 w-4" />
-          </div>
-        )}
       </div>
-      <CardHeader className="pb-3">
-        <CardTitle className="line-clamp-2 text-lg">{book.title}</CardTitle>
-        <CardDescription className="line-clamp-2">{book.description}</CardDescription>
+      <CardHeader className="p-4">
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <CardTitle className="text-base line-clamp-2 group-hover:text-primary transition-colors">
+            {book.title}
+          </CardTitle>
+          {book.is_free && (
+            <Badge variant="secondary" className="shrink-0">
+              Free
+            </Badge>
+          )}
+        </div>
+        <CardDescription className="text-xs line-clamp-2">
+          {book.description}
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+      <CardContent className="p-4 pt-0 space-y-2">
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
-            <BookOpen className="h-3 w-3" />
+            <BookOpen className="w-3 h-3" />
             {book.pages} pages
           </span>
-          <Badge variant="secondary" className="text-xs">{book.category}</Badge>
+          {book.author && (
+            <span className="truncate">{book.author}</span>
+          )}
         </div>
-        <Button className="w-full" variant={book.pdf_url ? "default" : "secondary"}>
-          <Download className="h-4 w-4 mr-2" />
-          {book.pdf_url ? "Download" : "Coming Soon"}
+        <Button className="w-full" size="sm">
+          <Download className="w-4 h-4 mr-2" />
+          Download
         </Button>
       </CardContent>
     </Card>
   );
 
-  if (loading) {
-    return (
-      <DashboardLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-pulse text-muted-foreground">Loading books...</div>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
   return (
     <DashboardLayout>
-      <div className="space-y-12">
+      <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-background p-8 md:p-12">
-          <div className="relative z-10 max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+        <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 px-4 mb-12">
+          <div className="max-w-7xl mx-auto text-center space-y-6">
+            <Badge variant="outline" className="mb-4">
+              <Star className="w-3 h-3 mr-1" />
               Free Learning Resources
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+              Learn. Build. Succeed.
             </h1>
-            <p className="text-lg text-muted-foreground mb-6">
-              Access our comprehensive collection of books designed to help you ace interviews, build projects, and advance your tech career. All completely free.
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Access our comprehensive collection of free books designed to help you master technical skills and advance your career
             </p>
-            <Button size="lg" className="gap-2">
-              <BookOpen className="h-5 w-5" />
-              Explore All Books
-            </Button>
-          </div>
-          <div className="absolute top-0 right-0 w-1/3 h-full opacity-10">
-            <BookOpen className="w-full h-full" />
-          </div>
-        </section>
-
-        {/* Free Books Section */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-3xl font-bold flex items-center gap-2">
-                <BookOpen className="h-8 w-8 text-primary" />
-                Free Books for You
-              </h2>
-              <p className="text-muted-foreground mt-1">
-                Complete learning resources at zero cost
-              </p>
-            </div>
-            <Button variant="outline">Explore All</Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {freeBooks.slice(0, 15).map(book => (
-              <BookCard key={book.id} book={book} />
-            ))}
-          </div>
-        </section>
-
-        {/* Top Featured Books */}
-        {featuredBooks.length > 0 && (
-          <section>
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold flex items-center gap-2">
-                <TrendingUp className="h-8 w-8 text-primary" />
-                Top 10 Books of All Time
-              </h2>
-              <p className="text-muted-foreground mt-1">
-                Our most popular and highly-rated books
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {featuredBooks.map((book, index) => (
-                <div key={book.id} className="relative">
-                  <div className="absolute -top-3 -left-3 z-10 bg-primary text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center font-bold shadow-lg">
-                    #{index + 1}
-                  </div>
-                  <BookCard book={book} />
+            <div className="flex items-center justify-center gap-8 pt-4">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                <div className="text-left">
+                  <div className="text-2xl font-bold">{books.length}+</div>
+                  <div className="text-xs text-muted-foreground">Books</div>
                 </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                <div className="text-left">
+                  <div className="text-2xl font-bold">10k+</div>
+                  <div className="text-xs text-muted-foreground">Readers</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <div className="text-left">
+                  <div className="text-2xl font-bold">100%</div>
+                  <div className="text-xs text-muted-foreground">Free</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="max-w-7xl mx-auto px-4 space-y-16 pb-16">
+          {/* Featured Books Section */}
+          {featuredBooks.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold mb-2">Featured Books</h2>
+                  <p className="text-muted-foreground">
+                    Handpicked by our experts to help you excel
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                {featuredBooks.slice(0, 5).map((book) => (
+                  <BookCard key={book.id} book={book} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* All Free Books Section */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">All Free Books</h2>
+                <p className="text-muted-foreground">
+                  Explore our complete collection of free learning resources
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+              {freeBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
               ))}
             </div>
           </section>
-        )}
 
-        {/* Categories Section */}
-        <section>
-          <div className="mb-6">
-            <h2 className="text-3xl font-bold flex items-center gap-2">
-              <Tag className="h-8 w-8 text-primary" />
-              Explore by Categories
-            </h2>
-            <p className="text-muted-foreground mt-1">
-              Find books by your area of interest
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {categories.map(category => {
-              const count = books.filter(book => book.category === category).length;
-              return (
+          {/* Categories Section */}
+          <section>
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold mb-2">Explore by Category</h2>
+              <p className="text-muted-foreground">
+                Find books tailored to your learning goals
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {categories.map((category) => (
                 <Button
                   key={category}
                   variant="outline"
@@ -192,34 +182,14 @@ const Books = () => {
                   className="hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   {category}
-                  <Badge variant="secondary" className="ml-2">{count}</Badge>
+                  <Badge variant="secondary" className="ml-2">
+                    {books.filter((b) => b.category === category).length}
+                  </Badge>
                 </Button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-primary">{books.length}+</CardTitle>
-              <CardDescription>Free Books Available</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-primary">{categories.length}+</CardTitle>
-              <CardDescription>Different Categories</CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-primary">100%</CardTitle>
-              <CardDescription>Free Forever</CardDescription>
-            </CardHeader>
-          </Card>
-        </section>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
     </DashboardLayout>
   );
