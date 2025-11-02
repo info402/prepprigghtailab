@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Sparkles, Zap, Rocket, Brain, GraduationCap } from "lucide-react";
+import { Menu, X, Sparkles, Zap, Rocket, Brain, GraduationCap, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
@@ -12,6 +12,7 @@ const Navigation = () => {
     { name: "Home", path: "/", icon: Sparkles },
     { name: "AI Lab", path: "/dashboard/lab", icon: Brain },
     { name: "Coding Challenges", path: "/dashboard/challenges", icon: Zap },
+    { name: "Books", path: "/dashboard/books", icon: BookOpen },
   ];
 
   const isActive = (path: string) => location.pathname === path;

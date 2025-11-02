@@ -28,6 +28,7 @@ import StudentEvents from "./pages/StudentEvents";
 import MyVouchers from "./pages/MyVouchers";
 import AdminVouchers from "./pages/AdminVouchers";
 import EventDetail from "./pages/EventDetail";
+import Books from "./pages/Books";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/dashboard/student-events/:id" element={<EventDetail />} />
           <Route path="/dashboard/my-vouchers" element={<MyVouchers />} />
           <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
+          <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

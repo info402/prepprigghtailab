@@ -44,6 +44,60 @@ export type Database = {
         }
         Relationships: []
       }
+      books: {
+        Row: {
+          author: string | null
+          category: string
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_featured: boolean | null
+          is_free: boolean | null
+          language: string | null
+          pages: number | null
+          pdf_url: string | null
+          price: number | null
+          published_date: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string | null
+          category: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_free?: boolean | null
+          language?: string | null
+          pages?: number | null
+          pdf_url?: string | null
+          price?: number | null
+          published_date?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string | null
+          category?: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          is_free?: boolean | null
+          language?: string | null
+          pages?: number | null
+          pdf_url?: string | null
+          price?: number | null
+          published_date?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           certificate_data: Json | null
