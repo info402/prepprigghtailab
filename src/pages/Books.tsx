@@ -5,15 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { BookOpen, Download, Star, Users, TrendingUp } from "lucide-react";
+import { BookOpen, Star, Users, TrendingUp } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
+import BookReader from "@/components/BookReader";
 
 type Book = Database["public"]["Tables"]["books"]["Row"];
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [readerOpen, setReaderOpen] = useState(false);
   const { toast } = useToast();
+
+  const handleReadBook = (book: Book) => {
+    setSelectedBook(book);
+    setReaderOpen(true);
+  };
 
   useEffect(() => {
     fetchBooks();
@@ -78,9 +86,9 @@ const Books = () => {
             <span className="truncate">{book.author}</span>
           )}
         </div>
-        <Button className="w-full" size="sm">
-          <Download className="w-4 h-4 mr-2" />
-          Download
+        <Button className="w-full" size="sm" onClick={() => handleReadBook(book)}>
+          <BookOpen className="w-4 h-4 mr-2" />
+          Read Now
         </Button>
       </CardContent>
     </Card>
@@ -89,6 +97,11 @@ const Books = () => {
   return (
     <DashboardLayout>
       <div className="min-h-screen">
+        <BookReader
+          open={readerOpen}
+          onOpenChange={setReaderOpen}
+          book={selectedBook || { title: "", pages: 0 }}
+        />
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 px-4 mb-12">
           <div className="max-w-7xl mx-auto text-center space-y-6">
