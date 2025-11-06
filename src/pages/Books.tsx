@@ -100,7 +100,7 @@ const Books = () => {
         <BookReader
           open={readerOpen}
           onOpenChange={setReaderOpen}
-          book={selectedBook || { title: "", pages: 0 }}
+          book={selectedBook || { id: "", title: "", pages: 0 }}
         />
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 px-4 mb-12">

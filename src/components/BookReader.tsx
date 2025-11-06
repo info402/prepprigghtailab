@@ -3,14 +3,22 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, BookOpen, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+
+interface BookPage {
+  page_number: number;
+  chapter_number: string;
+  chapter_title: string;
+  content: string;
+}
 
 interface BookReaderProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   book: {
+    id: string;
     title: string;
     author?: string;
-    content?: string;
     pages?: number;
   };
 }
@@ -19,9 +27,43 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const [isReading, setIsReading] = useState(false);
+  const [pages, setPages] = useState<BookPage[]>([]);
+  const [loading, setLoading] = useState(false);
   const totalPages = book.pages || 1;
   const { toast } = useToast();
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // Fetch book pages
+  useEffect(() => {
+    if (open && book.id) {
+      fetchPages();
+    }
+  }, [open, book.id]);
+
+  const fetchPages = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('book_pages')
+        .select('*')
+        .eq('book_id', book.id)
+        .order('page_number');
+
+      if (error) throw error;
+      setPages(data || []);
+    } catch (error) {
+      console.error('Error fetching pages:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load book pages",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const currentPageData = pages[currentPage - 1];
 
   // Play page turn sound
   const playPageTurnSound = () => {
@@ -64,7 +106,7 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
       window.speechSynthesis.cancel();
       setIsReading(false);
     } else {
-      const text = book.content || "No content available to read.";
+      const text = currentPageData?.content || "No content available to read.";
       
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
@@ -139,13 +181,35 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
         </DialogHeader>
         
         <div className="flex-1 overflow-auto bg-muted/30 rounded-lg p-8">
-          <div className="max-w-3xl mx-auto bg-background p-8 rounded-lg shadow-sm min-h-full">
-            <div className="prose prose-sm max-w-none">
-              <p className="text-muted-foreground italic mb-4">Page {currentPage} of {totalPages}</p>
-              <div className="whitespace-pre-wrap leading-relaxed">
-                {book.content || "Book content will be displayed here. Connect to a content source or upload book content to enable reading."}
+          <div className="max-w-3xl mx-auto bg-background p-8 rounded-lg shadow-lg min-h-full border-l-4 border-primary">
+            {loading ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">Loading pages...</p>
               </div>
-            </div>
+            ) : currentPageData ? (
+              <div className="prose prose-lg max-w-none">
+                {currentPageData.chapter_number && (
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-bold text-lg">
+                      {currentPageData.chapter_number}
+                    </div>
+                    <h2 className="text-2xl font-bold m-0 text-primary">
+                      {currentPageData.chapter_title}
+                    </h2>
+                  </div>
+                )}
+                <div className="whitespace-pre-wrap leading-relaxed text-foreground space-y-4">
+                  {currentPageData.content}
+                </div>
+                <p className="text-muted-foreground text-sm italic mt-8 pt-4 border-t">
+                  Page {currentPage} of {pages.length}
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">No content available for this page.</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -166,7 +230,7 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
           <Button
             variant="outline"
             onClick={nextPage}
-            disabled={currentPage === totalPages}
+            disabled={currentPage >= pages.length}
           >
             Next
             <ChevronRight className="w-4 h-4 ml-2" />
