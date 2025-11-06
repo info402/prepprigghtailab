@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, BookOpen, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BookPage {
-  id: string;
   page_number: number;
   chapter_number: string;
   chapter_title: string;
@@ -16,9 +16,10 @@ interface BookReaderProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   book: {
+    id: string;
     title: string;
     author?: string;
-    pages?: BookPage[];
+    pages?: number;
   };
 }
 
@@ -26,11 +27,38 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const [isReading, setIsReading] = useState(false);
-  const totalPages = book.pages?.length || 1;
+  const [pages, setPages] = useState<BookPage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const totalPages = pages.length || book.pages || 1;
   const { toast } = useToast();
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
-  
-  const currentPageData = book.pages?.[currentPage - 1];
+
+  // Fetch book pages
+  useEffect(() => {
+    const fetchPages = async () => {
+      if (!book.id || !open) return;
+      
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('book_pages')
+        .select('*')
+        .eq('book_id', book.id)
+        .order('page_number');
+
+      if (error) {
+        console.error('Error fetching pages:', error);
+        setLoading(false);
+        return;
+      }
+
+      setPages(data || []);
+      setLoading(false);
+    };
+
+    fetchPages();
+  }, [book.id, open]);
+
+  const currentPageData = pages.find(p => p.page_number === currentPage);
 
   // Play page turn sound
   const playPageTurnSound = () => {
@@ -147,36 +175,41 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
           </div>
         </DialogHeader>
         
-        <div className="flex-1 overflow-auto bg-muted/30 rounded-lg p-8">
-          <div className="max-w-3xl mx-auto bg-background p-8 rounded-lg shadow-sm min-h-full">
-            {currentPageData ? (
+        <div className="flex-1 overflow-auto bg-gradient-to-br from-muted/30 to-muted/10 rounded-lg p-8">
+          <div className="max-w-4xl mx-auto bg-background p-12 rounded-lg shadow-lg min-h-full border border-border/50">
+            {loading ? (
+              <div className="flex items-center justify-center min-h-[400px]">
+                <p className="text-muted-foreground">Loading pages...</p>
+              </div>
+            ) : currentPageData ? (
               <div className="space-y-6">
-                {/* Chapter badge */}
-                <div className="inline-flex items-center justify-center px-4 py-2 bg-primary/10 border-2 border-primary/30 rounded-lg">
-                  <span className="text-2xl font-bold text-primary">{currentPageData.chapter_number}</span>
+                {/* Chapter Badge */}
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="bg-primary/10 text-primary font-bold text-2xl w-16 h-16 rounded-lg flex items-center justify-center border-2 border-primary/20">
+                    {currentPageData.chapter_number}
+                  </div>
+                  <h2 className="text-3xl font-bold text-foreground">
+                    {currentPageData.chapter_title}
+                  </h2>
                 </div>
-                
-                {/* Chapter title */}
-                <h2 className="text-2xl font-bold text-foreground border-b-2 pb-2">
-                  {currentPageData.chapter_title}
-                </h2>
-                
-                {/* Page content */}
-                <div className="prose prose-sm max-w-none">
-                  <div className="whitespace-pre-wrap leading-relaxed text-foreground/90">
+
+                {/* Page Content */}
+                <div className="prose prose-lg max-w-none">
+                  <div className="text-foreground leading-relaxed whitespace-pre-wrap text-base">
                     {currentPageData.content}
                   </div>
                 </div>
-                
-                {/* Page number at bottom */}
-                <p className="text-center text-muted-foreground italic mt-8 pt-4 border-t">
-                  {currentPage}
-                </p>
+
+                {/* Page Number Footer */}
+                <div className="mt-12 pt-6 border-t border-border/50 text-center">
+                  <p className="text-sm text-muted-foreground font-medium">
+                    {currentPage}
+                  </p>
+                </div>
               </div>
             ) : (
-              <div className="text-center text-muted-foreground py-12">
-                <p className="text-lg">No content available for this page.</p>
-                <p className="text-sm mt-2">Please check back later.</p>
+              <div className="flex items-center justify-center min-h-[400px]">
+                <p className="text-muted-foreground">No content available for this page.</p>
               </div>
             )}
           </div>

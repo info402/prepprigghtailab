@@ -18,15 +18,13 @@ const Books = () => {
   const [readerOpen, setReaderOpen] = useState(false);
   const { toast } = useToast();
 
-  const handleReadBook = async (book: Book) => {
-    // Fetch pages for this book
-    const { data: pages } = await supabase
-      .from('book_pages')
-      .select('*')
-      .eq('book_id', book.id)
-      .order('page_number', { ascending: true });
-
-    setSelectedBook({ ...book, pages: pages || [] });
+  const handleReadBook = (book: Book) => {
+    setSelectedBook({
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      pages: book.pages
+    });
     setReaderOpen(true);
   };
 
@@ -107,7 +105,7 @@ const Books = () => {
         <BookReader
           open={readerOpen}
           onOpenChange={setReaderOpen}
-          book={selectedBook || { id: "", title: "", pages: [] }}
+          book={selectedBook || { id: "", title: "", pages: 0 }}
         />
         {/* Hero Section */}
         <section className="relative bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 px-4 mb-12">
