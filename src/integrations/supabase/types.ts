@@ -1032,6 +1032,48 @@ export type Database = {
           },
         ]
       }
+      user_highlights: {
+        Row: {
+          book_id: string
+          created_at: string
+          end_offset: number
+          highlight_color: string
+          id: string
+          note_text: string | null
+          page_number: number
+          selected_text: string
+          start_offset: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          end_offset: number
+          highlight_color?: string
+          id?: string
+          note_text?: string | null
+          page_number: number
+          selected_text: string
+          start_offset: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          end_offset?: number
+          highlight_color?: string
+          id?: string
+          note_text?: string | null
+          page_number?: number
+          selected_text?: string
+          start_offset?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_projects: {
         Row: {
           completion_percentage: number | null

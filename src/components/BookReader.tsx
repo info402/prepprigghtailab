@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, BookOpen, Volume2, VolumeX, Play, Pause, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, BookOpen, Volume2, VolumeX, Play, Pause, Sparkles, Highlighter, StickyNote, Trash2, Edit3 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,12 +8,24 @@ import corporateHero from "@/assets/book-corporate-hero.jpg";
 import professionalImg from "@/assets/book-professional.jpg";
 import networkingImg from "@/assets/book-networking.jpg";
 import timeImg from "@/assets/book-time.jpg";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface BookPage {
   page_number: number;
   chapter_number: string;
   chapter_title: string;
   content: string;
+}
+
+interface Highlight {
+  id: string;
+  selected_text: string;
+  highlight_color: string;
+  note_text: string | null;
+  start_offset: number;
+  end_offset: number;
 }
 
 interface BookReaderProps {
@@ -33,9 +45,28 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
   const [isReading, setIsReading] = useState(false);
   const [pages, setPages] = useState<BookPage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const [selectedText, setSelectedText] = useState("");
+  const [selectionRange, setSelectionRange] = useState<{ start: number; end: number } | null>(null);
+  const [showHighlightMenu, setShowHighlightMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [selectedColor, setSelectedColor] = useState("yellow");
+  const [noteText, setNoteText] = useState("");
+  const [editingHighlight, setEditingHighlight] = useState<Highlight | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const totalPages = pages.length || book.pages || 1;
   const { toast } = useToast();
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Get current user
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id || null);
+    };
+    getUser();
+  }, []);
 
   // Fetch book pages
   useEffect(() => {
@@ -62,6 +93,29 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
     fetchPages();
   }, [book.id, open]);
 
+  // Fetch highlights for current page
+  useEffect(() => {
+    const fetchHighlights = async () => {
+      if (!book.id || !userId || !open) return;
+
+      const { data, error } = await supabase
+        .from('user_highlights')
+        .select('*')
+        .eq('book_id', book.id)
+        .eq('page_number', currentPage)
+        .eq('user_id', userId);
+
+      if (error) {
+        console.error('Error fetching highlights:', error);
+        return;
+      }
+
+      setHighlights(data || []);
+    };
+
+    fetchHighlights();
+  }, [book.id, currentPage, userId, open]);
+
   const currentPageData = pages.find(p => p.page_number === currentPage);
 
   // Map chapter numbers to images
@@ -82,6 +136,256 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
   };
 
   const chapterImage = currentPageData ? getChapterImage(currentPageData.chapter_number) : null;
+
+  const highlightColors = [
+    { name: "Yellow", value: "yellow", class: "bg-yellow-300/50" },
+    { name: "Green", value: "green", class: "bg-green-300/50" },
+    { name: "Blue", value: "blue", class: "bg-blue-300/50" },
+    { name: "Pink", value: "pink", class: "bg-pink-300/50" },
+    { name: "Purple", value: "purple", class: "bg-purple-300/50" },
+  ];
+
+  // Handle text selection
+  const handleTextSelection = () => {
+    const selection = window.getSelection();
+    const text = selection?.toString().trim();
+    
+    if (text && text.length > 0 && contentRef.current) {
+      const range = selection?.getRangeAt(0);
+      if (range) {
+        const rect = range.getBoundingClientRect();
+        const content = currentPageData?.content || "";
+        const startOffset = content.indexOf(text);
+        const endOffset = startOffset + text.length;
+
+        if (startOffset !== -1) {
+          setSelectedText(text);
+          setSelectionRange({ start: startOffset, end: endOffset });
+          setMenuPosition({ x: rect.left + rect.width / 2, y: rect.top - 10 });
+          setShowHighlightMenu(true);
+        }
+      }
+    } else {
+      setShowHighlightMenu(false);
+    }
+  };
+
+  // Save highlight
+  const saveHighlight = async () => {
+    if (!userId || !selectionRange || !selectedText) return;
+
+    const { error } = await supabase
+      .from('user_highlights')
+      .insert({
+        user_id: userId,
+        book_id: book.id,
+        page_number: currentPage,
+        selected_text: selectedText,
+        highlight_color: selectedColor,
+        note_text: noteText || null,
+        start_offset: selectionRange.start,
+        end_offset: selectionRange.end,
+      });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save highlight",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Highlight saved successfully",
+    });
+
+    // Refresh highlights
+    const { data } = await supabase
+      .from('user_highlights')
+      .select('*')
+      .eq('book_id', book.id)
+      .eq('page_number', currentPage)
+      .eq('user_id', userId);
+
+    setHighlights(data || []);
+    setShowHighlightMenu(false);
+    setNoteText("");
+    window.getSelection()?.removeAllRanges();
+  };
+
+  // Update highlight note
+  const updateHighlightNote = async (highlightId: string, newNote: string) => {
+    const { error } = await supabase
+      .from('user_highlights')
+      .update({ note_text: newNote })
+      .eq('id', highlightId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update note",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Note updated successfully",
+    });
+
+    // Refresh highlights
+    const { data } = await supabase
+      .from('user_highlights')
+      .select('*')
+      .eq('book_id', book.id)
+      .eq('page_number', currentPage)
+      .eq('user_id', userId);
+
+    setHighlights(data || []);
+    setEditingHighlight(null);
+  };
+
+  // Delete highlight
+  const deleteHighlight = async (highlightId: string) => {
+    const { error } = await supabase
+      .from('user_highlights')
+      .delete()
+      .eq('id', highlightId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete highlight",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Highlight deleted",
+    });
+
+    setHighlights(highlights.filter(h => h.id !== highlightId));
+  };
+
+  // Render content with highlights
+  const renderContentWithHighlights = (content: string) => {
+    if (highlights.length === 0) {
+      return <div className="pl-6">{content}</div>;
+    }
+
+    const sortedHighlights = [...highlights].sort((a, b) => a.start_offset - b.start_offset);
+    const segments: JSX.Element[] = [];
+    let lastIndex = 0;
+
+    sortedHighlights.forEach((highlight, idx) => {
+      // Add text before highlight
+      if (highlight.start_offset > lastIndex) {
+        segments.push(
+          <span key={`text-${idx}`}>
+            {content.substring(lastIndex, highlight.start_offset)}
+          </span>
+        );
+      }
+
+      // Add highlighted text with popover for notes
+      const colorClass = highlightColors.find(c => c.value === highlight.highlight_color)?.class || "bg-yellow-300/50";
+      
+      segments.push(
+        <Popover key={`highlight-${idx}`}>
+          <PopoverTrigger asChild>
+            <mark 
+              className={`${colorClass} cursor-pointer hover:opacity-80 transition-opacity rounded px-0.5`}
+            >
+              {highlight.selected_text}
+            </mark>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h4 className="font-semibold text-sm flex items-center gap-2">
+                  <StickyNote className="w-4 h-4" />
+                  Note
+                </h4>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={() => deleteHighlight(highlight.id)}
+                >
+                  <Trash2 className="w-3 h-3" />
+                </Button>
+              </div>
+              
+              {editingHighlight?.id === highlight.id ? (
+                <div className="space-y-2">
+                  <Textarea
+                    value={noteText}
+                    onChange={(e) => setNoteText(e.target.value)}
+                    placeholder="Add your note here..."
+                    className="min-h-[80px]"
+                  />
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      onClick={() => updateHighlightNote(highlight.id, noteText)}
+                    >
+                      Save
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => {
+                        setEditingHighlight(null);
+                        setNoteText("");
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    {highlight.note_text || "No note added"}
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      setEditingHighlight(highlight);
+                      setNoteText(highlight.note_text || "");
+                    }}
+                  >
+                    <Edit3 className="w-3 h-3 mr-2" />
+                    {highlight.note_text ? "Edit Note" : "Add Note"}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+
+      lastIndex = highlight.end_offset;
+    });
+
+    // Add remaining text
+    if (lastIndex < content.length) {
+      segments.push(
+        <span key="text-end">
+          {content.substring(lastIndex)}
+        </span>
+      );
+    }
+
+    return <div className="pl-6">{segments}</div>;
+  };
 
   // Play page turn sound
   const playPageTurnSound = () => {
@@ -108,6 +412,8 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
       playPageTurnSound();
+      setShowHighlightMenu(false);
+      window.getSelection()?.removeAllRanges();
     }
   };
 
@@ -115,6 +421,8 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       playPageTurnSound();
+      setShowHighlightMenu(false);
+      window.getSelection()?.removeAllRanges();
     }
   };
 
@@ -255,14 +563,74 @@ const BookReader = ({ open, onOpenChange, book }: BookReaderProps) => {
 
                 {/* Page Content */}
                 <div className="prose prose-lg max-w-none">
-                  <div className="text-foreground leading-relaxed whitespace-pre-wrap text-base md:text-lg space-y-4 relative">
+                  <div 
+                    ref={contentRef}
+                    className="text-foreground leading-relaxed whitespace-pre-wrap text-base md:text-lg space-y-4 relative select-text"
+                    onMouseUp={handleTextSelection}
+                  >
                     {/* Quote-style left border */}
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-accent to-primary rounded-full opacity-20" />
-                    <div className="pl-6">
-                      {currentPageData.content}
-                    </div>
+                    {renderContentWithHighlights(currentPageData.content)}
                   </div>
                 </div>
+
+                {/* Highlight Menu */}
+                {showHighlightMenu && (
+                  <div 
+                    className="fixed z-50 bg-popover border border-border rounded-lg shadow-lg p-3"
+                    style={{ 
+                      left: `${menuPosition.x}px`, 
+                      top: `${menuPosition.y}px`,
+                      transform: 'translate(-50%, -100%)'
+                    }}
+                  >
+                    <div className="space-y-3">
+                      <Label className="text-xs font-semibold flex items-center gap-2">
+                        <Highlighter className="w-3 h-3" />
+                        Choose Color
+                      </Label>
+                      <div className="flex gap-2">
+                        {highlightColors.map((color) => (
+                          <button
+                            key={color.value}
+                            onClick={() => setSelectedColor(color.value)}
+                            className={`w-8 h-8 rounded-full ${color.class} border-2 ${
+                              selectedColor === color.value ? 'border-foreground' : 'border-transparent'
+                            } hover:scale-110 transition-transform`}
+                            title={color.name}
+                          />
+                        ))}
+                      </div>
+                      <Textarea
+                        placeholder="Add a note (optional)..."
+                        value={noteText}
+                        onChange={(e) => setNoteText(e.target.value)}
+                        className="min-h-[60px] text-sm"
+                      />
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm" 
+                          onClick={saveHighlight}
+                          className="flex-1"
+                        >
+                          <Highlighter className="w-3 h-3 mr-2" />
+                          Save
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => {
+                            setShowHighlightMenu(false);
+                            setNoteText("");
+                            window.getSelection()?.removeAllRanges();
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Decorative elements */}
                 <div className="flex justify-center gap-2 my-8">
