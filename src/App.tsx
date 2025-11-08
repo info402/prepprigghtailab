@@ -29,6 +29,7 @@ import MyVouchers from "./pages/MyVouchers";
 import AdminVouchers from "./pages/AdminVouchers";
 import EventDetail from "./pages/EventDetail";
 import Books from "./pages/Books";
+import JobAnalytics from "./pages/JobAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/interview" element={<MockInterview />} />
           <Route path="/dashboard/jobs" element={<Jobs />} />
+          <Route path="/dashboard/job-analytics" element={<JobAnalytics />} />
           <Route path="/dashboard/projects" element={<Projects />} />
           <Route path="/dashboard/certificates" element={<Certificates />} />
           <Route path="/dashboard/pricing" element={<Pricing />} />

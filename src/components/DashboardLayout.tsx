@@ -26,6 +26,7 @@ import {
   Calendar,
   Gift,
   Shield,
+  TrendingUp,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
@@ -91,6 +92,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
+    { icon: TrendingUp, label: "Job Analytics", path: "/dashboard/job-analytics" },
     { icon: Microscope, label: "Virtual Lab", path: "/dashboard/lab" },
     { icon: Sparkles, label: "Purpose Engine", path: "/dashboard/purpose" },
     { icon: UserIcon, label: "Meta-Profile", path: "/dashboard/meta-profile" },
