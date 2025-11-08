@@ -115,7 +115,7 @@ const Jobs = () => {
               Jobs & Internships 💼
             </h1>
             <p className="text-muted-foreground">
-              Auto-fetched opportunities from India & worldwide
+              🔥 Fresh paid opportunities from last 24h • Consulting & Analytics focus
             </p>
           </div>
           <div className="flex gap-3">
@@ -165,6 +165,9 @@ const Jobs = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="Consulting">🎯 Consulting</SelectItem>
+              <SelectItem value="Data Analytics">📊 Data Analytics</SelectItem>
+              <SelectItem value="Business Intelligence">💡 Business Intelligence</SelectItem>
               <SelectItem value="Software Development">Software Development</SelectItem>
               <SelectItem value="Data Science">Data Science</SelectItem>
               <SelectItem value="Design">Design</SelectItem>

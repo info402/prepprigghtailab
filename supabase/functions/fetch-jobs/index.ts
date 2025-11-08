@@ -26,11 +26,14 @@ serve(async (req) => {
     // Initialize Supabase client
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    // Reduced queries with delays to avoid rate limiting
+    // Targeted queries for paid internships/jobs in consulting & analytics
     const searchQueries = [
-      { query: "software developer fresher india", location: "India" },
-      { query: "full stack internship paid 2024", location: "India" },
-      { query: "data analyst fresher 0-1 year", location: "India" },
+      { query: "paid internship consulting india", location: "India" },
+      { query: "data analytics paid intern fresher", location: "India" },
+      { query: "business analyst paid internship", location: "India" },
+      { query: "client facing consulting fresher", location: "India" },
+      { query: "insights analyst paid entry level", location: "India" },
+      { query: "management consulting intern paid", location: "India" },
     ];
 
     let allJobsToInsert: any[] = [];
@@ -43,7 +46,7 @@ serve(async (req) => {
         console.log(`[${i+1}/${searchQueries.length}] Fetching: "${searchQuery.query}"`);
 
         const response = await fetch(
-          `https://linkedin-data-api.p.rapidapi.com/search-jobs?keywords=${encodeURIComponent(searchQuery.query)}&location=${encodeURIComponent(searchQuery.location)}&datePosted=pastWeek&sort=mostRelevant`,
+          `https://linkedin-data-api.p.rapidapi.com/search-jobs?keywords=${encodeURIComponent(searchQuery.query)}&location=${encodeURIComponent(searchQuery.location)}&datePosted=past24Hours&sort=mostRelevant`,
           {
             method: 'GET',
             headers: {
@@ -82,8 +85,16 @@ serve(async (req) => {
             const description = (job.description || '').toLowerCase();
             const combined = title + ' ' + description;
             
+            // MUST include "paid" keyword (high priority)
+            const isPaid = combined.includes('paid') || 
+                          combined.includes('stipend') ||
+                          combined.includes('salary') ||
+                          combined.includes('compensation') ||
+                          combined.includes('₹') ||
+                          combined.includes('lpa');
+            
             // Filter for fresher/internship opportunities
-            return (
+            const isFresherLevel = (
               combined.includes('fresher') || 
               combined.includes('intern') || 
               combined.includes('trainee') ||
@@ -93,6 +104,20 @@ serve(async (req) => {
               combined.includes('0-2 year') ||
               combined.includes('no experience')
             );
+            
+            // Bonus: consulting/analytics focused (higher priority)
+            const isTargetNiche = (
+              combined.includes('consulting') ||
+              combined.includes('analyst') ||
+              combined.includes('analytics') ||
+              combined.includes('insights') ||
+              combined.includes('client facing') ||
+              combined.includes('business intelligence') ||
+              combined.includes('data') ||
+              combined.includes('strategy')
+            );
+            
+            return isPaid && isFresherLevel;
           })
           .map((job: any) => ({
             title: job.title || 'Untitled Position',
@@ -172,10 +197,15 @@ serve(async (req) => {
 function determineCategory(title: string): string {
   const lowercaseTitle = title.toLowerCase();
   
-  if (lowercaseTitle.includes('software') || lowercaseTitle.includes('developer') || lowercaseTitle.includes('engineer')) {
+  // Priority categories for consulting & analytics
+  if (lowercaseTitle.includes('consulting') || lowercaseTitle.includes('consultant')) {
+    return 'Consulting';
+  } else if (lowercaseTitle.includes('data') || lowercaseTitle.includes('analytics') || lowercaseTitle.includes('analyst')) {
+    return 'Data Analytics';
+  } else if (lowercaseTitle.includes('business intelligence') || lowercaseTitle.includes('insights')) {
+    return 'Business Intelligence';
+  } else if (lowercaseTitle.includes('software') || lowercaseTitle.includes('developer') || lowercaseTitle.includes('engineer')) {
     return 'Software Development';
-  } else if (lowercaseTitle.includes('data') || lowercaseTitle.includes('analytics')) {
-    return 'Data Science';
   } else if (lowercaseTitle.includes('design') || lowercaseTitle.includes('ui') || lowercaseTitle.includes('ux')) {
     return 'Design';
   } else if (lowercaseTitle.includes('marketing') || lowercaseTitle.includes('sales')) {
