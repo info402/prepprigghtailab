@@ -30,6 +30,7 @@ import LiveLab from "./pages/LiveLab";
 import CloudLab from "./pages/CloudLab";
 import CyberRange from "./pages/CyberRange";
 import HardwareSIM from "./pages/HardwareSIM";
+import SoftwareSIM from "./pages/SoftwareSIM";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,9 +56,10 @@ const App = () => (
           <Route path="/dashboard/challenges/:id" element={<ChallengeDetail />} />
           <Route path="/dashboard/competitions" element={<Competitions />} />
           <Route path="/dashboard/livelab" element={<LiveLab />} />
-            <Route path="/dashboard/cloudlab" element={<CloudLab />} />
-            <Route path="/dashboard/cyberrange" element={<CyberRange />} />
-            <Route path="/dashboard/hardwaresim" element={<HardwareSIM />} />
+          <Route path="/dashboard/cloudlab" element={<CloudLab />} />
+          <Route path="/dashboard/cyberrange" element={<CyberRange />} />
+          <Route path="/dashboard/hardwaresim" element={<HardwareSIM />} />
+          <Route path="/dashboard/softwaresim" element={<SoftwareSIM />} />
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
