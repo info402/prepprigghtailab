@@ -32,6 +32,7 @@ import Books from "./pages/Books";
 import JobAnalytics from "./pages/JobAnalytics";
 import LiveLab from "./pages/LiveLab";
 import CloudLab from "./pages/CloudLab";
+import CyberRange from "./pages/CyberRange";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,8 +60,9 @@ const App = () => (
           <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
           <Route path="/dashboard/lab" element={<VirtualLab />} />
           <Route path="/dashboard/lab/:departmentId" element={<DepartmentLab />} />
-          <Route path="/dashboard/livelab" element={<LiveLab />} />
-          <Route path="/dashboard/cloudlab" element={<CloudLab />} />
+            <Route path="/dashboard/livelab" element={<LiveLab />} />
+            <Route path="/dashboard/cloudlab" element={<CloudLab />} />
+            <Route path="/dashboard/cyberrange" element={<CyberRange />} />
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
