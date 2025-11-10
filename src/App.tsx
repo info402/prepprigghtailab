@@ -32,6 +32,7 @@ import CyberRange from "./pages/CyberRange";
 import HardwareSIM from "./pages/HardwareSIM";
 import SoftwareSIM from "./pages/SoftwareSIM";
 import MathsLAB from "./pages/MathsLAB";
+import ScenarioSIM from "./pages/ScenarioSIM";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/dashboard/hardwaresim" element={<HardwareSIM />} />
           <Route path="/dashboard/softwaresim" element={<SoftwareSIM />} />
           <Route path="/dashboard/mathslab" element={<MathsLAB />} />
+          <Route path="/dashboard/scenariosim" element={<ScenarioSIM />} />
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />

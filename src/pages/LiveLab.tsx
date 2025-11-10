@@ -236,9 +236,10 @@ const LiveLab = () => {
                           if (lab.id === "hardware") navigate("/dashboard/hardwaresim");
                           if (lab.id === "software") navigate("/dashboard/softwaresim");
                           if (lab.id === "maths") navigate("/dashboard/mathslab");
+                          if (lab.id === "scenario") navigate("/dashboard/scenariosim");
                         }}
                       >
-                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" || lab.id === "maths" ? (
+                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" || lab.id === "maths" || lab.id === "scenario" ? (
                           <>
                             <Play className="h-4 w-4 mr-2" />
                             Launch Lab
