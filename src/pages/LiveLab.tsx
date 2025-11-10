@@ -228,10 +228,13 @@ const LiveLab = () => {
                       </div>
                       <Button 
                         className="w-full" 
-                        variant={lab.id === "code" ? "default" : "outline"}
-                        onClick={() => lab.id === "code" && navigate("/dashboard/projects")}
+                        variant={lab.id === "code" || lab.id === "cloud" ? "default" : "outline"}
+                        onClick={() => {
+                          if (lab.id === "code") navigate("/dashboard/projects");
+                          if (lab.id === "cloud") navigate("/dashboard/cloudlab");
+                        }}
                       >
-                        {lab.id === "code" ? (
+                        {lab.id === "code" || lab.id === "cloud" ? (
                           <>
                             <Play className="h-4 w-4 mr-2" />
                             Launch Lab
@@ -278,10 +281,13 @@ const LiveLab = () => {
                       <Button 
                         className="w-full" 
                         size="lg"
-                        onClick={() => lab.id === "code" && navigate("/dashboard/projects")}
+                        onClick={() => {
+                          if (lab.id === "code") navigate("/dashboard/projects");
+                          if (lab.id === "cloud") navigate("/dashboard/cloudlab");
+                        }}
                       >
                         <Play className="h-4 w-4 mr-2" />
-                        {lab.id === "code" ? "Start Learning" : "Coming Soon"}
+                        {lab.id === "code" || lab.id === "cloud" ? "Start Learning" : "Coming Soon"}
                       </Button>
                     </CardContent>
                   </Card>
