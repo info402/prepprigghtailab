@@ -228,14 +228,15 @@ const LiveLab = () => {
                       </div>
                       <Button 
                         className="w-full" 
-                        variant={lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" ? "default" : "outline"}
+                        variant={lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" ? "default" : "outline"}
                         onClick={() => {
                           if (lab.id === "code") navigate("/dashboard/projects");
                           if (lab.id === "cloud") navigate("/dashboard/cloudlab");
                           if (lab.id === "cyber") navigate("/dashboard/cyberrange");
+                          if (lab.id === "hardware") navigate("/dashboard/hardwaresim");
                         }}
                       >
-                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" ? (
+                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" ? (
                           <>
                             <Play className="h-4 w-4 mr-2" />
                             Launch Lab
@@ -286,10 +287,11 @@ const LiveLab = () => {
                           if (lab.id === "code") navigate("/dashboard/projects");
                           if (lab.id === "cloud") navigate("/dashboard/cloudlab");
                           if (lab.id === "cyber") navigate("/dashboard/cyberrange");
+                          if (lab.id === "hardware") navigate("/dashboard/hardwaresim");
                         }}
                       >
                         <Play className="h-4 w-4 mr-2" />
-                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" ? "Start Learning" : "Coming Soon"}
+                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" ? "Start Learning" : "Coming Soon"}
                       </Button>
                     </CardContent>
                   </Card>
