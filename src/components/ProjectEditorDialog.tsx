@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,8 +7,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { CodeEditor } from "@/components/CodeEditor";
 import { DeployButton } from "@/components/DeployButton";
-import { Save, Code2, Rocket, FileCode } from "lucide-react";
+import { Save, Code2, Rocket, FileCode, Eye, RefreshCw, Maximize2, Minimize2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface UserProject {
   id: string;
@@ -97,6 +98,9 @@ export const ProjectEditorDialog = ({
   const [activeFile, setActiveFile] = useState<"html" | "css" | "javascript">("html");
   const [code, setCode] = useState<Record<string, string>>(DEFAULT_CODE);
   const [isSaving, setIsSaving] = useState(false);
+  const [previewKey, setPreviewKey] = useState(0);
+  const [isPreviewMaximized, setIsPreviewMaximized] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -114,6 +118,48 @@ export const ProjectEditorDialog = ({
       }
     }
   }, [project]);
+
+  // Update preview in real-time
+  useEffect(() => {
+    updatePreview();
+  }, [code]);
+
+  const updatePreview = () => {
+    if (!iframeRef.current) return;
+
+    const iframe = iframeRef.current;
+    const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+    
+    if (iframeDoc) {
+      const fullHTML = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>${code.css}</style>
+        </head>
+        <body>
+          ${code.html}
+          <script>${code.javascript}<\/script>
+        </body>
+        </html>
+      `;
+      
+      iframeDoc.open();
+      iframeDoc.write(fullHTML);
+      iframeDoc.close();
+    }
+  };
+
+  const handleRefreshPreview = () => {
+    setPreviewKey(prev => prev + 1);
+    updatePreview();
+    toast({
+      title: "Preview refreshed! 🔄",
+      description: "Your changes are now visible",
+    });
+  };
 
   const handleSaveCode = () => {
     if (!project) return;
@@ -179,12 +225,16 @@ export const ProjectEditorDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[95vw] max-h-[95vh] overflow-hidden flex flex-col">
-        <DialogHeader>
+      <DialogContent className="max-w-[98vw] max-h-[98vh] overflow-hidden flex flex-col p-3">
+        <DialogHeader className="pb-3">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl flex items-center gap-2">
-              <Code2 className="h-6 w-6" />
+              <Code2 className="h-6 w-6 text-primary" />
               {project.project_name}
+              <Badge variant="outline" className="ml-2">
+                <Eye className="h-3 w-3 mr-1" />
+                Live Preview
+              </Badge>
             </DialogTitle>
             <div className="flex items-center gap-2">
               <Badge variant={
@@ -197,9 +247,9 @@ export const ProjectEditorDialog = ({
           </div>
         </DialogHeader>
 
-        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-5 gap-3">
           {/* Code Editor Section */}
-          <div className="lg:col-span-2 flex flex-col min-h-0">
+          <div className="xl:col-span-2 flex flex-col min-h-0">
             <Tabs value={activeFile} onValueChange={(v) => setActiveFile(v as any)} className="flex-1 flex flex-col min-h-0">
               <div className="flex items-center justify-between mb-2">
                 <TabsList>
@@ -256,8 +306,58 @@ export const ProjectEditorDialog = ({
             </Tabs>
           </div>
 
+          {/* Live Preview Section */}
+          <div className={`${isPreviewMaximized ? 'xl:col-span-4' : 'xl:col-span-2'} flex flex-col min-h-0 transition-all`}>
+            <Card className="flex-1 flex flex-col min-h-0 border-primary/30">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Eye className="h-5 w-5 text-primary" />
+                    Live Preview
+                  </CardTitle>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={handleRefreshPreview}
+                      title="Refresh preview"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => setIsPreviewMaximized(!isPreviewMaximized)}
+                      title={isPreviewMaximized ? "Minimize" : "Maximize"}
+                    >
+                      {isPreviewMaximized ? (
+                        <Minimize2 className="h-4 w-4" />
+                      ) : (
+                        <Maximize2 className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <Separator />
+              <CardContent className="flex-1 p-0 min-h-0">
+                <iframe
+                  key={previewKey}
+                  ref={iframeRef}
+                  title="Live Preview"
+                  className="w-full h-full border-0"
+                  sandbox="allow-scripts"
+                  style={{ 
+                    background: 'white',
+                    minHeight: '400px'
+                  }}
+                />
+              </CardContent>
+            </Card>
+          </div>
+
           {/* Project Info & Actions */}
-          <div className="space-y-4 overflow-y-auto">
+          <div className={`${isPreviewMaximized ? 'hidden' : 'block'} space-y-4 overflow-y-auto`}>
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Project Info</CardTitle>
