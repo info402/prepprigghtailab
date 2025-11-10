@@ -17,15 +17,11 @@ import Settings from "./pages/Settings";
 import CodingChallenges from "./pages/CodingChallenges";
 import ChallengeDetail from "./pages/ChallengeDetail";
 import Competitions from "./pages/Competitions";
-import Leaderboard from "./pages/Leaderboard";
-import VirtualLab from "./pages/VirtualLab";
-import DepartmentLab from "./pages/DepartmentLab";
 import PurposeEngine from "./pages/PurposeEngine";
 import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
 import HostEvent from "./pages/HostEvent";
 import StudentEvents from "./pages/StudentEvents";
-import MyVouchers from "./pages/MyVouchers";
 import AdminVouchers from "./pages/AdminVouchers";
 import EventDetail from "./pages/EventDetail";
 import Books from "./pages/Books";
@@ -58,10 +54,7 @@ const App = () => (
           <Route path="/dashboard/challenges" element={<CodingChallenges />} />
           <Route path="/dashboard/challenges/:id" element={<ChallengeDetail />} />
           <Route path="/dashboard/competitions" element={<Competitions />} />
-          <Route path="/dashboard/leaderboard" element={<Leaderboard />} />
-          <Route path="/dashboard/lab" element={<VirtualLab />} />
-          <Route path="/dashboard/lab/:departmentId" element={<DepartmentLab />} />
-            <Route path="/dashboard/livelab" element={<LiveLab />} />
+          <Route path="/dashboard/livelab" element={<LiveLab />} />
             <Route path="/dashboard/cloudlab" element={<CloudLab />} />
             <Route path="/dashboard/cyberrange" element={<CyberRange />} />
             <Route path="/dashboard/hardwaresim" element={<HardwareSIM />} />
@@ -71,7 +64,6 @@ const App = () => (
           <Route path="/dashboard/host-event" element={<HostEvent />} />
           <Route path="/dashboard/student-events" element={<StudentEvents />} />
           <Route path="/dashboard/student-events/:id" element={<EventDetail />} />
-          <Route path="/dashboard/my-vouchers" element={<MyVouchers />} />
           <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
           <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
