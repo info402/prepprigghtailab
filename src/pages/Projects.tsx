@@ -5,13 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { FolderGit2, Github, ExternalLink, Search, Sparkles, Rocket, CheckCircle2, Clock, Trash2, BookOpen } from "lucide-react";
+import { FolderGit2, Github, ExternalLink, Search, Sparkles, Rocket, CheckCircle2, Clock, Trash2, BookOpen, Code2, Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectBuilderDialog } from "@/components/ProjectBuilderDialog";
 import { EnhancedAIMentor } from "@/components/EnhancedAIMentor";
 import { DeployButton } from "@/components/DeployButton";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { ProjectEditorDialog } from "@/components/ProjectEditorDialog";
 
 interface Project {
   id: string;
@@ -78,6 +79,8 @@ const Projects = () => {
   const [showBuilder, setShowBuilder] = useState(false);
   const [showAIMentor, setShowAIMentor] = useState(false);
   const [aiMentorContext, setAiMentorContext] = useState<any>(null);
+  const [showEditor, setShowEditor] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<UserProject | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -136,6 +139,26 @@ const Projects = () => {
       techStack: project.tech_stack,
     });
     setShowAIMentor(true);
+  };
+
+  const handleOpenEditor = (project: UserProject) => {
+    setSelectedProject(project);
+    setShowEditor(true);
+  };
+
+  const handleCreateNewProject = () => {
+    setSelectedTemplate({
+      id: "custom",
+      name: "Custom Project",
+      description: "Create your own project from scratch",
+      category: "custom",
+      tech_stack: ["React", "TypeScript"],
+      difficulty: "intermediate",
+      features: [],
+      estimated_time: "Varies",
+      icon: "🚀"
+    });
+    setShowBuilder(true);
   };
 
   const filteredProjects = projects.filter(p => {
@@ -206,6 +229,13 @@ const Projects = () => {
           </TabsList>
 
           <TabsContent value="my-projects" className="space-y-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Your Projects</h2>
+              <Button onClick={handleCreateNewProject}>
+                <Plus className="h-4 w-4 mr-2" />
+                Create New Project
+              </Button>
+            </div>
             {userProjects.length === 0 ? (
               <Card className="border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10">
                 <CardContent className="py-12 text-center space-y-4">
@@ -213,15 +243,21 @@ const Projects = () => {
                   <div>
                     <h3 className="text-2xl font-bold mb-2">Start Your First Project!</h3>
                     <p className="text-muted-foreground mb-6">
-                      Choose from our curated templates and start building with AI guidance
+                      Create a new project or choose from our curated templates
                     </p>
-                    <Button size="lg" onClick={() => {
-                      const tab = document.querySelector('[value="templates"]') as HTMLElement;
-                      tab?.click();
-                    }}>
-                      <Sparkles className="h-5 w-5 mr-2" />
-                      Browse Templates
-                    </Button>
+                    <div className="flex gap-4 justify-center">
+                      <Button size="lg" onClick={handleCreateNewProject}>
+                        <Plus className="h-5 w-5 mr-2" />
+                        Create Project
+                      </Button>
+                      <Button size="lg" variant="outline" onClick={() => {
+                        const tab = document.querySelector('[value="templates"]') as HTMLElement;
+                        tab?.click();
+                      }}>
+                        <Sparkles className="h-5 w-5 mr-2" />
+                        Browse Templates
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -277,6 +313,15 @@ const Projects = () => {
                           )}
                         </div>
                       )}
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={() => handleOpenEditor(project)}
+                        className="w-full mb-2"
+                      >
+                        <Code2 className="h-4 w-4 mr-2" />
+                        Open Editor
+                      </Button>
                       <div className="flex gap-2">
                         {project.github_repo_url && (
                           <Button variant="outline" size="sm" asChild className="flex-1">
@@ -505,6 +550,13 @@ const Projects = () => {
         open={showAIMentor}
         onOpenChange={setShowAIMentor}
         projectContext={aiMentorContext}
+      />
+
+      <ProjectEditorDialog
+        open={showEditor}
+        onOpenChange={setShowEditor}
+        project={selectedProject}
+        onProjectUpdated={fetchData}
       />
     </DashboardLayout>
   );
