@@ -31,6 +31,7 @@ import CloudLab from "./pages/CloudLab";
 import CyberRange from "./pages/CyberRange";
 import HardwareSIM from "./pages/HardwareSIM";
 import SoftwareSIM from "./pages/SoftwareSIM";
+import MathsLAB from "./pages/MathsLAB";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -60,6 +61,7 @@ const App = () => (
           <Route path="/dashboard/cyberrange" element={<CyberRange />} />
           <Route path="/dashboard/hardwaresim" element={<HardwareSIM />} />
           <Route path="/dashboard/softwaresim" element={<SoftwareSIM />} />
+          <Route path="/dashboard/mathslab" element={<MathsLAB />} />
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />

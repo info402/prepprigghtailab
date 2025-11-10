@@ -228,16 +228,17 @@ const LiveLab = () => {
                       </div>
                       <Button 
                         className="w-full" 
-                        variant={lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" ? "default" : "outline"}
+                        variant={lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" || lab.id === "maths" ? "default" : "outline"}
                         onClick={() => {
                           if (lab.id === "code") navigate("/dashboard/projects");
                           if (lab.id === "cloud") navigate("/dashboard/cloudlab");
                           if (lab.id === "cyber") navigate("/dashboard/cyberrange");
                           if (lab.id === "hardware") navigate("/dashboard/hardwaresim");
                           if (lab.id === "software") navigate("/dashboard/softwaresim");
+                          if (lab.id === "maths") navigate("/dashboard/mathslab");
                         }}
                       >
-                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" ? (
+                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" || lab.id === "maths" ? (
                           <>
                             <Play className="h-4 w-4 mr-2" />
                             Launch Lab
@@ -290,10 +291,11 @@ const LiveLab = () => {
                           if (lab.id === "cyber") navigate("/dashboard/cyberrange");
                           if (lab.id === "hardware") navigate("/dashboard/hardwaresim");
                           if (lab.id === "software") navigate("/dashboard/softwaresim");
+                          if (lab.id === "maths") navigate("/dashboard/mathslab");
                         }}
                       >
                         <Play className="h-4 w-4 mr-2" />
-                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" ? "Start Learning" : "Coming Soon"}
+                        {lab.id === "code" || lab.id === "cloud" || lab.id === "cyber" || lab.id === "hardware" || lab.id === "software" || lab.id === "maths" ? "Start Learning" : "Coming Soon"}
                       </Button>
                     </CardContent>
                   </Card>
