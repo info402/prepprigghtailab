@@ -497,6 +497,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           location: string | null
+          logo_url: string | null
           posted_by: string | null
           requirements: string[] | null
           salary_range: string | null
@@ -513,6 +514,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           location?: string | null
+          logo_url?: string | null
           posted_by?: string | null
           requirements?: string[] | null
           salary_range?: string | null
@@ -529,6 +531,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           location?: string | null
+          logo_url?: string | null
           posted_by?: string | null
           requirements?: string[] | null
           salary_range?: string | null

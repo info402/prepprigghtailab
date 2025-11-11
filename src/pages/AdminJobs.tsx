@@ -14,6 +14,7 @@ import { Plus, Briefcase, Trash2, Edit, Shield, AlertTriangle } from "lucide-rea
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { z } from "zod";
+import { CompanyLogo } from "@/lib/companyLogos";
 
 const jobSchema = z.object({
   title: z.string().trim().min(1, "Title is required").max(200, "Title must be less than 200 characters"),
@@ -24,6 +25,7 @@ const jobSchema = z.object({
   category: z.string().min(1, "Category is required"),
   salary_range: z.string().trim().max(100, "Salary range must be less than 100 characters"),
   apply_url: z.string().trim().url("Must be a valid URL").max(500, "URL must be less than 500 characters"),
+  logo_url: z.string().trim().url("Must be a valid URL").max(500, "URL must be less than 500 characters").optional().or(z.literal("")),
 });
 
 interface Job {
@@ -36,6 +38,7 @@ interface Job {
   category: string;
   salary_range: string;
   apply_url: string;
+  logo_url?: string;
   is_active: boolean;
   created_at: string;
 }
@@ -57,6 +60,7 @@ const AdminJobs = () => {
     category: "Software Development",
     salary_range: "",
     apply_url: "",
+    logo_url: "",
   });
 
   useEffect(() => {
@@ -211,6 +215,7 @@ const AdminJobs = () => {
       category: job.category,
       salary_range: job.salary_range || "",
       apply_url: job.apply_url,
+      logo_url: job.logo_url || "",
     });
     setFormErrors({});
     setDialogOpen(true);
@@ -226,6 +231,7 @@ const AdminJobs = () => {
       category: "Software Development",
       salary_range: "",
       apply_url: "",
+      logo_url: "",
     });
     setEditingJob(null);
     setFormErrors({});
@@ -301,6 +307,7 @@ const AdminJobs = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Logo</TableHead>
                       <TableHead>Title</TableHead>
                       <TableHead>Company</TableHead>
                       <TableHead>Location</TableHead>
@@ -314,6 +321,13 @@ const AdminJobs = () => {
                   <TableBody>
                     {jobs.map((job) => (
                       <TableRow key={job.id}>
+                        <TableCell>
+                          <CompanyLogo 
+                            companyName={job.company}
+                            logoUrl={job.logo_url}
+                            size="sm"
+                          />
+                        </TableCell>
                         <TableCell className="font-medium max-w-xs truncate">
                           {job.title}
                         </TableCell>
@@ -514,6 +528,24 @@ const AdminJobs = () => {
               {formErrors.apply_url && (
                 <p className="text-sm text-destructive">{formErrors.apply_url}</p>
               )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="logo_url">Company Logo URL (optional)</Label>
+              <Input
+                id="logo_url"
+                type="url"
+                value={formData.logo_url}
+                onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+                placeholder="https://example.com/logo.png (leave empty for auto-generated)"
+                className={formErrors.logo_url ? "border-destructive" : ""}
+              />
+              {formErrors.logo_url && (
+                <p className="text-sm text-destructive">{formErrors.logo_url}</p>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Leave empty to auto-generate from company name using Clearbit API
+              </p>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">

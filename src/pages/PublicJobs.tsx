@@ -9,6 +9,7 @@ import { Briefcase, ExternalLink, MapPin, Search, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navigation from "@/components/Navigation";
+import { CompanyLogo } from "@/lib/companyLogos";
 
 interface Job {
   id: string;
@@ -20,6 +21,7 @@ interface Job {
   category: string;
   salary_range: string;
   apply_url: string;
+  logo_url?: string;
 }
 
 const PublicJobs = () => {
@@ -159,21 +161,30 @@ const PublicJobs = () => {
                 {filteredJobs.map((job) => (
                   <Card key={job.id} className="border-primary/30 bg-white/90 backdrop-blur-sm hover:border-primary/50 transition-all hover:shadow-xl">
                     <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2">
-                          <CardTitle className="text-2xl">{job.title}</CardTitle>
-                          <CardDescription className="text-lg font-semibold flex items-center gap-2">
-                            <Briefcase className="h-4 w-4" />
-                            {job.company}
-                          </CardDescription>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <MapPin className="h-4 w-4" />
-                            {job.location}
+                      <div className="flex items-start gap-4">
+                        <CompanyLogo 
+                          companyName={job.company} 
+                          logoUrl={job.logo_url}
+                          size="lg"
+                        />
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-start justify-between">
+                            <div className="space-y-2 flex-1">
+                              <CardTitle className="text-2xl">{job.title}</CardTitle>
+                              <CardDescription className="text-lg font-semibold flex items-center gap-2">
+                                <Briefcase className="h-4 w-4" />
+                                {job.company}
+                              </CardDescription>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <MapPin className="h-4 w-4" />
+                                {job.location}
+                              </div>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <Badge variant="secondary">{job.type}</Badge>
+                              <Badge>{job.category}</Badge>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Badge variant="secondary">{job.type}</Badge>
-                          <Badge>{job.category}</Badge>
                         </div>
                       </div>
                     </CardHeader>

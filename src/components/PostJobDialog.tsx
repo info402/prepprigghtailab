@@ -27,6 +27,7 @@ export const PostJobDialog = ({ open, onOpenChange, onJobPosted }: PostJobDialog
     category: "Software Development",
     salary_range: "",
     apply_url: "",
+    logo_url: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,6 +68,7 @@ export const PostJobDialog = ({ open, onOpenChange, onJobPosted }: PostJobDialog
         category: "Software Development",
         salary_range: "",
         apply_url: "",
+        logo_url: "",
       });
       
       onOpenChange(false);
@@ -201,6 +203,20 @@ export const PostJobDialog = ({ open, onOpenChange, onJobPosted }: PostJobDialog
               onChange={(e) => setFormData({ ...formData, apply_url: e.target.value })}
               placeholder="https://company.com/careers/apply"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="logo_url">Company Logo URL (optional)</Label>
+            <Input
+              id="logo_url"
+              type="url"
+              value={formData.logo_url}
+              onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
+              placeholder="https://example.com/logo.png"
+            />
+            <p className="text-xs text-muted-foreground">
+              Optional: Leave empty to auto-generate from company name
+            </p>
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
