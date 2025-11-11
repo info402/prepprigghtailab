@@ -12,181 +12,63 @@ serve(async (req) => {
   }
 
   try {
-    const RAPIDAPI_KEY = Deno.env.get('RAPIDAPI_KEY');
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
-    if (!RAPIDAPI_KEY) {
-      console.error('RAPIDAPI_KEY not configured');
-      throw new Error('RAPIDAPI_KEY not configured');
-    }
-
-    console.log('Starting job fetch for startup & unicorn internships...');
+    console.log('Starting job fetch from RemoteOK API (free, no API key required)...');
 
     // Initialize Supabase client
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    // Targeted queries for paid internships in startups, unicorns, consulting & analytics
-    const searchQueries = [
-      // Startup & Unicorn focused
-      { query: "startup internship paid india", location: "India" },
-      { query: "unicorn company internship india", location: "India" },
-      { query: "product intern startup india paid", location: "India" },
-      { query: "growth intern startup india stipend", location: "India" },
-      { query: "early stage startup internship paid", location: "India" },
-      
-      // Consulting & Analytics
-      { query: "paid internship consulting india", location: "India" },
-      { query: "data analytics paid intern fresher", location: "India" },
-      { query: "business analyst paid internship", location: "India" },
-      { query: "management consulting intern paid", location: "India" },
-      
-      // Tech & Business roles in startups
-      { query: "software intern startup india paid", location: "India" },
-      { query: "business development intern startup", location: "India" },
-      { query: "marketing intern startup paid india", location: "India" },
-      { query: "operations intern unicorn company", location: "India" },
-    ];
-
-    let allJobsToInsert: any[] = [];
-
-    // Fetch jobs with delays between requests
-    for (let i = 0; i < searchQueries.length; i++) {
-      const searchQuery = searchQueries[i];
-      
-      try {
-        console.log(`[${i+1}/${searchQueries.length}] Fetching: "${searchQuery.query}"`);
-
-        const response = await fetch(
-          `https://linkedin-data-api.p.rapidapi.com/search-jobs?keywords=${encodeURIComponent(searchQuery.query)}&location=${encodeURIComponent(searchQuery.location)}&datePosted=past24Hours&sort=mostRelevant`,
-          {
-            method: 'GET',
-            headers: {
-              'x-rapidapi-key': RAPIDAPI_KEY,
-              'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
-            }
-          }
-        );
-
-        if (!response.ok) {
-          console.error(`API Error (${response.status}): ${response.statusText}`);
-          // Add delay before next request even on error
-          if (i < searchQueries.length - 1) {
-            console.log('Waiting 3 seconds before next request...');
-            await new Promise(resolve => setTimeout(resolve, 3000));
-          }
-          continue;
-        }
-
-        const data = await response.json();
-        
-        if (!data.success || !data.data) {
-          console.log(`No jobs returned for: "${searchQuery.query}"`);
-          if (i < searchQueries.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 3000));
-          }
-          continue;
-        }
-        
-        console.log(`✓ Found ${data.data?.length || 0} jobs`);
-
-        // Transform and filter jobs
-        const jobsFromQuery = data.data
-          ?.filter((job: any) => {
-            const title = (job.title || '').toLowerCase();
-            const description = (job.description || '').toLowerCase();
-            const company = (job.company?.name || '').toLowerCase();
-            const combined = title + ' ' + description + ' ' + company;
-            
-            // MUST include "paid" keyword (high priority)
-            const isPaid = combined.includes('paid') || 
-                          combined.includes('stipend') ||
-                          combined.includes('salary') ||
-                          combined.includes('compensation') ||
-                          combined.includes('₹') ||
-                          combined.includes('lpa');
-            
-            // Filter for fresher/internship opportunities
-            const isFresherLevel = (
-              combined.includes('fresher') || 
-              combined.includes('intern') || 
-              combined.includes('trainee') ||
-              combined.includes('entry level') ||
-              combined.includes('graduate') ||
-              combined.includes('0-1 year') ||
-              combined.includes('0-2 year') ||
-              combined.includes('no experience')
-            );
-            
-            // Bonus: startup/unicorn companies (higher priority)
-            const isStartupUnicorn = (
-              combined.includes('startup') ||
-              combined.includes('unicorn') ||
-              combined.includes('early stage') ||
-              combined.includes('series') ||
-              combined.includes('funded') ||
-              // Common Indian unicorns
-              company.includes('flipkart') ||
-              company.includes('swiggy') ||
-              company.includes('zomato') ||
-              company.includes('cred') ||
-              company.includes('phonepe') ||
-              company.includes('paytm') ||
-              company.includes('ola') ||
-              company.includes('byju') ||
-              company.includes('dream11') ||
-              company.includes('razorpay') ||
-              company.includes('zerodha')
-            );
-            
-            // Bonus: consulting/analytics focused (higher priority)
-            const isTargetNiche = (
-              combined.includes('consulting') ||
-              combined.includes('analyst') ||
-              combined.includes('analytics') ||
-              combined.includes('insights') ||
-              combined.includes('client facing') ||
-              combined.includes('business intelligence') ||
-              combined.includes('data') ||
-              combined.includes('strategy') ||
-              combined.includes('product') ||
-              combined.includes('growth') ||
-              combined.includes('operations') ||
-              combined.includes('business development')
-            );
-            
-            return isPaid && isFresherLevel;
-          })
-          .map((job: any) => ({
-            title: job.title || 'Untitled Position',
-            company: job.company?.name || 'Company',
-            description: job.description?.substring(0, 500) || 'No description available',
-            location: job.location || searchQuery.location,
-            type: determineJobType(job.title || '', job.description || ''),
-            category: determineCategory(job.title || ''),
-            salary_range: extractSalary(job.description || ''),
-            apply_url: job.url || '#',
-            is_active: true
-          })) || [];
-
-        console.log(`✓ Filtered to ${jobsFromQuery.length} startup/internship opportunities`);
-        allJobsToInsert = [...allJobsToInsert, ...jobsFromQuery];
-
-        // Wait 3 seconds between API calls to avoid rate limiting
-        if (i < searchQueries.length - 1) {
-          console.log('Waiting 3 seconds before next request...');
-          await new Promise(resolve => setTimeout(resolve, 3000));
-        }
-
-      } catch (error) {
-        console.error(`Error processing query "${searchQuery.query}":`, error);
-        // Add delay before continuing
-        if (i < searchQueries.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 3000));
-        }
-        continue;
+    // Fetch jobs from RemoteOK API
+    console.log('Fetching remote jobs from RemoteOK...');
+    const response = await fetch('https://remoteok.com/api', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; JobFetcher/1.0)',
       }
+    });
+
+    if (!response.ok) {
+      throw new Error(`RemoteOK API Error: ${response.status} ${response.statusText}`);
     }
+
+    const data = await response.json();
+    
+    // Skip first item (it's metadata)
+    const jobs = data.slice(1);
+    console.log(`✓ Fetched ${jobs.length} remote jobs from RemoteOK`);
+
+    // Transform RemoteOK jobs to our schema
+    const allJobsToInsert = jobs
+      .filter((job: any) => {
+        // Filter for relevant jobs
+        const position = (job.position || '').toLowerCase();
+        const description = (job.description || '').toLowerCase();
+        const tags = (job.tags || []).join(' ').toLowerCase();
+        const combined = position + ' ' + description + ' ' + tags;
+        
+        // Include jobs that are suitable for entry-level/freshers/interns
+        // or have clear compensation mentioned
+        return job.position && job.company && job.url;
+      })
+      .map((job: any) => {
+        const salary = extractSalaryFromRemoteOK(job);
+        
+        return {
+          title: job.position || 'Remote Position',
+          company: job.company || 'Company',
+          description: (job.description || 'No description available').substring(0, 500),
+          location: job.location || 'Remote',
+          type: determineJobTypeFromRemoteOK(job),
+          category: determineCategoryFromRemoteOK(job),
+          salary_range: salary,
+          apply_url: job.url || job.apply_url || '#',
+          logo_url: job.company_logo || null,
+          is_active: true
+        };
+      });
+
+    console.log(`✓ Transformed ${allJobsToInsert.length} jobs for insertion`);
 
     console.log(`\n📊 Total jobs collected: ${allJobsToInsert.length}`);
 
@@ -211,7 +93,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: `Fetched and saved ${allJobsToInsert.length} startup & unicorn internships (within 24h)`,
+        message: `Fetched and saved ${allJobsToInsert.length} remote jobs from RemoteOK API`,
         jobs: allJobsToInsert 
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -232,57 +114,72 @@ serve(async (req) => {
   }
 });
 
-function determineCategory(title: string): string {
-  const lowercaseTitle = title.toLowerCase();
+function determineCategoryFromRemoteOK(job: any): string {
+  const position = (job.position || '').toLowerCase();
+  const tags = (job.tags || []).join(' ').toLowerCase();
+  const combined = position + ' ' + tags;
   
-  // Priority categories for startups, unicorns, consulting & analytics
-  if (lowercaseTitle.includes('product') && (lowercaseTitle.includes('manager') || lowercaseTitle.includes('intern'))) {
+  if (combined.includes('product') && (combined.includes('manager') || combined.includes('management'))) {
     return 'Product Management';
-  } else if (lowercaseTitle.includes('growth') || lowercaseTitle.includes('acquisition')) {
+  } else if (combined.includes('growth') || combined.includes('acquisition')) {
     return 'Growth & Marketing';
-  } else if (lowercaseTitle.includes('consulting') || lowercaseTitle.includes('consultant')) {
+  } else if (combined.includes('consulting') || combined.includes('consultant')) {
     return 'Consulting';
-  } else if (lowercaseTitle.includes('data') || lowercaseTitle.includes('analytics') || lowercaseTitle.includes('analyst')) {
-    return 'Data Analytics';
-  } else if (lowercaseTitle.includes('business intelligence') || lowercaseTitle.includes('insights')) {
+  } else if (combined.includes('data') || combined.includes('analytics') || combined.includes('analyst')) {
+    return 'Data Science';
+  } else if (combined.includes('business intelligence') || combined.includes('insights')) {
     return 'Business Intelligence';
-  } else if (lowercaseTitle.includes('business development') || lowercaseTitle.includes('sales')) {
+  } else if (combined.includes('business development') || combined.includes('sales')) {
     return 'Business Development';
-  } else if (lowercaseTitle.includes('operations') || lowercaseTitle.includes('ops')) {
+  } else if (combined.includes('operations') || combined.includes('ops')) {
     return 'Operations';
-  } else if (lowercaseTitle.includes('software') || lowercaseTitle.includes('developer') || lowercaseTitle.includes('engineer')) {
+  } else if (combined.includes('software') || combined.includes('developer') || combined.includes('engineer') || combined.includes('backend') || combined.includes('frontend') || combined.includes('fullstack')) {
     return 'Software Development';
-  } else if (lowercaseTitle.includes('design') || lowercaseTitle.includes('ui') || lowercaseTitle.includes('ux')) {
+  } else if (combined.includes('design') || combined.includes('ui') || combined.includes('ux')) {
     return 'Design';
-  } else if (lowercaseTitle.includes('marketing') || lowercaseTitle.includes('content')) {
+  } else if (combined.includes('marketing') || combined.includes('content')) {
     return 'Marketing';
-  } else if (lowercaseTitle.includes('strategy')) {
+  } else if (combined.includes('strategy')) {
     return 'Strategy';
   } else {
     return 'Other';
   }
 }
 
-function determineJobType(title: string, description: string): string {
-  const text = (title + ' ' + description).toLowerCase();
+function determineJobTypeFromRemoteOK(job: any): string {
+  const position = (job.position || '').toLowerCase();
+  const tags = (job.tags || []).join(' ').toLowerCase();
+  const combined = position + ' ' + tags;
   
-  if (text.includes('intern')) {
+  if (combined.includes('intern')) {
     return 'Intern';
-  } else if (text.includes('part-time') || text.includes('part time')) {
+  } else if (combined.includes('part-time') || combined.includes('part time') || combined.includes('parttime')) {
     return 'Part-time';
-  } else if (text.includes('contract') || text.includes('freelance')) {
+  } else if (combined.includes('contract') || combined.includes('freelance') || combined.includes('contractor')) {
     return 'Contract';
   } else {
     return 'Full-time';
   }
 }
 
-function extractSalary(description: string): string {
+function extractSalaryFromRemoteOK(job: any): string {
+  // RemoteOK provides salary_min and salary_max
+  if (job.salary_min && job.salary_max) {
+    const min = Math.floor(job.salary_min / 1000);
+    const max = Math.floor(job.salary_max / 1000);
+    return `$${min}k - $${max}k`;
+  } else if (job.salary_min) {
+    const min = Math.floor(job.salary_min / 1000);
+    return `$${min}k+`;
+  }
+  
+  // Fallback to text extraction from description
+  const description = job.description || '';
   const salaryPatterns = [
+    /\$(\d+)k?\s*-\s*\$?(\d+)k/i,
+    /\$(\d+),(\d+)\s*-\s*\$?(\d+),?(\d+)/,
     /(\d+)\s*-\s*(\d+)\s*(lpa|lakh|lakhs)/i,
-    /(\d+)\s*(lpa|lakh|lakhs)/i,
     /₹\s*(\d+(?:,\d+)*)\s*-\s*₹\s*(\d+(?:,\d+)*)/,
-    /stipend.*?₹\s*(\d+(?:,\d+)*)/i,
   ];
 
   for (const pattern of salaryPatterns) {
