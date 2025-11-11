@@ -101,7 +101,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
     { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
     { icon: Calendar, label: "Student Events", path: "/dashboard/student-events" },
-    ...(isAdmin ? [{ icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" }] : []),
+    ...(isAdmin ? [
+      { icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" },
+      { icon: Briefcase, label: "Manage Jobs", path: "/dashboard/admin/jobs" }
+    ] : []),
     { icon: Crown, label: "Get Premium", path: "/dashboard/pricing" },
   ];
 

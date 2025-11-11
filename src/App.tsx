@@ -23,6 +23,7 @@ import RealWorldMissions from "./pages/RealWorldMissions";
 import HostEvent from "./pages/HostEvent";
 import StudentEvents from "./pages/StudentEvents";
 import AdminVouchers from "./pages/AdminVouchers";
+import AdminJobs from "./pages/AdminJobs";
 import EventDetail from "./pages/EventDetail";
 import Books from "./pages/Books";
 import JobAnalytics from "./pages/JobAnalytics";
@@ -71,6 +72,7 @@ const App = () => (
           <Route path="/dashboard/student-events" element={<StudentEvents />} />
           <Route path="/dashboard/student-events/:id" element={<EventDetail />} />
           <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
+          <Route path="/dashboard/admin/jobs" element={<AdminJobs />} />
           <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
