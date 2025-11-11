@@ -21,19 +21,31 @@ serve(async (req) => {
       throw new Error('RAPIDAPI_KEY not configured');
     }
 
-    console.log('Starting job fetch process...');
+    console.log('Starting job fetch for startup & unicorn internships...');
 
     // Initialize Supabase client
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    // Targeted queries for paid internships/jobs in consulting & analytics
+    // Targeted queries for paid internships in startups, unicorns, consulting & analytics
     const searchQueries = [
+      // Startup & Unicorn focused
+      { query: "startup internship paid india", location: "India" },
+      { query: "unicorn company internship india", location: "India" },
+      { query: "product intern startup india paid", location: "India" },
+      { query: "growth intern startup india stipend", location: "India" },
+      { query: "early stage startup internship paid", location: "India" },
+      
+      // Consulting & Analytics
       { query: "paid internship consulting india", location: "India" },
       { query: "data analytics paid intern fresher", location: "India" },
       { query: "business analyst paid internship", location: "India" },
-      { query: "client facing consulting fresher", location: "India" },
-      { query: "insights analyst paid entry level", location: "India" },
       { query: "management consulting intern paid", location: "India" },
+      
+      // Tech & Business roles in startups
+      { query: "software intern startup india paid", location: "India" },
+      { query: "business development intern startup", location: "India" },
+      { query: "marketing intern startup paid india", location: "India" },
+      { query: "operations intern unicorn company", location: "India" },
     ];
 
     let allJobsToInsert: any[] = [];
@@ -83,7 +95,8 @@ serve(async (req) => {
           ?.filter((job: any) => {
             const title = (job.title || '').toLowerCase();
             const description = (job.description || '').toLowerCase();
-            const combined = title + ' ' + description;
+            const company = (job.company?.name || '').toLowerCase();
+            const combined = title + ' ' + description + ' ' + company;
             
             // MUST include "paid" keyword (high priority)
             const isPaid = combined.includes('paid') || 
@@ -105,6 +118,27 @@ serve(async (req) => {
               combined.includes('no experience')
             );
             
+            // Bonus: startup/unicorn companies (higher priority)
+            const isStartupUnicorn = (
+              combined.includes('startup') ||
+              combined.includes('unicorn') ||
+              combined.includes('early stage') ||
+              combined.includes('series') ||
+              combined.includes('funded') ||
+              // Common Indian unicorns
+              company.includes('flipkart') ||
+              company.includes('swiggy') ||
+              company.includes('zomato') ||
+              company.includes('cred') ||
+              company.includes('phonepe') ||
+              company.includes('paytm') ||
+              company.includes('ola') ||
+              company.includes('byju') ||
+              company.includes('dream11') ||
+              company.includes('razorpay') ||
+              company.includes('zerodha')
+            );
+            
             // Bonus: consulting/analytics focused (higher priority)
             const isTargetNiche = (
               combined.includes('consulting') ||
@@ -114,7 +148,11 @@ serve(async (req) => {
               combined.includes('client facing') ||
               combined.includes('business intelligence') ||
               combined.includes('data') ||
-              combined.includes('strategy')
+              combined.includes('strategy') ||
+              combined.includes('product') ||
+              combined.includes('growth') ||
+              combined.includes('operations') ||
+              combined.includes('business development')
             );
             
             return isPaid && isFresherLevel;
@@ -131,7 +169,7 @@ serve(async (req) => {
             is_active: true
           })) || [];
 
-        console.log(`✓ Filtered to ${jobsFromQuery.length} fresher-suitable jobs`);
+        console.log(`✓ Filtered to ${jobsFromQuery.length} startup/internship opportunities`);
         allJobsToInsert = [...allJobsToInsert, ...jobsFromQuery];
 
         // Wait 3 seconds between API calls to avoid rate limiting
@@ -173,7 +211,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: `Fetched and saved ${allJobsToInsert.length} fresher-focused jobs`,
+        message: `Fetched and saved ${allJobsToInsert.length} startup & unicorn internships (within 24h)`,
         jobs: allJobsToInsert 
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -197,21 +235,29 @@ serve(async (req) => {
 function determineCategory(title: string): string {
   const lowercaseTitle = title.toLowerCase();
   
-  // Priority categories for consulting & analytics
-  if (lowercaseTitle.includes('consulting') || lowercaseTitle.includes('consultant')) {
+  // Priority categories for startups, unicorns, consulting & analytics
+  if (lowercaseTitle.includes('product') && (lowercaseTitle.includes('manager') || lowercaseTitle.includes('intern'))) {
+    return 'Product Management';
+  } else if (lowercaseTitle.includes('growth') || lowercaseTitle.includes('acquisition')) {
+    return 'Growth & Marketing';
+  } else if (lowercaseTitle.includes('consulting') || lowercaseTitle.includes('consultant')) {
     return 'Consulting';
   } else if (lowercaseTitle.includes('data') || lowercaseTitle.includes('analytics') || lowercaseTitle.includes('analyst')) {
     return 'Data Analytics';
   } else if (lowercaseTitle.includes('business intelligence') || lowercaseTitle.includes('insights')) {
     return 'Business Intelligence';
+  } else if (lowercaseTitle.includes('business development') || lowercaseTitle.includes('sales')) {
+    return 'Business Development';
+  } else if (lowercaseTitle.includes('operations') || lowercaseTitle.includes('ops')) {
+    return 'Operations';
   } else if (lowercaseTitle.includes('software') || lowercaseTitle.includes('developer') || lowercaseTitle.includes('engineer')) {
     return 'Software Development';
   } else if (lowercaseTitle.includes('design') || lowercaseTitle.includes('ui') || lowercaseTitle.includes('ux')) {
     return 'Design';
-  } else if (lowercaseTitle.includes('marketing') || lowercaseTitle.includes('sales')) {
+  } else if (lowercaseTitle.includes('marketing') || lowercaseTitle.includes('content')) {
     return 'Marketing';
-  } else if (lowercaseTitle.includes('product')) {
-    return 'Product Management';
+  } else if (lowercaseTitle.includes('strategy')) {
+    return 'Strategy';
   } else {
     return 'Other';
   }
