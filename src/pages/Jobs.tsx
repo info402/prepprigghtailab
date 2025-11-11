@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { Briefcase, ExternalLink, MapPin, RefreshCw, Search, Filter, Plus } from "lucide-react";
+import { Briefcase, ExternalLink, MapPin, RefreshCw, Search, Filter, Plus, Sparkles, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PostJobDialog } from "@/components/PostJobDialog";
@@ -22,6 +22,8 @@ interface Job {
   salary_range: string;
   apply_url: string;
   logo_url?: string;
+  relevance_score?: number;
+  match_reason?: string;
 }
 
 const Jobs = () => {
@@ -32,6 +34,10 @@ const Jobs = () => {
   const [filterType, setFilterType] = useState<string>("all");
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
+  const [aiSearchQuery, setAiSearchQuery] = useState("");
+  const [isAiSearching, setIsAiSearching] = useState(false);
+  const [aiSearchActive, setAiSearchActive] = useState(false);
+  const [aiExplanation, setAiExplanation] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -99,14 +105,83 @@ const Jobs = () => {
     if (updatedJobs) setJobs(updatedJobs);
   };
 
-  const filteredJobs = jobs.filter(job => {
-    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          job.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = filterType === "all" || job.type === filterType;
-    const matchesCategory = filterCategory === "all" || job.category === filterCategory;
-    return matchesSearch && matchesType && matchesCategory;
-  });
+  const handleAiSearch = async () => {
+    if (!aiSearchQuery.trim()) {
+      toast({
+        title: "Enter a search query",
+        description: "Describe what kind of job you're looking for",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsAiSearching(true);
+    setAiSearchActive(false);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-job-search', {
+        body: { query: aiSearchQuery }
+      });
+
+      if (error) throw error;
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      if (data.results && data.results.length > 0) {
+        setJobs(data.results);
+        setAiExplanation(data.explanation || "");
+        setAiSearchActive(true);
+        
+        toast({
+          title: "AI Search Complete! ✨",
+          description: `Found ${data.results.length} relevant opportunities`,
+        });
+      } else {
+        toast({
+          title: "No matches found",
+          description: data.explanation || "Try a different search query",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error('AI search error:', error);
+      toast({
+        title: "AI Search Failed",
+        description: error instanceof Error ? error.message : "Please try again",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAiSearching(false);
+    }
+  };
+
+  const handleClearAiSearch = async () => {
+    setAiSearchActive(false);
+    setAiSearchQuery("");
+    setAiExplanation("");
+    
+    // Reload all jobs
+    const { data: updatedJobs } = await supabase
+      .from("jobs")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (updatedJobs) setJobs(updatedJobs);
+  };
+
+  const filteredJobs = aiSearchActive 
+    ? jobs // When AI search is active, show AI results without additional filtering
+    : jobs.filter(job => {
+        const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              job.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesType = filterType === "all" || job.type === filterType;
+        const matchesCategory = filterCategory === "all" || job.category === filterCategory;
+        return matchesSearch && matchesType && matchesCategory;
+      });
 
   return (
     <DashboardLayout>
@@ -117,7 +192,9 @@ const Jobs = () => {
               Jobs & Internships 💼
             </h1>
             <p className="text-muted-foreground">
-              🔥 Fresh paid opportunities from last 24h • Consulting & Analytics focus
+              {aiSearchActive 
+                ? `🤖 AI-powered results for: "${aiSearchQuery}"` 
+                : "🔥 Fresh paid opportunities from last 24h • Consulting & Analytics focus"}
             </p>
           </div>
           <div className="flex gap-3">
@@ -138,6 +215,66 @@ const Jobs = () => {
             </Button>
           </div>
         </div>
+
+        {/* AI Search Bar - BETA */}
+        <Card className="border-2 border-primary/50 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-sm">
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+                <h3 className="font-semibold text-lg">AI-Powered Job Search</h3>
+                <Badge variant="secondary" className="text-xs">BETA</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Describe your ideal role in natural language. AI will understand your preferences and match you with the best opportunities!
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  placeholder='Try: "remote software internship with good pay" or "consulting role in Bangalore"'
+                  value={aiSearchQuery}
+                  onChange={(e) => setAiSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAiSearch()}
+                  className="flex-1"
+                  disabled={isAiSearching}
+                />
+                {aiSearchActive ? (
+                  <Button 
+                    onClick={handleClearAiSearch}
+                    variant="outline"
+                  >
+                    Clear AI Search
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={handleAiSearch}
+                    disabled={isAiSearching || !aiSearchQuery.trim()}
+                    className="bg-gradient-to-r from-primary to-accent min-w-[140px]"
+                  >
+                    {isAiSearching ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        AI Search
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+              {aiExplanation && aiSearchActive && (
+                <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
+                  <p className="text-sm">
+                    <Sparkles className="h-4 w-4 inline mr-1 text-primary" />
+                    <span className="font-semibold">AI Insight:</span> {aiExplanation}
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
@@ -220,7 +357,14 @@ const Jobs = () => {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-start justify-between">
                           <div className="space-y-2 flex-1">
-                            <CardTitle className="text-2xl">{job.title}</CardTitle>
+                            <div className="flex items-center gap-2">
+                              <CardTitle className="text-2xl">{job.title}</CardTitle>
+                              {aiSearchActive && 'relevance_score' in job && (
+                                <Badge variant="secondary" className="bg-primary/20 text-primary">
+                                  {job.relevance_score}% Match
+                                </Badge>
+                              )}
+                            </div>
                             <CardDescription className="text-lg font-semibold flex items-center gap-2">
                               <Briefcase className="h-4 w-4" />
                               {job.company}
@@ -229,6 +373,11 @@ const Jobs = () => {
                               <MapPin className="h-4 w-4" />
                               {job.location}
                             </div>
+                            {aiSearchActive && 'match_reason' in job && (
+                              <p className="text-sm text-primary/80 italic">
+                                ✨ {job.match_reason}
+                              </p>
+                            )}
                           </div>
                           <div className="flex flex-col gap-2">
                             <Badge variant="secondary">{job.type}</Badge>
