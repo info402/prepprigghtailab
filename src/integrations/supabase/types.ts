@@ -907,6 +907,60 @@ export type Database = {
           },
         ]
       }
+      readiness_assessments: {
+        Row: {
+          action_items: string[] | null
+          ai_analysis: Json | null
+          assessment_data: Json
+          created_at: string
+          experience_score: number | null
+          id: string
+          overall_score: number | null
+          project_quality_score: number | null
+          recommendations: string[] | null
+          soft_skills_score: number | null
+          strengths: string[] | null
+          technical_score: number | null
+          updated_at: string
+          user_id: string
+          weaknesses: string[] | null
+        }
+        Insert: {
+          action_items?: string[] | null
+          ai_analysis?: Json | null
+          assessment_data: Json
+          created_at?: string
+          experience_score?: number | null
+          id?: string
+          overall_score?: number | null
+          project_quality_score?: number | null
+          recommendations?: string[] | null
+          soft_skills_score?: number | null
+          strengths?: string[] | null
+          technical_score?: number | null
+          updated_at?: string
+          user_id: string
+          weaknesses?: string[] | null
+        }
+        Update: {
+          action_items?: string[] | null
+          ai_analysis?: Json | null
+          assessment_data?: Json
+          created_at?: string
+          experience_score?: number | null
+          id?: string
+          overall_score?: number | null
+          project_quality_score?: number | null
+          recommendations?: string[] | null
+          soft_skills_score?: number | null
+          strengths?: string[] | null
+          technical_score?: number | null
+          updated_at?: string
+          user_id?: string
+          weaknesses?: string[] | null
+        }
+        Relationships: []
+      }
       resumes: {
         Row: {
           ats_score: number | null

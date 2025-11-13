@@ -35,6 +35,8 @@ import SoftwareSIM from "./pages/SoftwareSIM";
 import MathsLAB from "./pages/MathsLAB";
 import ScenarioSIM from "./pages/ScenarioSIM";
 import NotFound from "./pages/NotFound";
+import ReadinessAssessment from "./pages/ReadinessAssessment";
+import ReadinessReport from "./pages/ReadinessReport";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +78,8 @@ const App = () => (
           <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/readiness-assessment" element={<ReadinessAssessment />} />
+          <Route path="/readiness-report/:id" element={<ReadinessReport />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

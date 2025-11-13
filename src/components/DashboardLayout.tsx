@@ -25,6 +25,7 @@ import {
   Shield,
   TrendingUp,
   Zap,
+  Brain,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
@@ -89,6 +90,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: Brain, label: "Readiness Assessment", path: "/readiness-assessment" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: TrendingUp, label: "Job Analytics", path: "/dashboard/job-analytics" },
     { icon: Zap, label: "Live Labs", path: "/dashboard/livelab" },
