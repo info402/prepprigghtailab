@@ -20,11 +20,8 @@ import Competitions from "./pages/Competitions";
 import PurposeEngine from "./pages/PurposeEngine";
 import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
-import HostEvent from "./pages/HostEvent";
-import StudentEvents from "./pages/StudentEvents";
 import AdminVouchers from "./pages/AdminVouchers";
 import AdminJobs from "./pages/AdminJobs";
-import EventDetail from "./pages/EventDetail";
 import Books from "./pages/Books";
 import JobAnalytics from "./pages/JobAnalytics";
 import LiveLab from "./pages/LiveLab";
@@ -35,8 +32,6 @@ import SoftwareSIM from "./pages/SoftwareSIM";
 import MathsLAB from "./pages/MathsLAB";
 import ScenarioSIM from "./pages/ScenarioSIM";
 import NotFound from "./pages/NotFound";
-import ReadinessAssessment from "./pages/ReadinessAssessment";
-import ReadinessReport from "./pages/ReadinessReport";
 
 const queryClient = new QueryClient();
 
@@ -70,16 +65,11 @@ const App = () => (
           <Route path="/dashboard/purpose" element={<PurposeEngine />} />
           <Route path="/dashboard/meta-profile" element={<MetaProfile />} />
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
-          <Route path="/dashboard/host-event" element={<HostEvent />} />
-          <Route path="/dashboard/student-events" element={<StudentEvents />} />
-          <Route path="/dashboard/student-events/:id" element={<EventDetail />} />
           <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
           <Route path="/dashboard/admin/jobs" element={<AdminJobs />} />
           <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
-          <Route path="/readiness-assessment" element={<ReadinessAssessment />} />
-          <Route path="/readiness-report/:id" element={<ReadinessReport />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

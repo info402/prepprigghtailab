@@ -20,6 +20,3 @@ verify_jwt = true
 
 [functions.generate-career-roadmap]
 verify_jwt = true
-
-[functions.generate-readiness-report]
-verify_jwt = true

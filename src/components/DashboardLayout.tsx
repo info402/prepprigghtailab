@@ -90,7 +90,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-    { icon: Brain, label: "Readiness Assessment", path: "/readiness-assessment" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: TrendingUp, label: "Job Analytics", path: "/dashboard/job-analytics" },
     { icon: Zap, label: "Live Labs", path: "/dashboard/livelab" },
@@ -102,7 +101,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: Award, label: "Certificates", path: "/dashboard/certificates" },
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
     { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
-    { icon: Calendar, label: "Student Events", path: "/dashboard/student-events" },
     ...(isAdmin ? [
       { icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" },
       { icon: Briefcase, label: "Manage Jobs", path: "/dashboard/admin/jobs" }
