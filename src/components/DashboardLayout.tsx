@@ -21,11 +21,9 @@ import {
   Trophy,
   Coins,
   Crown,
-  Calendar,
   Shield,
   TrendingUp,
   Zap,
-  Brain,
 } from "lucide-react";
 import { useTokens } from "@/hooks/useTokens";
 
