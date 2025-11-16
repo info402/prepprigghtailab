@@ -45,6 +45,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       setUser(session?.user ?? null);
       setIsLoading(false);
       if (!session) {
+        // Redirect to student login by default
         navigate("/auth");
       } else {
         checkAdminStatus(session.user.id);
@@ -56,6 +57,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       if (!session) {
+        // Redirect to student login by default
         navigate("/auth");
       } else if (session.user) {
         checkAdminStatus(session.user.id);
