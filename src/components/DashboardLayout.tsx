@@ -88,7 +88,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     navigate("/");
   };
 
-  const menuItems = [
+  const studentMenuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Briefcase, label: "Jobs & Internships", path: "/dashboard/jobs" },
     { icon: TrendingUp, label: "Job Analytics", path: "/dashboard/job-analytics" },
@@ -97,16 +97,21 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     { icon: UserIcon, label: "Meta-Profile", path: "/dashboard/meta-profile" },
     { icon: Trophy, label: "Missions", path: "/dashboard/missions" },
     { icon: Video, label: "Mock Interview", path: "/dashboard/interview" },
-    { icon: FolderGit2, label: "Projects", path: "/dashboard/projects" },
+    { icon: FolderGit2, label: "My Projects", path: "/dashboard/projects" },
     { icon: Award, label: "Certificates", path: "/dashboard/certificates" },
     { icon: Code, label: "Coding Challenges", path: "/dashboard/challenges" },
     { icon: Trophy, label: "Competitions", path: "/dashboard/competitions" },
-    ...(isAdmin ? [
-      { icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" },
-      { icon: Briefcase, label: "Manage Jobs", path: "/dashboard/admin/jobs" }
-    ] : []),
     { icon: Crown, label: "Get Premium", path: "/dashboard/pricing" },
   ];
+
+  const adminMenuItems = [
+    { icon: LayoutDashboard, label: "Admin Dashboard", path: "/dashboard" },
+    { icon: Briefcase, label: "Manage Jobs", path: "/dashboard/admin/jobs" },
+    { icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" },
+    { icon: FolderGit2, label: "Manage Projects", path: "/dashboard/admin/projects" },
+  ];
+
+  const menuItems = isAdmin ? adminMenuItems : studentMenuItems;
 
   if (isLoading) {
     return (

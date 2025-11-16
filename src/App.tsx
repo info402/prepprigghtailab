@@ -23,6 +23,7 @@ import MetaProfile from "./pages/MetaProfile";
 import RealWorldMissions from "./pages/RealWorldMissions";
 import AdminVouchers from "./pages/AdminVouchers";
 import AdminJobs from "./pages/AdminJobs";
+import AdminProjects from "./pages/AdminProjects";
 import Books from "./pages/Books";
 import JobAnalytics from "./pages/JobAnalytics";
 import LiveLab from "./pages/LiveLab";
@@ -69,6 +70,7 @@ const App = () => (
           <Route path="/dashboard/missions" element={<RealWorldMissions />} />
           <Route path="/dashboard/admin/vouchers" element={<AdminVouchers />} />
           <Route path="/dashboard/admin/jobs" element={<AdminJobs />} />
+          <Route path="/dashboard/admin/projects" element={<AdminProjects />} />
           <Route path="/dashboard/books" element={<Books />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/settings" element={<Settings />} />
