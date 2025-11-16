@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Search, Shield, User as UserIcon } from "lucide-react";
+import { Loader2, Search, Shield, User as UserIcon, Ban, CheckCircle } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,6 +41,7 @@ interface UserProfile {
   avatar_url: string | null;
   college: string | null;
   created_at: string;
+  is_active: boolean;
 }
 
 interface UserRole {
@@ -56,6 +57,8 @@ const AdminUsers = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<"admin" | "user" | null>(null);
   const [showRoleDialog, setShowRoleDialog] = useState(false);
+  const [showSuspendDialog, setShowSuspendDialog] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -155,6 +158,45 @@ const AdminUsers = () => {
     }
   };
 
+  const handleSuspendToggle = (user: UserProfile) => {
+    setSelectedUser(user);
+    setShowSuspendDialog(true);
+  };
+
+  const confirmSuspendToggle = async () => {
+    if (!selectedUser) return;
+
+    try {
+      const newStatus = !selectedUser.is_active;
+
+      const { error } = await supabase
+        .from("profiles")
+        .update({ is_active: newStatus })
+        .eq("id", selectedUser.id);
+
+      if (error) throw error;
+
+      toast({
+        title: newStatus ? "Account activated" : "Account suspended",
+        description: newStatus
+          ? "User account has been activated"
+          : "User account has been suspended",
+      });
+
+      await fetchUsers();
+    } catch (error) {
+      console.error("Error toggling account status:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update account status",
+        variant: "destructive",
+      });
+    } finally {
+      setShowSuspendDialog(false);
+      setSelectedUser(null);
+    }
+  };
+
   const filteredUsers = users.filter((user) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -197,7 +239,7 @@ const AdminUsers = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -223,6 +265,16 @@ const AdminUsers = () => {
             <CardContent>
               <div className="text-2xl font-bold">
                 {Object.values(userRoles).filter((role) => role === "user").length}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium">Suspended</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-destructive">
+                {users.filter((user) => !user.is_active).length}
               </div>
             </CardContent>
           </Card>
@@ -254,6 +306,7 @@ const AdminUsers = () => {
                     <TableHead>Email</TableHead>
                     <TableHead>College</TableHead>
                     <TableHead>Role</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Joined</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
@@ -261,7 +314,7 @@ const AdminUsers = () => {
                 <TableBody>
                   {filteredUsers.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                         No users found
                       </TableCell>
                     </TableRow>
@@ -290,23 +343,50 @@ const AdminUsers = () => {
                           </Badge>
                         </TableCell>
                         <TableCell>
+                          <Badge
+                            variant={user.is_active ? "default" : "destructive"}
+                            className="gap-1"
+                          >
+                            {user.is_active ? (
+                              <>
+                                <CheckCircle className="h-3 w-3" />
+                                Active
+                              </>
+                            ) : (
+                              <>
+                                <Ban className="h-3 w-3" />
+                                Suspended
+                              </>
+                            )}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
                           {new Date(user.created_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          <Select
-                            value={userRoles[user.id] || "user"}
-                            onValueChange={(value: "admin" | "user") =>
-                              handleRoleChange(user.id, value)
-                            }
-                          >
-                            <SelectTrigger className="w-32">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="user">User</SelectItem>
-                              <SelectItem value="admin">Admin</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div className="flex items-center gap-2">
+                            <Select
+                              value={userRoles[user.id] || "user"}
+                              onValueChange={(value: "admin" | "user") =>
+                                handleRoleChange(user.id, value)
+                              }
+                            >
+                              <SelectTrigger className="w-28">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="user">User</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Button
+                              size="sm"
+                              variant={user.is_active ? "destructive" : "default"}
+                              onClick={() => handleSuspendToggle(user)}
+                            >
+                              {user.is_active ? "Suspend" : "Activate"}
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -331,6 +411,31 @@ const AdminUsers = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={confirmRoleChange}>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Suspend/Activate Confirmation Dialog */}
+      <AlertDialog open={showSuspendDialog} onOpenChange={setShowSuspendDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {selectedUser?.is_active ? "Suspend Account" : "Activate Account"}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {selectedUser?.is_active
+                ? `Are you sure you want to suspend ${selectedUser?.full_name || "this user"}'s account? They will not be able to access the platform while suspended.`
+                : `Are you sure you want to activate ${selectedUser?.full_name || "this user"}'s account? They will regain full access to the platform.`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmSuspendToggle}
+              className={selectedUser?.is_active ? "bg-destructive" : ""}
+            >
+              {selectedUser?.is_active ? "Suspend" : "Activate"}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
