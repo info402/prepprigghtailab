@@ -106,6 +106,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   const adminMenuItems = [
     { icon: LayoutDashboard, label: "Admin Dashboard", path: "/dashboard" },
+    { icon: UserIcon, label: "Manage Users", path: "/dashboard/admin/users" },
     { icon: Briefcase, label: "Manage Jobs", path: "/dashboard/admin/jobs" },
     { icon: Shield, label: "Manage Vouchers", path: "/dashboard/admin/vouchers" },
     { icon: FolderGit2, label: "Manage Projects", path: "/dashboard/admin/projects" },
