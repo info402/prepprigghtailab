@@ -421,6 +421,7 @@ export type Database = {
           full_name: string | null
           github_url: string | null
           id: string
+          is_active: boolean
           linkedin_url: string | null
           updated_at: string
           year_of_study: string | null
@@ -435,6 +436,7 @@ export type Database = {
           full_name?: string | null
           github_url?: string | null
           id: string
+          is_active?: boolean
           linkedin_url?: string | null
           updated_at?: string
           year_of_study?: string | null
@@ -449,6 +451,7 @@ export type Database = {
           full_name?: string | null
           github_url?: string | null
           id?: string
+          is_active?: boolean
           linkedin_url?: string | null
           updated_at?: string
           year_of_study?: string | null
