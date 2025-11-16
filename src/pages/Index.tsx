@@ -223,17 +223,17 @@ const Index = () => {
                   className="text-base px-8 py-6 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-semibold transition-all hover:scale-105 shadow-md"
                   onClick={() => navigate("/auth")}
                 >
-                  Start Learning
-                  <Rocket className="ml-2 h-5 w-5" />
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Student Login
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline"
                   className="text-base px-8 py-6 bg-white/80 hover:bg-white border-2 border-primary/20 text-foreground rounded-xl font-semibold transition-all hover:scale-105"
-                  onClick={() => navigate("/auth")}
+                  onClick={() => navigate("/admin/auth")}
                 >
-                  New User? Join Now
-                  <Users className="ml-2 h-5 w-5" />
+                  <Award className="mr-2 h-5 w-5" />
+                  Admin Login
                 </Button>
               </div>
             </div>
